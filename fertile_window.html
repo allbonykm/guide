@@ -89,16 +89,6 @@
     </style>
 </head>
 <body class="bg-amber-50">
-    <!-- Chosen Palette: Warm Neutrals & Calming Teal -->
-    <!-- Application Structure Plan: The SPA is designed with a user-centric, task-oriented flow. It starts with fundamental knowledge about the fertile window, presented with a clear probability chart to establish a baseline understanding. Then, it uses a tab-based navigation to separate the three distinct methods of tracking fertility (OPK, Ultrasound, Calendar). This structure allows users to immediately access the information relevant to their specific situation without being overwhelmed by other methods. The final section includes an interactive calendar, transforming passive information into a personalized tool. This design was chosen to guide the user from general knowledge to specific, actionable advice, enhancing usability and engagement. -->
-    <!-- Visualization & Content Choices: 
-    1. Fertile Window Intro -> Goal: Inform -> Viz: Bar Chart (Chart.js) showing conception probability per day. -> Interaction: Hover tooltips for precise data. -> Justification: Visually communicates the critical 6-day window and varying probabilities more effectively than text.
-    2. Tracking Methods -> Goal: Organize & Guide -> Viz: Tabbed Navigation (HTML/JS) -> Interaction: Click to switch content. -> Justification: Segments information logically, preventing user confusion and allowing direct access to relevant content.
-    3. Method Explanations -> Goal: Explain -> Viz: Simple Timelines (HTML/CSS Flexbox) -> Interaction: Static visual aid. -> Justification: Provides a clear, step-by-step visual representation of processes like LH surge-to-ovulation without complex graphics.
-    4. Calendar Method -> Goal: Personalize & Apply -> Viz: Interactive Calendar (HTML/JS) -> Interaction: User date input dynamically calculates and highlights the fertile window. -> Justification: Offers a practical, personalized tool that makes the information immediately useful and engaging for the user.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
     <div class="min-h-screen container mx-auto px-4 py-8 md:py-12">
         <header class="text-center mb-10 md:mb-16">
             <h1 class="text-3xl md:text-5xl font-bold text-teal-800 mb-2">아기 천사를 만나는 여정</h1>
@@ -128,10 +118,58 @@
                     <p class="text-stone-700 mb-6 leading-relaxed">
                         배란 테스트기는 소변에서 황체형성호르몬(LH)의 급증을 감지합니다. LH 농도가 최고점에 도달하면, 보통 24~36시간 이내에 배란이 일어납니다. 따라서 테스트 결과가 양성(T,C 두 줄)으로 나온 날이 임신 가능성이 매우 높은 시기입니다.
                     </p>
-                    <div class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-lg">
-                        <h4 class="font-bold text-teal-800 mb-2">🕰️ 최적의 타이밍</h4>
+
+                    <div class="space-y-8 mb-8">
+                        <div>
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">🧑‍🏫 배란 테스트기 사용법</h4>
+                            <div class="bg-stone-50 p-6 rounded-lg space-y-4">
+                                <div>
+                                    <h5 class="font-semibold mb-2 text-stone-800">사용 방법</h5>
+                                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                        <li><strong>테스트 시작 시점:</strong> 예상 배란일 2~3일 전부터 매일 테스트를 시작하세요. (예: 28일 주기라면 생리 시작 11~12일째)</li>
+                                        <li><strong>테스트 시간:</strong> 아침 첫 소변은 피하고, 매일 오전 10시 ~ 오후 8시 사이 비슷한 시간에 검사하는 것을 권장합니다.</li>
+                                        <li><strong>정확도 높이는 팁:</strong> 검사 몇 시간 전부터 수분 섭취를 줄여 소변이 묽어지지 않게 해주세요.</li>
+                                        <li><strong>결과 확인:</strong> 테스트선(T)이 대조선(C)과 같거나 더 진하면 '양성'으로, LH 급증을 의미합니다.</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold mb-2 text-stone-800">최적의 관계 시점</h5>
+                                     <p class="text-stone-700">
+                                        올본한의원이 가장 추천되는 시점은 <strong>첫 양성 반응이 나온 날부터 그 다음, 그리고 그 다음 날까지 총 3일간</strong> 1~2일 간격으로 관계를 갖는 것입니다. 이는 정자가 미리 도착해 배란을 기다리고(양성 당일), 실제 배란일에 맞추며(양성 다음 날), 늦어지는 배란까지 대비(양성 2일 후)하여 확률을 극대화하는 전략입니다.
+                                     </p>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div>
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">🤝 확률을 높이는 조합: 배란 테스트기 + 자궁경부 점액 관찰</h4>
+                            <div class="bg-stone-50 p-6 rounded-lg">
+                                <p class="text-stone-700 mb-4">집에서 할 수 있는 임신 확률을 높이는 가장 효과적인 방법 중 하나는 두 가지 신호를 교차 확인하는 것입니다.</p>
+                                <ol class="list-decimal list-inside text-stone-700 space-y-2">
+                                    <li><strong>점액의 변화로 확인:</strong> 양이 많고, 맑고, 계란 흰자처럼 미끄럽고 잘 늘어나는 점액이 보이면 임신 가능한 시기가 열렸다는 첫 신호입니다. 이때부터 배란 테스트기 사용을 준비합니다.</li>
+                                    <li><strong>배테기로 '최고 가임기' 특정:</strong> 위와 같은 점액이 보일 때 배란 테스트기를 사용하여 <strong>양성(두 줄)</strong> 반응이 나오면, 24~36시간 내 배란될 최고 가임기라는 뜻입니다.</li>
+                                </ol>
+                                <div class="mt-4 p-3 bg-teal-50 border-l-4 border-teal-500 rounded">
+                                    <p class="text-teal-800 font-semibold">
+                                        <strong>[핵심 전략]</strong> 계란 흰자 같은 점액이 보이기 시작할 때부터 배란 테스트기 양성 반응 후 2일이 되는 날까지, 이 기간 동안 1~2일에 한 번씩 관계를 갖는 것이 성공률을 높입니다. 
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                
+                         <div>
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">📊 배란일 기준 관계일별 임신 확률</h4>
+                             <div class="bg-stone-50 p-6 rounded-lg">
+                                <p class="text-stone-700">
+                                    흔한 오해와 달리, 배란 당일보다 <strong>배란 1~2일 전</strong>에 관계를 가졌을 때 임신 확률이 가장 높습니다. 이는 정자가 여성의 몸 안에서 최대 5일까지 생존하며 난자를 기다릴 수 있지만, 난자의 생존 시간은 24시간 내외로 짧기 때문입니다. 따라서 난자가 배출되기 전에 정자가 미리 자궁에 도착해 기다리는 것이 임신에 훨씬 유리합니다. 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-lg">
+                        <h4 class="font-bold text-teal-800 mb-2">🕰️ 최적의 타이밍 (요약)</h4>
                         <ul class="list-disc list-inside text-stone-700 space-y-2">
-                            <li><strong>가장 중요한 날:</strong> 배란 테스트기 양성 반응이 나온 <span class="font-bold text-teal-600">당일과 그 다음날</span>입니다.</li>
+                            <li><strong>가장 중요한 날:</strong> 배란 테스트기 양성 반응이 나온 <span class="font-bold text-teal-600">당일과 그 다음날, 그 다다음날</span>입니다.</li>
                             <li><strong>올보니의 시크릿:</strong> 양성 반응이 나온 날부터 2~3일간(양성 반응일, 다음날, 다다음날) 집중적으로 관계를 맺는 것이 좋습니다. 예를 들어, 월요일에 양성이 나왔다면 월, 화, 수요일에 관계를 갖는 것이 임신 확률을 높일 수 있습니다.</li>
                         </ul>
                     </div>
@@ -139,7 +177,7 @@
                         <div class="flex items-center justify-center space-x-2 md:space-x-4 p-4 rounded-lg bg-stone-100 max-w-2xl mx-auto">
                             <div class="text-center">
                                 <p class="font-bold text-sm md:text-base">LH 급증</p>
-                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-200 flex items-center justify-center font-bold text-orange-700">= 2줄! =</div>
+                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-200 flex items-center justify-center font-bold text-orange-700">2줄! =</div>
                                 <p class="text-xs text-stone-500">양성 반응</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">→</div>
