@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>올본한의원 한약 복용 안내</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Gowun Batang', serif;
+        }
+        /* 커스텀 쉐도우 효과 */
+        .gold-shadow {
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
+        }
+        /* 인쇄 시 배경색과 텍스트 색상 유지 */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-black flex items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <div class="max-w-3xl w-full bg-[#1a1a1a] p-8 sm:p-12 rounded-xl border border-yellow-600/50 gold-shadow">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-yellow-400">김민건 님을 위한 한약 복용 안내</h1>
+            <p class="text-gray-400 mt-2 text-lg">올본한의원에서 보내는 안내글입니다.</p>
+        </header>
+        
+        <main>
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">처방의 목표</h2>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">자율신경 정상화 및 대사 증진</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            김민건 님의 자율신경계 정상화(교감신경 안정), 심박출량 증가를 통한 대사 증진을 목표로 합니다.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">체중 감량 보조 및 기력 개선</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                           이를 통해 체중 감량을 보조하고 저하된 기력을 개선하여 건강한 신체 리듬을 되찾는 것을 돕습니다.
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">체성분 분석 및 개선 방향</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center mb-6">
+                    <div class="bg-gray-800/50 p-3 rounded">
+                        <p class="text-sm text-gray-400">체지방률</p>
+                        <p class="text-xl font-bold text-yellow-300">39 %</p>
+                    </div>
+                    <div class="bg-gray-800/50 p-3 rounded">
+                        <p class="text-sm text-gray-400">내장지방</p>
+                        <p class="text-xl font-bold text-yellow-300">Lv. 17</p>
+                    </div>
+                    <div class="bg-gray-800/50 p-3 rounded">
+                        <p class="text-sm text-gray-400">골격근량</p>
+                        <p class="text-xl font-bold text-yellow-300">29.2 kg</p>
+                    </div>
+                    <div class="bg-gray-800/50 p-3 rounded">
+                        <p class="text-sm text-gray-400">기초대사량</p>
+                        <p class="text-xl font-bold text-yellow-300">1505 kcal</p>
+                    </div>
+                </div>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">체지방 및 내장지방 집중 관리</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            체지방률(39%)과 내장지방레벨(17)이 높은 편이며, 초음파 검사상 지방간 소견도 확인되었습니다. 한약의 대사 증진 효과를 바탕으로 꾸준한 관리를 통해 체지방을 줄여나갈 수 있도록 관리합니다.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">골격근량 증가 필요</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            건강한 체중 감량을 위해 운동을 통한 골격근량 증가가 중요합니다. 처방된 <strong class="text-yellow-400">녹용(분골)</strong>은 근육의 생성과 유지에 도움을 줄 수 있습니다.
+                        </p>
+                    </li>
+                </ul>
+            </section>
+            
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">처방 약재 및 효능</h2>
+                <p class="text-base sm:text-lg leading-relaxed text-gray-200 mb-6">
+                    본 처방에는 감초, 녹용(분골), 맥문동, 복분자, 사인, 산수유, 신곡, 오미자, 육계, 인삼(국산), 일당귀, 저령, 천궁, 치자, 택사, 향부자, 황련, 후박 등의 약재가 검사를 통해 보여진 김민건 님의 몸 상태에 맞춰 배합되었습니다. 이 약들은 다음과 같은 효능을 목표로 합니다.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-800/50 p-4 rounded text-center"><p class="font-semibold text-yellow-300 text-lg">기력 개선</p></div>
+                    <div class="bg-gray-800/50 p-4 rounded text-center"><p class="font-semibold text-yellow-300 text-lg">대사 증진</p></div>
+                    <div class="bg-gray-800/50 p-4 rounded text-center"><p class="font-semibold text-yellow-300 text-lg">전신 혈액순환 개선</p></div>
+                    <div class="bg-gray-800/50 p-4 rounded text-center"><p class="font-semibold text-yellow-300 text-lg">교감신경 안정</p></div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">복용법 및 생활 관리</h2>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">복용 안내 (1차 : 15일분, 30팩)</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            하루 2회, 식후 복용을 권장합니다. 속쓰림이나 미식거림이 없다면 식전에 드셔도 괜찮습니다. 일부 약재(녹용, 인삼)의 효과를 높이기 위해 따뜻하게 데워 드시길 권장합니다. 
+                        </p>
+                    </li>
+                     <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">복용 초기 반응</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            대사 증진을 위한 일부 약재로 인해 초기에 열감을 느낄 수 있습니다. 2-3일 정도 나타나는 자연스러운 반응이니 지속 복용하시기 바랍니다.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">식이 관리</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            한약의 효과를 높이기 위해 아래 음식들은 복용 기간 중 주의해주세요. <br>
+                            <strong class="text-yellow-400">· 피해야 할 음식:</strong> 녹두, 숙주나물, 메밀, 술, 땀이 날 정도로 지나치게 매운 음식 <br>
+                            <strong class="text-yellow-400">· 줄여야 할 음료:</strong> 카페인이 함유된 커피, 녹차, 홍차, 말차 등은 줄여 드세요. 마시게 될 경우, 한약과 30분 이상 간격을 두고 드세요.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">수면 관리</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                           업무로 인해 불가능하시더라도, 최소 7시간의 충분한 수면은 복약 기간과 관계없이 지속적인 건강관리를 위해 매우 중요합니다.
+                        </p>
+                    </li>
+                </ul>
+            </section>
+        </main>
+        
+        <footer class="text-center mt-12 pt-6 border-t border-yellow-600/30">
+            <p class="text-gray-400 text-base leading-relaxed">
+                복용 중 궁금한 점은 언제든지 카카오톡채널(QR스캔)로 문의주세요.<br>
+                <strong class="text-yellow-400">김민건 님</strong>의 건강 회복을 위해 1차 처방 반응을 참고하여 2차 처방을 준비하겠습니다.
+                <br>
+                <strong class="font-semibold text-gray-200">올본한의원</strong>이 함께 하겠습니다.
+            </p>
+            <p class="text-xl font-bold text-yellow-400 mt-6">
+                올본한의원 드림
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
