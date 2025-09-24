@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025-2026 주요 개정세법 분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Calm Harmony (Warm Neutrals with Muted Teal Accent) -->
+    <!-- Application Structure Plan: A navigation sidebar and a main content area. This task-oriented design allows users to select a specific tax topic (e.g., employment credits, marriage credit) and view detailed, interactive information without being overwhelmed. The default 'Dashboard' provides a high-level summary, guiding users to areas of interest. This structure prioritizes clarity and user-driven exploration over a linear document format, making complex tax information more accessible. -->
+    <!-- Visualization & Content Choices: 
+        - Dashboard: Goal(Organize) -> HTML/Tailwind cards -> Click to navigate -> Quick, high-level overview.
+        - Employment Credit: Goal(Compare/Calculate) -> Chart.js Bar Chart & Radio Buttons -> Dynamically updates chart based on employee type/region -> Simplifies comparison of complex multi-year credit structures.
+        - Yellow Umbrella: Goal(Inform/Interact) -> HTML Table & JS Input -> Highlights relevant deduction based on user's income -> Provides personalized, immediate feedback.
+        - Other sections: Goal(Inform) -> Styled HTML lists & cards -> Clear, static information display -> Ensures readability for non-quantitative rules.
+        - Library/Method: Chart.js (Canvas) for all charts, Vanilla JS for all interactions, Tailwind CSS for all styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8f7f4; }
+        .nav-link { transition: all 0.2s; }
+        .nav-link.active { background-color: #0d9488; color: white; }
+        .nav-link:not(.active):hover { background-color: #e5e7eb; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0a7066; }
+    </style>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+</head>
+<body class="text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <aside class="w-full md:w-64 bg-white border-r border-gray-200 p-4 md:p-6 shadow-md md:shadow-none">
+            <h1 class="text-xl font-bold text-teal-700 mb-6">개정세법 요약</h1>
+            <nav id="sidebar-nav">
+                <ul>
+                    <li><a href="#dashboard" class="nav-link active block w-full text-left rounded-md px-4 py-2 font-semibold">대시보드</a></li>
+                    <li><a href="#employment-credit" class="nav-link block w-full text-left rounded-md px-4 py-2 font-semibold">통합고용세액공제</a></li>
+                    <li><a href="#childcare-credit" class="nav-link block w-full text-left rounded-md px-4 py-2 font-semibold">육아휴직 복귀자 공제</a></li>
+                    <li><a href="#revisions-24-25" class="nav-link block w-full text-left rounded-md px-4 py-2 font-semibold">24-25년 주요 개정</a></li>
+                </ul>
+            </nav>
+            <div class="mt-8 pt-6 border-t border-gray-200 text-xs text-gray-500">
+                <p class="font-bold">민세무회계</p>
+                <p>유상민 책임 세무사</p>
+                <p>Email: mintax1@daum.net</p>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+            <section id="dashboard" class="content-section active">
+                <h2 class="text-3xl font-bold mb-2">2025-2026 주요 개정세법 대시보드</h2>
+                <p class="text-gray-600 mb-8">주요 세법 개정안의 핵심 내용을 확인하고, 각 항목을 클릭하여 상세 정보를 탐색할 수 있습니다. 본 자료는 사업 계획 및 절세 전략 수립에 도움을 주기 위해 제작되었습니다.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer" data-target="#employment-credit">
+                        <h3 class="font-bold text-lg text-teal-700 mb-2">통합고용세액공제 개편</h3>
+                        <p class="text-sm text-gray-600">2026년부터 고용 인원 증가에 따른 세액공제 방식이 변경됩니다. 3년간 누적 공제액이 상향 조정되고 사후관리 요건이 완화됩니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer" data-target="#childcare-credit">
+                        <h3 class="font-bold text-lg text-teal-700 mb-2">육아휴직 복귀자 공제 연장</h3>
+                        <p class="text-sm text-gray-600">육아휴직 후 복귀한 근로자 인건비의 30%를 공제해주는 제도의 적용 기한이 2026년 말까지 연장됩니다.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer" data-target="#revisions-24-25">
+                        <h3 class="font-bold text-lg text-teal-700 mb-2">2024-2025년 주요 개정</h3>
+                        <p class="text-sm text-gray-600">결혼세액공제 신설, 노란우산공제 한도 상향, 업무용 자동차보험 의무 강화 등 최근 주요 변경 사항을 확인하세요.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="employment-credit" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">통합고용세액공제</h2>
+                <p class="text-gray-600 mb-8">2026년부터 적용되는 통합고용세액공제 개편안을 중심으로, 이전 제도와 비교하여 변경점을 쉽게 이해할 수 있도록 구성했습니다. 아래 계산기를 통해 예상 공제액을 시뮬레이션해 보세요.</p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h3 class="font-bold text-xl mb-4">예상 공제액 계산기 (2026년 이후 신규 고용)</h3>
+                    <div class="flex flex-col md:flex-row gap-6 mb-6">
+                        <div>
+                            <label class="font-semibold block mb-2">근로자 유형</label>
+                            <div class="flex gap-4" id="employee-type-selector">
+                                <label class="flex items-center"><input type="radio" name="employee-type" value="regular" class="mr-2" checked> 상시근로자</label>
+                                <label class="flex items-center"><input type="radio" name="employee-type" value="youth" class="mr-2"> 청년 등 정규직</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="font-semibold block mb-2">사업장 지역</label>
+                            <div class="flex gap-4" id="region-selector">
+                                <label class="flex items-center"><input type="radio" name="region" value="metro" class="mr-2" checked> 수도권</label>
+                                <label class="flex items-center"><input type="radio" name="region" value="local" class="mr-2"> 지방</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container mb-6">
+                        <canvas id="employment-chart"></canvas>
+                    </div>
+                    <div id="total-credit-display" class="text-center font-bold text-2xl text-teal-700 bg-teal-50 p-4 rounded-md">
+                        총 3년간 1인당 2,300만원 공제
+                    </div>
+                </div>
+
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h4 class="font-bold text-lg mb-3">주요 변경 사항 (2026.1.1 시행)</h4>
+                        <ul class="list-disc list-inside space-y-2 text-sm">
+                            <li><span class="font-semibold">장기근속 유도:</span> 실제 근로기간이 1년 이상인 근로자만 공제 대상</li>
+                            <li><span class="font-semibold">사후관리 폐지:</span> 고용 인원 감소 시에도 기존 공제액 추징 없음</li>
+                            <li><span class="font-semibold">청년 기준 합리화:</span> 근로계약 체결 시 청년이면 퇴사 시까지 청년으로 인정 (2025.1.1 시행)</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h4 class="font-bold text-lg mb-3">2025년까지 적용 규정</h4>
+                        <p class="text-sm mb-4">현재 규정은 고용 후 3년간 총액을 일시 공제하며, 인원 유지 의무가 있습니다.</p>
+                        <ul class="text-sm space-y-1">
+                           <li><span class="font-semibold">상시(수도권/지방):</span> 850만원 / 950만원</li>
+                           <li><span class="font-semibold">청년(수도권/지방):</span> 1,450만원 / 1,550만원</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="childcare-credit" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">육아휴직 복귀자 세액공제</h2>
+                <p class="text-gray-600 mb-8">육아휴직 후 복귀하는 근로자를 채용하는 사업주에게 제공되는 세제 혜택입니다. 제도의 적용 기한이 2026년 12월 31일까지 연장되었으니, 요건을 확인하여 활용하시기 바랍니다.</p>
+                
+                <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
+                    <div class="text-center mb-6">
+                        <p class="text-lg text-gray-700">복귀자 인건비의</p>
+                        <p class="text-5xl font-extrabold text-teal-700 my-2">30%</p>
+                        <p class="text-lg text-gray-700">세액공제 (한도 1,300만원)</p>
+                    </div>
+
+                    <h4 class="font-bold text-xl mb-4 text-center">적용 요건</h4>
+                    <div class="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-gray-50 p-4 rounded-md">1. 직전 과세연도 대비 상시근로자 수 미감소</div>
+                        <div class="bg-gray-50 p-4 rounded-md">2. 해당 기업에서 1년 이상 근무</div>
+                        <div class="bg-gray-50 p-4 rounded-md">3. 연속 6개월 이상 육아휴직</div>
+                        <div class="bg-gray-50 p-4 rounded-md">4. 대표자와 특수관계인이 아닐 것</div>
+                        <div class="bg-gray-50 p-4 rounded-md">5. 자녀 1명당 1회 한정</div>
+                        <div class="bg-gray-50 p-4 rounded-md">6. 복직 후 2년 내 퇴사 시 공제액 추징</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="revisions-24-25" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">2024-2025년 주요 개정사항</h2>
+                <p class="text-gray-600 mb-8">최근 시행되었거나 곧 시행될 주요 세법 개정사항들입니다. 결혼, 노후 대비, 차량 비용 등 사업 운영과 밀접한 관련이 있는 항목들을 정리했습니다.</p>
+                
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="font-bold text-xl text-teal-700 mb-3">1. 결혼세액공제 신설</h3>
+                        <p class="text-sm mb-4">결혼 비용 부담 완화를 위해 2024년부터 2026년까지 한시적으로 운영되는 제도입니다.</p>
+                        <ul class="list-disc list-inside space-y-2 text-sm">
+                            <li><span class="font-semibold">적용 대상:</span> 혼인신고를 한 거주자 (재혼 포함)</li>
+                            <li><span class="font-semibold">공제 금액:</span> 1인당 50만원 (부부 합산 100만원, 생애 1회)</li>
+                            <li><span class="font-semibold">적용 시기:</span> 2024년 귀속분(2025년 신고)부터 적용</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="font-bold text-xl text-teal-700 mb-3">2. 노란우산공제 세제지원 강화</h3>
+                        <p class="text-sm mb-4">소득 구간별 공제 한도가 상향되어 소상공인 및 자영업자의 노후 준비를 지원합니다. 아래에 연간 사업소득금액을 입력하여 본인의 공제 한도를 확인해 보세요.</p>
+                        <div class="flex flex-col md:flex-row items-center gap-4 mb-4">
+                            <input type="number" id="income-input" placeholder="연간 사업소득금액 입력 (만원)" class="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <div id="deduction-limit-display" class="font-bold text-lg text-teal-800 bg-teal-100 px-4 py-2 rounded-md">
+                                공제 한도: -
+                            </div>
+                        </div>
+                        <table class="w-full text-sm text-left" id="deduction-table">
+                            <thead class="bg-gray-50 text-xs uppercase">
+                                <tr>
+                                    <th class="px-4 py-2">사업(근로)소득금액</th>
+                                    <th class="px-4 py-2">공제한도(연간)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-max="4000">
+                                    <td class="border-t px-4 py-2">4천만원 이하</td>
+                                    <td class="border-t px-4 py-2">600만원</td>
+                                </tr>
+                                <tr data-max="6000">
+                                    <td class="border-t px-4 py-2">4천만원 초과 ~ 6천만원 이하</td>
+                                    <td class="border-t px-4 py-2">500만원</td>
+                                </tr>
+                                <tr data-max="10000">
+                                    <td class="border-t px-4 py-2">6천만원 초과 ~ 1억원 이하</td>
+                                    <td class="border-t px-4 py-2">400만원</td>
+                                </tr>
+                                <tr data-max="Infinity">
+                                    <td class="border-t px-4 py-2">1억원 초과</td>
+                                    <td class="border-t px-4 py-2">200만원</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="font-bold text-xl text-teal-700 mb-3">3. 업무전용 자동차보험 가입의무 강화</h3>
+                        <p class="text-sm mb-4">개인사업자의 업무용 승용차 비용 인정 요건이 강화되었습니다. 2대 이상의 업무용 차량을 보유한 경우, 1대를 제외한 나머지 차량은 반드시 업무전용 자동차보험에 가입해야 합니다.</p>
+                        <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg" role="alert">
+                            <p class="font-bold">미가입 시, 해당 차량 관련 비용 100% 불인정</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const dashboardCards = document.querySelectorAll('[data-target]');
+
+            function navigateTo(hash) {
+                const targetId = hash.substring(1);
+                
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.hash === hash);
+                });
+                
+                contentSections.forEach(section => {
+                    section.classList.toggle('active', section.id === targetId);
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    history.pushState(null, null, this.href);
+                    navigateTo(this.hash);
+                });
+            });
+
+            dashboardCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const targetHash = this.dataset.target;
+                    history.pushState(null, null, targetHash);
+                    navigateTo(targetHash);
+                });
+            });
+
+            window.addEventListener('popstate', () => {
+                navigateTo(window.location.hash || '#dashboard');
+            });
+
+            navigateTo(window.location.hash || '#dashboard');
+            
+            const creditData = {
+                regular: {
+                    metro: { amounts: [400, 900, 1000], total: 2300 },
+                    local: { amounts: [700, 1200, 1300], total: 3200 }
+                },
+                youth: {
+                    metro: { amounts: [700, 1600, 1700], total: 4000 },
+                    local: { amounts: [1000, 1900, 2000], total: 4900 }
+                }
+            };
+
+            const chartCtx = document.getElementById('employment-chart').getContext('2d');
+            let employmentChart;
+
+            function updateChart() {
+                const employeeType = document.querySelector('input[name="employee-type"]:checked').value;
+                const region = document.querySelector('input[name="region"]:checked').value;
+                const data = creditData[employeeType][region];
+                
+                if (employmentChart) {
+                    employmentChart.destroy();
+                }
+
+                employmentChart = new Chart(chartCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['1년차', '2년차', '3년차'],
+                        datasets: [{
+                            label: '연차별 공제액 (만원)',
+                            data: data.amounts,
+                            backgroundColor: ['#5eead4', '#2dd4bf', '#0d9488'],
+                            borderColor: '#0f766e',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.raw.toLocaleString()}만원`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: '공제액 (만원)' }
+                            }
+                        }
+                    }
+                });
+                
+                document.getElementById('total-credit-display').textContent = `총 3년간 1인당 ${data.total.toLocaleString()}만원 공제`;
+            }
+
+            document.getElementById('employee-type-selector').addEventListener('change', updateChart);
+            document.getElementById('region-selector').addEventListener('change', updateChart);
+            
+            updateChart();
+
+            const incomeInput = document.getElementById('income-input');
+            const deductionDisplay = document.getElementById('deduction-limit-display');
+            const deductionTableRows = document.querySelectorAll('#deduction-table tbody tr');
+
+            incomeInput.addEventListener('input', function() {
+                const income = parseFloat(this.value);
+                deductionTableRows.forEach(row => {
+                    row.style.backgroundColor = '';
+                });
+
+                if (isNaN(income) || income < 0) {
+                    deductionDisplay.textContent = '공제 한도: -';
+                    return;
+                }
+
+                let limitText = '';
+                let found = false;
+                
+                for (const row of deductionTableRows) {
+                    if (found) continue;
+                    const max = parseFloat(row.dataset.max);
+                    if (income <= max) {
+                        limitText = row.cells[1].textContent;
+                        row.style.backgroundColor = '#ccfbf1';
+                        found = true;
+                    }
+                }
+                
+                deductionDisplay.textContent = `공제 한도: ${limitText}`;
+            });
+
+        });
+    </script>
+</body>
+</html>
