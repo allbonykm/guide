@@ -16,6 +16,13 @@
         .gold-shadow {
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
         }
+        /* 요청사항을 위한 강조 스타일 */
+        .highlight-box {
+            background-color: rgba(255, 215, 0, 0.05);
+            border-left: 4px solid #D97706; /* border-yellow-600 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
     </style>
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen p-4 sm:p-6">
@@ -23,106 +30,101 @@
     <div class="max-w-3xl w-full bg-[#1a1a1a] p-8 sm:p-12 rounded-xl border border-yellow-600/50 gold-shadow">
         
         <header class="text-center mb-10">
-            <h1 class="text-3xl sm:text-4xl font-bold text-yellow-400">최이나님을 위한 맞춤 한약 안내</h1>
+            <h1 class="text-4xl font-bold text-yellow-400">최이나님을 위한 맞춤 한약 안내</h1>
             <p class="text-gray-400 mt-2 text-lg">올본한의원</p>
         </header>
         
         <main>
-            <p class="text-gray-200 text-base sm:text-lg leading-relaxed mb-10">
-                최이나님, 안녕하세요. 지속적인 피로감과 함께 몸이 무겁고 쑤시는 복합적인 증상으로 불편하셨으리라 생각됩니다. 현재 최이나님의 몸은 기운과 혈액(氣血)이 부족한 상태에서 순환이 정체되어 통증이 나타나는 상태입니다. 이번에 처방해 드리는 한약은 이러한 문제들을 근본적으로 해결하고 건강한 활력을 되찾아드리는 것을 목표로 합니다.
-            </p>
-
             <section class="mb-10">
-                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">최이나님의 현재 처방: 기력 보강, 혈액 순환 개선, 심부체온 증가 한약</h2>
-                <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-8">
-                    이번 한약은 단순히 한두 가지 증상을 완화하는 것을 넘어, 몸의 전체적인 균형을 바로잡을 수 있도록 정교하게 구성되었습니다. 각 약재 그룹이 유기적으로 작용하여 시너지를 냅니다.
+                <p class="text-base sm:text-lg leading-relaxed text-gray-200">
+                    최이나님, 안녕하세요. 지속적인 피로감과 함께 낮은 혈압으로 말초 혈액순환이 되지 않아 손발이 차는 등의 증상으로 불편하셨으리라 생각됩니다. 현재 최이나님의 몸은 신진대사 기능이 저하되어(기가 허하다) 에너지를 만드는 힘이 부족하고, 혈액 순환이 원활하지 못한 상태(어혈)입니다. 이번에 처방해 드리는 한약은 이러한 문제들을 근본적으로 해결하고 건강한 활력을 되찾아드리는 것을 목표로 합니다.
                 </p>
-                <ul class="space-y-6 text-gray-200">
+            </section>
+            
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">처방의 목표: 심부체온 및 기력 개선</h2>
+                <p class="text-gray-300 mb-6 text-base sm:text-lg leading-relaxed">
+                    이번 한약은 단순히 한두 가지 증상을 완화하는 것을 넘어, 몸의 전체적인 기능과 균형을 바로잡을 수 있도록 정교하게 구성되었습니다. 각 약재 그룹이 유기적으로 작용하여 시너지를 냅니다.
+                </p>
+                <ul class="space-y-8 text-gray-200">
                     <li>
-                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">기운을 북돋아 활력을 더하는 약재</strong>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">심박출량을 늘리고 심부체온을 높이는 약재</strong>
                         <p class="text-base sm:text-lg leading-relaxed">
-                            <strong>인삼(人蔘), 황기(黃芪):</strong> 대표적인 '보기(補氣) 약물'입니다. 우리 몸의 원기(元氣)를 강력하게 보충하여 만성적인 피로와 무기력감을 개선하고, 땀을 조절하며 몸의 방어력을 높여줍니다.
+                            <strong class="text-yellow-400">마황(麻黃), 육계(肉桂), 오수유(吳茱萸):</strong> 심장의 힘을 강화하여 전신으로 혈액을 힘차게 뿜어내는 데 도움을 줍니다. 이를 통해 혈액순환의 근본적인 동력을 만들고, 몸의 중심부터 따뜻하게 하여 손발의 냉감(冷感)을 개선하고 신진대사를 활성화합니다. 또한 시상하부를 조절하여 심부체온을 올리고자 합니다. 
                         </p>
                     </li>
                     <li>
-                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">혈액과 진액을 채워 몸의 바탕을 단단하게 하는 약재</strong>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">기운과 진액을 보충하여 활력을 더하는 약재</strong>
                         <p class="text-base sm:text-lg leading-relaxed">
-                            <strong>숙지황(熟地黃), 생지황(生地黃), 산수유(山茱萸):</strong> 혈(血)과 정(精)을 보충하는 핵심 약재들입니다. 몸의 근본이 되는 영양 물질을 채워 넣어 허약해진 몸을 회복시키고, 뼈와 근육을 튼튼하게 하는 기초를 마련합니다.
+                            <strong class="text-yellow-400">인삼(人蔘), 맥문동(麥門冬), 오미자(五味子), 생지황(生地黃):</strong> 우리 몸의 원기(元氣)를 보충하여 만성적인 피로와 무기력감을 개선합니다. 동시에 몸의 필수적인 수분(진액)을 채워, 체온이 올라가면서 몸이 건조해지는 것을 방지하고 에너지 생성 효율을 높입니다.
                         </p>
                     </li>
                     <li>
-                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">근육과 관절의 순환을 촉진하여 긴장을 이완시켜 몸이 가볍게 느껴지는 약재</strong>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">혈액순환을 촉진하여 정체된 곳을 풀어주는 약재</strong>
                         <p class="text-base sm:text-lg leading-relaxed">
-                            <strong>독활(獨活), 갈근(葛根), 복령(茯苓), 진피(陳皮), 후박(厚朴):</strong> 근육과 관절 내 혈액순환을 목적으로 합니다. 긴장도를 완화시켜 줄 수 있습니다. 
+                            <strong class="text-yellow-400">도인(桃仁), 목단피(牡丹皮), 홍화(紅花), 천궁(川芎), 일당귀(當歸):</strong> 말초 혈관까지 혈액이 원활하게 흐르도록 길을 터주고, 뭉쳐있는 어혈(瘀血)을 풀어주는 역할을 합니다. 더불어 혈액검사상 보인 빠른 혈액응고 현상을 완화시킵니다. 
                         </p>
                     </li>
                      <li>
                         <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">모든 약재의 조화를 이끄는 약재</strong>
                         <p class="text-base sm:text-lg leading-relaxed">
-                            <strong>감초(甘草):</strong> 모든 약재의 효능이 서로 잘 어우러지도록 조화시키고, 위장을 보호하는 역할을 합니다.
+                             <strong class="text-yellow-400">박하(薄荷):</strong> 다른 약재들이 심부 체온을 높이는 과정에서 불필요한 열이 상부로 뜨는 것을 방지하고, 전체적인 약효가 편안하게 작용하도록 조절합니다.
                         </p>
-                    </li>
-                </ul>
-            </section>
-
-            <section class="mb-10 p-6 bg-black/30 rounded-lg border border-yellow-500/50">
-                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-400 text-center mb-6">비교할 수 없는 효과: 녹용(분골)의 힘</h2>
-                <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
-                    위의 기본적인 처방에 더하여, 최이나님의 빠른 회복을 위해 약재의 왕이라 불리는 <strong>녹용(鹿茸), 그중에서도 가장 효능이 뛰어난 '분골'</strong> 부위를 더했습니다. 녹용은 다른 약재들의 효과를 극대화하고, 몸을 근본적으로 되살리는 강력한 엔진 역할을 합니다.
-                </p>
-                <ul class="space-y-4 text-gray-200">
-                    <li class="pl-4 border-l-2 border-yellow-400">
-                        <strong class="font-semibold text-yellow-300">심장의 힘을 보강하여 기력 회복:</strong> 심장 근육의 수축력을 강화하여 온몸에 산소와 영양분을 힘차게 공급하고, 만성적인 피로감을 개선합니다.
-                    </li>
-                     <li class="pl-4 border-l-2 border-yellow-400">
-                        <strong class="font-semibold text-yellow-300">기혈(氣血) 보충으로 전신 영양 공급:</strong> 혈액세포 생성을 도와 기운과 혈액을 모두 채워주므로, 건강을 회복하고 몸을 가뿐하게 만듭니다.
-                    </li>
-                     <li class="pl-4 border-l-2 border-yellow-400">
-                        <strong class="font-semibold text-yellow-300">심부 체온 상승 및 면역력 증진:</strong> 몸의 기운을 보충하여 몸을 따뜻하게 데우고, 면역력을 강화하여 잦은 질환으로부터 몸을 지켜냅니다.
                     </li>
                 </ul>
             </section>
             
             <section class="mb-10">
-                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">복용 시 참고사항</h2>
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">비교할 수 없는 효과: 녹용(鹿茸)의 힘</h2>
+                <p class="text-gray-300 mb-6 text-base sm:text-lg leading-relaxed">
+                    위의 기본적인 처방에 더하여, 최이나님의 빠른 회복을 위해 약재의 왕이라 불리는 <strong class="text-yellow-400">녹용(鹿茸)</strong>을 더했습니다. 녹용은 다른 약재들의 효과를 극대화하고, 몸을 근본적으로 되살리는 강력한 엔진 역할을 합니다.
+                </p>
                 <ul class="space-y-4 text-gray-200 list-disc list-inside">
-                    <li class="text-base sm:text-lg leading-relaxed">처방된 한약은 꾸준히, 정해진 시간에 복용하는 것이 가장 중요합니다.</li>
-                    <li class="text-base sm:text-lg leading-relaxed">복용 중인 영양제가 많으시니, 한약 복용 시간과는 30분 이상의 간격을 두시는 것이 좋습니다.</li>
-                    <li class="text-base sm:text-lg leading-relaxed">소화에 부담이 되지 않도록 기름진 음식이나 밀가루 섭취는 줄여주시면 더욱 좋습니다.</li>
+                    <li><strong class="font-semibold text-yellow-300">심장의 힘 보강 및 기력 회복:</strong> 심장 기능을 도와 심박출량을 늘리고 온몸에 산소와 영양분을 힘차게 공급하여 만성적인 피로감을 개선합니다.</li>
+                    <li><strong class="font-semibold text-yellow-300">기혈(氣血) 보충으로 전신 영양 공급:</strong> 혈액세포 생성을 도와 기운과 혈액을 모두 채워주므로, 건강을 회복하고 몸을 가뿐하게 만듭니다.</li>
+                    <li><strong class="font-semibold text-yellow-300">심부 체온 상승 및 면역력 증진:</strong> 몸의 양기(陽氣)를 강력하게 보충하여 몸을 따뜻하게 데우고, 면역력을 강화하여 잦은 질환으로부터 몸을 지켜냅니다.</li>
                 </ul>
             </section>
 
-            <section>
-                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">향후 관리 계획: 경옥고(瓊玉膏)로 건강 다지기</h2>
-                <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
-                    녹용 한약을 통해 급격히 저하된 체력을 끌어올리고 몸의 기능이 정상 궤도에 오르면, 그 상태를 꾸준히 유지하고 더욱 단단하게 다지는 관리가 필요합니다. 이를 위해 최이나님께는 <strong>경옥고(瓊玉膏)</strong>를 추천해 드립니다.
-                </p>
-                <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-8 bg-black/20 p-4 rounded-md border-l-4 border-yellow-600/50">
-                    녹용이 부족한 기혈을 강력하게 보충한다면, 경옥고는 우리 몸의 진액(津液)을 채우고 오장육부의 균형을 맞춰 건강의 근본을 바로 세우는 역할을 합니다.
-                </p>
-                
-                <h3 class="text-xl font-semibold text-yellow-300 mb-4">경옥고의 주요 효능</h3>
-                <ul class="space-y-3 text-gray-200">
-                    <li class="flex items-start"><span class="text-yellow-400 mr-3 mt-1">✓</span><span><strong>만성 피로 개선:</strong> 인삼이 원기를 보충하여 피로를 덜어줍니다.</span></li>
-                    <li class="flex items-start"><span class="text-yellow-400 mr-3 mt-1">✓</span><span><strong>체액 보충 및 노화 방지:</strong> 생지황이 몸의 마른 진액을 보충하여 피부를 윤택하게 합니다.</span></li>
-                    <li class="flex items-start"><span class="text-yellow-400 mr-3 mt-1">✓</span><span><strong>면역력 강화 및 심신 안정:</strong> 복령이 면역력을 조절하며 마음을 편안하게 합니다.</span></li>
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">복용 및 건강 관리 안내</h2>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">복용 시 참고사항</strong>
+                        <ul class="space-y-2 text-gray-200 list-disc list-inside pl-2">
+                           <li>처방된 한약은 꾸준히, 정해진 시간에 복용하는 것이 가장 중요합니다.</li>
+                           <li>복용 중인 영양제가 많으시니, 한약 복용 시간과는 30분 이상의 간격을 두시는 것이 좋습니다.</li>
+                           <li>소화에 부담이 되지 않도록 기름진 음식이나 밀가루 섭취는 줄여주시면 더욱 좋습니다.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">건강 다지기: 경옥고(瓊玉膏) 함께 복용하기</strong>
+                        <p class="text-base sm:text-lg leading-relaxed mb-4">
+                            현재 복용을 시작하신 경옥고는 한약과 함께 최이나님의 건강을 더욱 단단하게 다져줄 것입니다. 녹용 한약이 저하된 기능을 끌어올리는 역할을 한다면, 경옥고는 우리 몸의 진액(津液)을 채우고 오장육부의 균형을 맞춰 건강의 근본을 바로 세웁니다. <strong class="text-yellow-400">하루 1개, 자기 전 따뜻한 한약과 함께 복용하세요. 순서는 상관없습니다.</strong>
+                        </p>
+                        <ul class="space-y-2 text-gray-200">
+                            <li><strong class="text-yellow-300">✓ 만성 피로 개선:</strong> 인삼이 원기를 보충하여 피로를 덜어줍니다.</li>
+                            <li><strong class="text-yellow-300">✓ 체액 보충 및 노화 방지:</strong> 생지황이 몸의 마른 진액을 보충하여 피부를 윤택하게 합니다.</li>
+                            <li><strong class="text-yellow-300">✓ 면역력 강화 및 심신 안정:</strong> 복령이 면역력을 조절하며 마음을 편안하게 합니다.</li>
+                        </ul>
+                    </li>
                 </ul>
             </section>
-
         </main>
         
         <footer class="text-center mt-12 pt-6 border-t border-yellow-600/30">
-            <p class="text-gray-400 text-base leading-relaxed">
-                녹용 치료 후 경옥고를 꾸준히 복용하시면, 회복된 체력을 오랫동안 유지하고 
-                <br>
-                생활 속에서 쉽게 지치지 않는 건강한 몸 상태를 만들어 가실 수 있을 것입니다.
-                <br>
-                <strong class="font-semibold text-gray-200">올본한의원</strong>이 함께 하겠습니다.
-                <br>
-                <strong class="font-semibold text-gray-200">강조하신 요청사항</strong>은 기억하겠습니다. 
-                <br>1.체중을 찌우지 않도록 해 주세요.
-                <br>2.부기를 빼는 약재는 원하지 않아요.
+             <p class="text-gray-300 text-base leading-relaxed mb-8">
+                녹용 한약과 경옥고를 함께 꾸준히 복용하시면, 회복된 체력을 오랫동안 유지하고<br>생활 속에서 쉽게 지치지 않는 건강한 몸 상태를 만들어 가실 수 있을 것입니다.<br><strong class="font-semibold text-gray-200">올본한의원</strong>이 함께 하겠습니다.
             </p>
+
+            <div class="highlight-box text-left mb-8 max-w-md mx-auto">
+                <p class="text-lg font-semibold text-yellow-300 mb-3">강조하신 요청사항은 기억하겠습니다.</p>
+                <ul class="text-gray-200 list-disc list-inside">
+                    <li>체중을 찌우지 않도록 해 주세요.</li>
+                    <li>부기를 빼는 약재는 원하지 않아요.</li>
+                </ul>
+            </div>
+
             <p class="text-xl font-bold text-yellow-400 mt-6">
                 올본한의원 드림
             </p>
@@ -132,6 +134,3 @@
 
 </body>
 </html>
-
-
-
