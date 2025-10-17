@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상완골두 골절 치료 안내</title>
-    <style>
+    <script src="https://cdn.tailwindcss.com"></script> <style>
         body {
             font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
             line-height: 1.8;
@@ -53,6 +53,28 @@
             font-weight: bold;
             color: #555;
         }
+        /* 이미지 섹션 스타일 추가 */
+        .image-section {
+            text-align: center; /* 이미지와 텍스트를 가운데 정렬 */
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .image-section img {
+            max-width: 100%; /* 부모 요소 너비를 넘지 않도록 설정 */
+            height: auto; /* 비율 유지 */
+            display: block; /* img 태그 아래 여백 제거 및 가운데 정렬을 위해 */
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px; /* Tailwind의 rounded-lg와 유사한 효과 */
+            border: 1px solid #e0e0e0; /* Tailwind의 border border-gray-700/50와 유사한 효과 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 은은한 그림자 */
+        }
+        .image-section p {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -90,16 +112,17 @@
         <p>다시 한번 강조 드리지만, 수술을 하지 않고 치료할 수 있다는 것은 매우 긍정적인 신호입니다. 올본한의원도 김민건 님의 회복 과정에 최선을 다해 힘을 보태겠습니다.</p>
 
         <section class="image-section">
-             <img src="images/251016.JPEG" alt="Shoulder MRI Scan" class="w-full max-w-md mx-auto rounded-lg border border-gray-700/50">
-             <p>
-                 O/S 25.10.13.<br>
-                 MRI 25.10.16.<br>
-                 Imp) Fracture with depression, ant. portion of humeral head, Rt
-             </p>
-         </section>
+            <img src="images/251016.JPEG" alt="Shoulder MRI Scan">
+            <p>
+                O/S 25.10.13.<br>
+                MRI 25.10.16.<br>
+                Imp) Fracture with depression, ant. portion of humeral head, Rt
+            </p>
+        </section>
         
         <div class="footer">
-            올본한의원 안내드림        </div>
+            올본한의원 안내드림
+        </div>
     </div>
 
 </body>
