@@ -1,1 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>박한진 님을 위한 올본한의원 한약 복용 안내</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Gowun Batang', serif;
+        }
+        /* 커스텀 쉐도우 효과 */
+        .gold-shadow {
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
+        }
+        /* 테이블 스타일 */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px 10px;
+        }
+        th {
+            border-bottom: 2px solid rgba(202, 138, 4, 0.3); /* yellow-600/30 */
+            color: #eab308; /* yellow-500 */
+        }
+        td {
+            border-bottom: 1px solid #404040; /* neutral-700 */
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="bg-black flex items-center justify-center min-h-screen p-4 sm:p-6">
 
+    <div class="max-w-3xl w-full bg-[#1a1a1a] p-8 sm:p-12 rounded-xl border border-yellow-600/50 gold-shadow">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-yellow-400">박한진 님을 위한 한약 복용 안내</h1>
+            <p class="text-gray-400 mt-2 text-lg">올본한의원에서 보내는 안내글입니다.</p>
+        </header>
+        
+        <main>
+
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">박한진 님의 검사 결과</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-200">
+                    <div>
+                        <h3 class="text-xl font-semibold text-yellow-300 mb-4">체성분 분석</h3>
+                        <table class="w-full">
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium text-gray-300">체중 (kg)</td>
+                                    <td class="text-right">53.3</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">골격근량 (kg)</td>
+                                    <td class="text-right">20.5</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">체지방량 (kg)</td>
+                                    <td class="text-right">15.4</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">BMI (kg/m²)</td>
+                                    <td class="text-right">21.3</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">체지방률 (%)</td>
+                                    <td class="text-right">28.9</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">기초대사량 (kcal)</td>
+                                    <td class="text-right">1188</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">복부지방률</td>
+                                    <td class="text-right">0.85</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">내장지방레벨</td>
+                                    <td class="text-right">6</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold text-yellow-300 mb-4">자율신경 & 스트레스</h3>
+                        <table class="w-full">
+                            <tbody>
+                          
+                                <tr>
+                                    <td class="font-medium text-gray-300">HRV-index</td>
+                                    <td class="text-right">12.2</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">TP</td>
+                                    <td class="text-right">7.3</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">LF</td>
+                                    <td class="text-right">6.2</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">HF</td>
+                                    <td class="text-right">6.6</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">Stress</td>
+                                    <td class="text-right">42</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-gray-300">Brain stress</td>
+                                    <td class="text-right">8.7</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">처방의 목표</h2>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">산후 기혈(氣血) 회복</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            출산으로 소모된 기혈을 보충하고, 육아와 모유수유에 필요한 에너지를 회복하여 산후조리가 원활하게 이루어질 수 있도록 돕는 것을 첫 번째 목표로 합니다.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">심박출량 증가 및 혈액순환 개선</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            처방된 약재들은 심박출량을 원활하게 하여 전신 혈액순환을 개선합니다. 이를 통해 몸의 회복 속도를 높이고, 피로감을 줄이며 몸을 따뜻하게 하는 것을 목표로 합니다.
+                        </p>
+                    </li>
+                </ul>
+            </section>
+            
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">복용법 및 주요 약재</h2>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">복용 안내</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            하루 2회, 복용해 주세요. 식전 복약도 가능합니다. <br>
+                            소화 흡수율을 높이기 위해 중탕 후 따뜻하게 데워 드시는 것을 권장드립니다. 모유수유 중이시기에, 박한진 님의 체중과 상태에 맞춰 <strong class="text-yellow-400">모유로 이행되지 않는 안전한 약재</strong>들로 처방되었습니다.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">처방 약재</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            본 처방에는 <strong class="text-yellow-400">황기, 일당귀, 작약, 숙지황</strong>을 비롯하여 갈근, 대조, 백출, 복령, 사삼, 산수유, 육계, 진피, 천궁 등 박한진 님의 산후 회복을 돕는 약재들이 세심하게 배합되었습니다.
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">건강을 위한 생활 관리</h2>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">기대되는 신체 반응</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            한약 복용으로 혈액순환이 증가하면서 신체 심부 온도가 상승하여, 몸이 전반적으로 따뜻해지는 느낌을 받으실 수 있습니다. 또한, 주관적인 피로감이 점차 감소하는 것을 기대할 수 있습니다.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">육아와 회복</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            현재 육아와 모유수유를 모두 하고 계시기에 몸의 회복에 더 많은 에너지가 필요합니다. 복약 중이거나 복약이 끝난 이후에도 증상을 살피시어, 조금이라도 문의하실 점이 있으시다면 언제든 편한 채널(전화 또는 카카오톡채널)로 문의해 주세요!
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">참고 안내</h2>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">김도경 님 안내글</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                         지금처럼 일교차가 큰 환절기에는 우리 몸이 체온을 유지하기 위해 평소보다 더 많은 에너지를 사용하게 됩니다.<br>
+김도경 님에게 처방된 약의<strong class="text-yellow-400"> 녹용, 인삼, 지황, 복령</strong>은 이 시기에 필요한 체력을 보강하고 기운을 돋우는 데 효과적입니다. <br>또한 봉밀과 복령은 소화 흡수를 도와, 에너지가 대사 및 성장에 효율적으로 사용되도록 보조합니다.<br>
+복용량은 하루 1포를 기준으로 하되, <strong class="text-yellow-400">김도경 님이 잘 소화하고 불편해하지 않는다면 하루 2포까지 늘려 복용</strong>해도 괜찮습니다.<br>
+다행히 약을 잘 복용할 것으로 보여 꾸준한 복용에 무리가 없어 보입니다. 녹용경옥고를 먹으면서 활동량이나 전반적인 컨디션이 좋아지는 긍정적인 변화가 관찰된다면, 체온을 유지하는 데 에너지를 소모해야 하는 가을, 겨울 동안 이어서 복용하는 것을 권해 드립니다. 복용하면서 상태를 세심하게 살펴봐 주시기 바랍니다.
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">검사 자료</h2>
+                <figure>
+                    <img src="images/PHJ.JPEG" alt="박한진 님 검사 결과 이미지" class="w-full h-auto rounded-lg border border-yellow-600/30">
+                    <figcaption class="text-center text-gray-400 mt-3 text-base">
+                        검사일 2025.10.30.
+                    </figcaption>
+                </figure>
+            </section>
+
+        </main>
+        
+        <footer class="text-center mt-12 pt-6 border-t border-yellow-600/30">
+            <p class="text-gray-400 text-base leading-relaxed">
+                꾸준한 복용과 생활 관리를 통해 몸이 스스로 회복하는 힘을 되찾으실 수 있습니다.
+                <br>
+                <strong class="text-yellow-400">박한진 님</strong>의 빠른 쾌유와 건강한 일상을 온전히 누리실 수 있도록
+                <br>
+                <strong class="font-semibold text-gray-200">올본한의원</strong>이 함께 하겠습니다.
+            </p>
+            <p class="text-xl font-bold text-yellow-400 mt-6">
+                올본한의원 드림
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
