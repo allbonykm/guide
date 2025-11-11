@@ -114,7 +114,10 @@
             <section id="intro" class="mb-12 bg-white/60 p-6 rounded-2xl shadow-sm">
                 <h2 class="text-2xl font-bold text-teal-700 mb-4 text-center">임신, 언제 가장 가능성이 높을까요?</h2>
                 <p class="text-stone-700 mb-6 leading-relaxed text-center max-w-3xl mx-auto">
-                    임신은 정자와 난자가 만나는 수정 과정을 통해 이루어집니다. 건강한 정자는 여성의 몸속에서 최대 5일까지 생존할 수 있고, 난자는 배란 후 약 24시간 동안 수정이 가능합니다. 이 기간을 고려한 '수태의 창(Fertile Window)'은 배란일 포함 약 5~6일간이며, 이 시기에 부부가 관계를 맺으면 임신 확률이 크게 높아집니다. 아래 차트는 배란일을 기준으로 각 날짜의 임신 가능성을 보여줍니다.
+                    임신은 정자와 난자가 만나는 수정 과정을 통해 이루어집니다. 
+                    <br>건강한 정자는 여성의 몸속에서 최대 5일까지 생존할 수 있고, 난자는 배란 후 약 24시간 동안 수정이 가능합니다. 
+                    <br>이 기간을 고려한 '수태의 창(Fertile Window)'은 배란일 포함 약 5일간이며, 이 시기에 부부가 관계를 맺으면 임신 확률이 크게 높아집니다.
+                    <br> 아래 차트는 배란일을 기준으로 각 날짜의 임신 가능성을 보여줍니다.
                 </p>
                 <div class="chart-container">
                     <canvas id="conceptionChanceChart"></canvas>
@@ -122,12 +125,14 @@
             </section>
             
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
-                <nav class="flex justify-center border-b border-stone-200 mb-8 space-x-2 md:space-x-8">
+                <nav class="flex flex-wrap justify-center border-b border-stone-200 mb-8 space-x-2 md:space-x-8">
                     <button data-target="opk" class="nav-button active text-sm md:text-lg p-4">배란 테스트기 활용</button>
                     <button data-target="ultrasound" class="nav-button text-sm md:text-lg p-4">올본의 초음파 검사</button>
                     <button data-target="calendar" class="nav-button text-sm md:text-lg p-4">생리 주기법</button>
                     <button data-target="nutrition" class="nav-button text-sm md:text-lg p-4">영양 가이드</button>
-                </nav>
+                    <button data-target="minji-results" class="nav-button text-sm md:text-lg p-4">박민지 님 검사결과</button>
+                    <button data-target="jaegeun-results" class="nav-button text-sm md:text-lg p-4">윤재근 님 검사결과</button>
+                    </nav>
 
                 <div id="opk" class="content-section active fade-in">
                     <h3 class="text-xl font-bold text-teal-700 mb-4">배란 테스트기(배테기)를 사용하는 경우</h3>
@@ -150,13 +155,13 @@
                                 </div>
                                 <div>
                                     <h5 class="font-semibold mb-2 text-stone-800">최적의 관계 시점</h5>
-                                     <p class="text-stone-700">
+                                    <p class="text-stone-700">
                                         올본한의원이 가장 추천되는 시점은 <strong>첫 양성 반응이 나온 날부터 그 다음, 그리고 그 다음 날까지 총 3일간</strong> 1~2일 간격으로 관계를 갖는 것입니다. 이는 정자가 미리 도착해 배란을 기다리고(양성 당일), 실제 배란일에 맞추며(양성 다음 날), 늦어지는 배란까지 대비(양성 2일 후)하여 확률을 극대화하는 전략입니다.
-                                     </p>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                
+                    
                         <div>
                             <h4 class="font-bold text-teal-800 mb-3 text-lg">🤝 확률을 높이는 조합: 배란 테스트기 + 자궁경부 점액 관찰</h4>
                             <div class="bg-stone-50 p-6 rounded-lg">
@@ -172,17 +177,17 @@
                                 </div>
                             </div>
                         </div>
-                
-                         <div>
+                    
+                        <div>
                             <h4 class="font-bold text-teal-800 mb-3 text-lg">📊 배란일 기준 관계일별 임신 확률</h4>
-                             <div class="bg-stone-50 p-6 rounded-lg">
+                            <div class="bg-stone-50 p-6 rounded-lg">
                                 <p class="text-stone-700">
                                     흔한 오해와 달리, 배란 당일보다 <strong>배란 1~2일 전</strong>에 관계를 가졌을 때 임신 확률이 가장 높습니다. 이는 정자가 여성의 몸 안에서 최대 5일까지 생존하며 난자를 기다릴 수 있지만, 난자의 생존 시간은 24시간 내외로 짧기 때문입니다. 따라서 난자가 배출되기 전에 정자가 미리 자궁에 도착해 기다리는 것이 임신에 훨씬 유리합니다. 
                                 </p>
                             </div>
                         </div>
                     </div>
-                     <div class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-lg">
+                    <div class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-lg">
                         <h4 class="font-bold text-teal-800 mb-2">🕰️ 최적의 타이밍 (요약)</h4>
                         <ul class="list-disc list-inside text-stone-700 space-y-2">
                             <li><strong>가장 중요한 날:</strong> 배란 테스트기 양성 반응이 나온 <span class="font-bold text-teal-600">당일과 그 다음날, 그 다다음날</span>입니다.</li>
@@ -197,7 +202,7 @@
                                 <p class="text-xs text-stone-500">양성 반응</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">→</div>
-                             <div class="text-center">
+                            <div class="text-center">
                                 <p class="font-bold text-sm md:text-base">24h 후</p>
                                 <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-red-200 flex items-center justify-center font-bold text-red-700">배란</div>
                                 <p class="text-xs text-stone-500">난자 배출</p>
@@ -220,25 +225,25 @@
                     <div class="bg-sky-50 border-l-4 border-sky-500 p-6 rounded-lg">
                         <h4 class="font-bold text-sky-800 mb-2">🕰️ 최적의 타이밍</h4>
                         <ul class="list-disc list-inside text-stone-700 space-y-2">
-                             <li><strong>올보니가 알려드려요!:</strong>검사 후 "오늘이나 내일쯤 배란될 것 같습니다"라고 알려 드리면, 그날부터 2-3일간 관계를 맺는 것이 가장 좋습니다.</li>
-                             <li><strong>예시:</strong> 월요일 검진 시 난포가 16mm였다면, 수요일~목요일쯤 배란될 가능성이 높으므로 화, 수, 목요일이 중요한 시기가 됩니다.</li>
+                            <li><strong>올보니가 알려드려요!:</strong>검사 후 "오늘이나 내일쯤 배란될 것 같습니다"라고 알려 드리면, 그날부터 2-3일간 관계를 맺는 것이 가장 좋습니다.</li>
+                            <li><strong>예시:</strong> 월요일 검진 시 난포가 16mm였다면, 수요일~목요일쯤 배란될 가능성이 높으므로 화, 수, 목요일이 중요한 시기가 됩니다.</li>
                         </ul>
                     </div>
-                     <div class="mt-6 text-center">
+                    <div class="mt-6 text-center">
                         <div class="flex items-center justify-center space-x-2 md:space-x-4 p-4 rounded-lg bg-stone-100 max-w-2xl mx-auto">
-                           <div class="text-center p-2 rounded-lg">
+                            <div class="text-center p-2 rounded-lg">
                                 <p class="font-bold text-xs md:text-sm">성장기</p>
                                 <div class="w-8 h-8 md:w-10 md:h-10 border-2 border-stone-400 rounded-full mx-auto mt-1"></div>
                                 <p class="text-xs text-stone-500">~16mm</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">→</div>
-                           <div class="text-center p-2 rounded-lg">
+                            <div class="text-center p-2 rounded-lg">
                                 <p class="font-bold text-xs md:text-sm">성숙기</p>
                                 <div class="w-12 h-12 md:w-14 md:h-14 border-2 border-sky-500 rounded-full mx-auto mt-1"></div>
                                 <p class="text-xs text-stone-500">18-24mm</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">→</div>
-                           <div class="text-center p-2 bg-sky-100 rounded-lg">
+                            <div class="text-center p-2 bg-sky-100 rounded-lg">
                                 <p class="font-bold text-xs md:text-sm text-sky-700">배란 임박</p>
                                 <div class="w-12 h-12 md:w-14 md:h-14 border-2 border-sky-700 rounded-full mx-auto mt-1 animate-pulse"></div>
                                 <p class="text-xs text-sky-600 font-semibold">관계 시도</p>
@@ -248,7 +253,7 @@
                 </div>
 
                 <div id="calendar" class="content-section fade-in">
-                     <h3 class="text-xl font-bold text-teal-700 mb-4">생리 주기법 (28일 기준, 부정확하니 참고만 하세요.)</h3>
+                    <h3 class="text-xl font-bold text-teal-700 mb-4">생리 주기법 (28일 기준, 부정확하니 참고만 하세요.)</h3>
                     <p class="text-stone-700 mb-6 leading-relaxed">
                         배란 테스트기나 초음파 검사가 어려운 경우, 규칙적인 생리 주기를 바탕으로 배란일을 예측할 수 있습니다. 평균 28일 주기의 경우, 다음 생리 예정일로부터 14일 전(즉, 생리 시작 후 14일째)에 배란이 일어날 확률이 높습니다. 다만, 정확하지 않습니다. 
                     </p>
@@ -261,28 +266,29 @@
                     </div>
 
                     <div class="max-w-md mx-auto">
-                         <div class="mb-4">
+                        <div class="mb-4">
                             <label for="lmp-date" class="block text-sm font-medium text-stone-700 mb-2">마지막 생리 시작일을 선택하세요</label>
                             <input type="date" id="lmp-date" class="w-full p-2 border border-stone-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
                         </div>
                         <div id="calendar-container" class="bg-stone-50 p-4 rounded-lg">
-                           <div class="flex justify-between items-center mb-4">
-                               <button id="prev-month" class="p-2 rounded-full hover:bg-stone-200">
-                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            <div class="flex justify-between items-center mb-4">
+                                <button id="prev-month" class="p-2 rounded-full hover:bg-stone-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                                 </button>
                                 <h4 id="calendar-title" class="text-lg font-bold"></h4>
                                 <button id="next-month" class="p-2 rounded-full hover:bg-stone-200">
-                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
                                 </button>
-                           </div>
-                           <div id="calendar-grid" class="calendar-grid"></div>
+                            </div>
+                            <div id="calendar-grid" class="calendar-grid"></div>
                         </div>
                     </div>
                 </div>
 
                 <div id="nutrition" class="content-section fade-in">
                     <h3 class="text-xl font-bold text-teal-700 mb-4">박민지 님의 건강한 임신 준비를 위한 영양 가이드</h3>
-             <h4 class="text-lg font-bold text-teal-700 mb-4 border-l-4 border-teal-300 pl-3">1. 미량 영양소: 비타민과 무기질 채우기</h4>
+                    <section class="mb-8">
+                        <h4 class="text-lg font-bold text-teal-700 mb-4 border-l-4 border-teal-300 pl-3">1. 미량 영양소: 비타민과 무기질 채우기</h4>
                         <p class="text-stone-700 mb-4 leading-relaxed">
                             미량 영양소는 태아의 초기 발달과 산모의 건강 유지에 매우 중요합니다. 음식으로 섭취하는 것을 기본으로 하되, 필요시 영양제로 보충하는 것을 권장합니다.
                         </p>
@@ -357,7 +363,7 @@
                         <h4 class="text-lg font-bold text-teal-700 mb-4 border-l-4 border-teal-300 pl-3">3. 단백질: 식물성과 동물성 균형 맞추기</h4>
                         <p class="text-stone-700 mb-4 leading-relaxed">
                             단백질은 난자와 정자의 질을 높이고, 태아의 세포와 조직을 형성하는 기본 구성 요소입니다.
-                        </p>
+                        </T>
                         <div class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded mb-4">
                             <h5 class="font-bold text-teal-800 mb-2">권장 식품</h5>
                             <ul class="list-disc list-inside text-stone-700 space-y-1">
@@ -406,7 +412,287 @@
                         </p>
                     </div>
                 </div>
-            </div>
+
+                <div id="minji-results" class="content-section fade-in">
+                    <h3 class="text-xl font-bold text-teal-700 mb-4">박민지 님 산전검사</h3>
+                    <div class="space-y-8">
+
+                        <div class="bg-stone-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">AMH 검사결과 (검사일시: 2025/10/27)</h4>
+                            <p class="text-stone-700 text-lg mb-2"><strong>검사결과: 3.18 ng/mL</strong></p>
+                            <ul class="list-disc list-inside text-stone-700 space-y-2">
+                                <li>AMH 농도는 동일 나이군(36)에서 50 ~ 75 percentile에 속하며, 33 ~ 34 세의 중간값에 해당합니다.</li>
+                                <li>나이(36)를 고려하였을 때 난소에 남아있는 난자는 약 25,000개로 추정되며, 배란되는 난자 중 약 47%가 염색체 이상이 없는 건강한 난자일 것으로 예상됩니다.</li>
+                                <li><strong>한약 치료 및 생활 습관을 통해 더 나아질 수 있습니다.</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-stone-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">호르몬 및 기타 검사 (검사일시: 2025/11/04)</h4>
+                            <div class="overflow-x-auto">
+                                <table class="nutrition-table">
+                                    <thead>
+                                        <tr>
+                                            <th>검사 항목</th>
+                                            <th>결과</th>
+                                            <th>참고치</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>ABO 혈액형</strong></td>
+                                            <td>A형 / Rh(D) (＋)Positive</td>
+                                            <td>(혈구형: A, 혈청형: A)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>FSH</strong></td>
+                                            <td>6.96</td>
+                                            <td>F: Follicular 3.50-12.50</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>LH</strong></td>
+                                            <td>6.12</td>
+                                            <td>F: Follicular 2.40-12.60</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Free T4</strong></td>
+                                            <td>1.13 ng/dL</td>
+                                            <td>0.92-1.68</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>TSH</strong></td>
+                                            <td>2.27 μIU/mL</td>
+                                            <td>0.27-4.20</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Estradiol(E2)</strong></td>
+                                            <td>37.50</td>
+                                            <td>F: Follicular 12.40-233.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Prolactin</strong></td>
+                                            <td>15.50 ng/mL</td>
+                                            <td>F: 4.79-23.30</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Rubella IgG (풍진 항체)</strong></td>
+                                            <td class="text-orange-600 font-bold">Equivocal(8.3) (경계)</td>
+                                            <td>Negative: 0.0-4.9, Equivocal: 5.0-9.9, Positive: 10.0</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Varicella-Zoster IgG (수두 항체)</strong></td>
+                                            <td class="text-red-600 font-bold">Negative(68.6) (음성)</td>
+                                            <td>Negative < 135.0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-4 p-4 bg-amber-50 border-l-4 border-amber-500 rounded">
+                                <h5 class="font-bold text-amber-800 mb-2">항체 검사 참고</h5>
+                                <p class="text-stone-700"><strong>풍진(Rubella):</strong> '경계' 수치로, 항체가 충분히 형성되지 않았을 수 있습니다. 임신 전 예방접종을 권장드립니다. </p>
+                                <p class="text-stone-700 mt-2"><strong>수두(Varicella):</strong> '음성'으로, 항체가 없습니다. 임신 전 예방접종을 권장드립니다. 오전 11:56 2025-11-11</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-stone-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">자율신경계 검사 (검사일시: 2025/11/08)</h4>
+                            <div class="overflow-x-auto">
+                                <table class="nutrition-table">
+                                    <thead>
+                                        <tr>
+                                            <th>검사 항목</th>
+                                            <th>결과</th>
+                                            <th>해석</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                <td><strong>Hrv-index</strong></td>
+                                <td>6.4</td>
+                                <td>심박변이도 낮음</td>
+                        </tr>
+               <tr>
+                                <td><strong>TP</strong></td>
+                                <td>5.5</td>
+                                <td>낮음</td>
+                        </tr>
+               <tr>
+                                <td><strong>LF</strong></td>
+                                <td>4.6</td>
+                                <td>낮음</td>
+                        </tr>
+               <tr>
+                                <td><strong>HF</strong></td>
+                                <td>4.8</td>
+                                <td>낮음</td>
+                        </tr>
+               <tr>
+                                <td><strong>Stress</strong></td>
+                                <td>51</td>
+                                <td>높음</td>
+                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+        <div class="bg-stone-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">체성분 검사 (검사일시: 2025/11/08)</h4>
+                            <div class="overflow-x-auto">
+                                <table class="nutrition-table">
+                                    <thead>
+                                        <tr>
+                                            <th>검사 항목</th>
+                                            <th>결과</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+<tr>
+                                <td><strong>체중</strong></td>
+                                <td>54.8kg</td>
+                        </tr>
+               <tr>
+                                <td><strong>골격근량</strong></td>
+                                <td>19.8kg</td>
+                        </tr>
+               <tr>
+                                <td><strong>체지방량</strong></td>
+                                <td>17.6kg</td>
+                        </tr>
+               <tr>
+                                <td><strong>BMI</strong></td>
+                                <td>20.4kg/㎡</td>
+                        </tr>
+               <tr>
+                                <td><strong>체지방률</strong></td>
+                                <td>32.1%</td>
+                        </tr>                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div id="jaegeun-results" class="content-section fade-in">
+                    <h3 class="text-xl font-bold text-teal-700 mb-4">윤재근 님 정액 검사 (검사일: 2025/10/25)</h3>
+                    <div class="space-y-8">
+
+                        <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg">
+                            <h4 class="font-bold text-green-800 mb-3 text-lg">1. 참고치 기준을 충족하거나 상회하는 항목</h4>
+                            <ul class="list-disc list-inside text-stone-700 space-y-3">
+                                <li>
+                                    <strong>정자 농도 (Concentration):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: 97 (100만/ml)</li>
+                                        <li>참고치: 16 (100만/ml) 이상</li>
+                                        <li>분석: 정자 농도는 WHO 기준치보다 높습니다.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>총 정자 수 (Total sperm number):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: 77 (100만)</li>
+                                        <li>참고치: 39 (100만) 이상</li>
+                                        <li>분석: 총 정자 수는 기준치보다 높습니다.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>총 운동성 (Total Motility):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: 44%</li>
+                                        <li>참고치: 42% 이상</li>
+                                        <li>분석: 전체 정자 중 움직이는 정자의 비율이 기준치를 약간 상회합니다.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>전진 운동성 (Progressive motility):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: 39%</li>
+                                        <li>참고치: 30% 이상</li>
+                                        <li>분석: 앞으로 나아가는 운동성을 가진 정자의 비율이 기준치보다 높습니다.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>액화 (Liquefaction):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: Good (좋음)</li>
+                                        <li>참고치: Good / Moderate / Poor</li>
+                                        <li>분석: 액화 상태는 '좋음' 입니다.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>점도 (Viscosity):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: Absence </li>
+                                        <li>참고치: Slightly / Absence</li>
+                                        <li>분석: 점도가 없는 상태입니다.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-lg">
+                            <h4 class="font-bold text-orange-800 mb-3 text-lg">2. 참고치 기준에 미달하는 항목</h4>
+                            <ul class="list-disc list-inside text-stone-700 space-y-3">
+                                <li>
+                                    <strong>정액량 (Volume):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: 0.8 ml</li>
+                                        <li>참고치: 1.4 ml 이상</li>
+                                        <li>분석: 1회 사정 시 정액량이 기준치보다 적습니다.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>pH (산도):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: 6.8</li>
+                                        <li>참고치: 7.2 - 8.0</li>
+                                        <li>분석: 정액의 산도가 기준 범위보다 낮습니다.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>정자 정상 형태 (Strict Morphology):</strong>
+                                    <ul class="list-none list-inside ml-4 text-sm text-stone-600">
+                                        <li>결과: 2%</li>
+                                        <li>참고치: 4% 이상</li>
+                                        <li>분석: 정상적인 형태를 가진 정자의 비율이 기준치보다 낮습니다.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-stone-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">3. 정자 형태 세부 사항</h4>
+                            <p class="text-stone-700 mb-4">정상 형태의 정자 비율이 2%로 기준보다 낮은 것과 관련하여, 검사지 하단에 관찰된 주요 비정상 형태가 체크되어 있습니다.</p>
+                            <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                <li><strong>A. 머리 결함 (Head defects):</strong> (d) Amorphous (비정형 머리)</li>
+                                <li><strong>B. 목/중간 부분 결함 (Neck and midpiece defects):</strong> (c) Thin (가는 중간 부분)</li>
+                                <li><strong>C. 꼬리 결함 (Tail defects):</strong> (d) Coiled (꼬인 꼬리)</li>
+                                <li><strong>D. 과도한 세포질 잔류 (Excess residual cytoplasm):</strong> (a) > one third head (머리 크기 1/3 이상)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-stone-50 p-6 rounded-lg">
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">4. 생활 습관 및 조언</h4>
+                            <p class="text-stone-700 mb-4">일상생활 관리</p>
+                            <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                <li><strong>허벅지와 엉덩이 부위의 온도를 높이는 활동은 피해 주세요.</strong> </li>
+                                <li><strong>골반 부위 혈액순환을 개선하기 위해 규칙적으로 운동해 주세요.</strong></li>
+                                <li><strong>장시간 앉아 있기보다는 자주 일어나서 움직이고, 엉덩이에 압력이 가해지지 않도록 주의해 주세요.</strong></li>
+                            </ul>
+        	         <p class="text-stone-900 mb-4 mt-4">한약 치료 안내</p>
+                            <ul class="list-disc list-inside text-stone-700 space-y-1">
+                                <li><strong>환절기에 면역력이나 체력 저하가 느껴지시거나, 정자의 운동성과 형태를 개선하고 싶으시다면 한약 치료가 도움이 될 수 있습니다.</strong> </li>
+                                <li><strong>특히 전방운동성 향상과 비정상 형태 비율 감소에 대한 한약 치료 효과는 이미 입증되어 있습니다.</strong> </li>
+                                <li><strong>부부가 함께 건강한 자연 임신을 준비할 때 심리적, 신체적으로 더 좋은 결과를 얻을 수 있습니다. 쓴 한약도 부부가 함께 복용하면 더 달게 느껴진다는 이야기가 있습니다. 건강한 자연 임신의 여정은 언제나 부부가 함께 걸어가야 하는 길입니다.</strong> </li>
+
+	
+                        </div>
+
+                    </div>
+                </div>
+                </div>
         </main>
 
         <footer class="text-center mt-12 text-stone-500 text-sm">
@@ -429,7 +715,7 @@
                             '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309'
                         ].map(color => color.replace(')', ', 0.7)').replace('rgb', 'rgba')),
                         borderColor: [
-                           '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309'
+                            '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309'
                         ],
                         borderWidth: 1,
                         borderRadius: 5,
@@ -588,4 +874,3 @@
     </script>
 </body>
 </html>
-           
