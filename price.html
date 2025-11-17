@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>올본한의원 이용 안내</title>
+    <title>올본한의원 가격 안내</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,6 +11,10 @@
     <style>
         body {
             font-family: 'Gowun Batang', serif;
+        }
+        /* NEW: 부드러운 스크롤 효과 추가 */
+        html {
+            scroll-behavior: smooth;
         }
         /* 커스텀 쉐도우 효과 */
         .gold-shadow {
@@ -35,195 +39,699 @@
         thead th {
             border-bottom-width: 1px;
         }
+
+        /* 2. 쌍화탕·부기탕 드롭다운 스타일 추가 */
+        .custom-select {
+            background-color: #1f1f1f;
+            border: 1px solid #a37e2c; /* yellow-600/50 */
+            color: #e5e7eb; /* gray-200 */
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23fcd34d' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
     </style>
 </head>
-<body class="bg-black flex items-center justify-center min-h-screen p-4 sm:p-6">
+<body class="bg-black flex justify-center min-h-screen p-4 sm:p-6">
 
-    <div class="max-w-3xl w-full bg-[#1a1a1a] p-8 sm:p-12 rounded-xl border border-yellow-600/50 gold-shadow">
-        
-        <header class="text-center mb-10">
-            <h1 class="text-4xl font-bold text-yellow-400">올본한의원 이용 안내글</h1>
-            <p class="text-gray-400 mt-2 text-lg">올본한의원</p>
-        </header>
-        
-        <main>
-            <section class="mb-10">
-                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">1. 올본한의원 한약은 얼마인가요? (패키지 가격 포함)</h2>
+    <div class="max-w-7xl w-full flex flex-row gap-8">
+
+        <nav class="w-60 hidden lg:block lg:sticky top-6 h-fit bg-[#1a1a1a] p-6 rounded-xl border border-yellow-600/50 gold-shadow">
+            <h2 class="text-xl font-bold text-yellow-400 mb-4 border-b border-yellow-600/30 pb-2">올본한의원 이용 가격 안내</h2>
+            <ul class="space-y-3">
+                <li>
+                    <a href="#section-1" class="text-gray-300 hover:text-yellow-300 transition-colors">1. 직접 달이는 한약 패키지</a>
+                </li>
+                <li>
+                    <a href="#section-2" class="text-gray-300 hover:text-yellow-300 transition-colors">2. 복분자쌍화탕·부기탕</a>
+                </li>
+                <li>
+                    <a href="#section-3" class="text-gray-300 hover:text-yellow-300 transition-colors">3. 우황청심원(환 및 액상)</a>
+                </li>
+                <li>
+                    <a href="#section-4" class="text-gray-300 hover:text-yellow-300 transition-colors">4. 감기한약</a>
+                </li>
+                <li>
+                    <a href="#section-5" class="text-gray-300 hover:text-yellow-300 transition-colors">5. 교감신경 항진</a>
+                </li>
+                <li>
+                    <a href="#section-6" class="text-gray-300 hover:text-yellow-300 transition-colors">6. 숙취한약</a>
+                </li>
+                <li>
+                    <a href="#section-7" class="text-gray-300 hover:text-yellow-300 transition-colors">7. 올본 약침 패키지(초음파 중재)</a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <div class="flex-1 max-w-3xl w-full bg-[#1a1a1a] p-8 sm:p-12 rounded-xl border border-yellow-600/50 gold-shadow">
+            
+            <header class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-yellow-400">올본한의원 가격 안내</h1>
+                <p class="text-gray-400 mt-2 text-lg">올본한의원</p>
+            </header>
+            
+            <main>
+                <section id="section-1" class="mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">1. 올본한의원 한약은 얼마인가요? (패키지 가격 포함)</h2>
+                    
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">한약 패키지</th>
+                                    <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">1개월(60팩)</th>
+                                    <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">2개월(120팩)</th>
+                                    <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">3개월(180팩)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">치료한약</td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <span class="text-lg">500,000</span><br>
+                                        <span class="text-sm text-gray-400">(8,333)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">1,000,000</del>
+                                        <span class="text-xs text-gray-500"> (-100,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">900,000</span><br>
+                                        <span class="text-sm text-gray-400">(7,500)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">1,500,000</del>
+                                        <span class="text-xs text-gray-500"> (-300,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,200,000</span><br>
+                                        <span class="text-sm text-gray-400">(6,667)</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">녹용한약</td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <span class="text-lg">800,000</span><br>
+                                        <span class="text-sm text-gray-400">(13,333)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">1,600,000</del>
+                                        <span class="text-xs text-gray-500"> (-160,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,440,000</span><br>
+                                        <span class="text-sm text-gray-400">(12,000)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">2,400,000</del>
+                                        <span class="text-xs text-gray-500"> (-480,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,920,000</span><br>
+                                        <span class="text-sm text-gray-400">(10,667)</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">
+                                        임신준비·산후한약
+                                        <br><span class="text-sm text-gray-400 font-normal">(치료한약 10% 할인)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <span class="text-lg">450,000</span><br>
+                                        <span class="text-sm text-gray-400">(7,500)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">900,000</del>
+                                        <span class="text-xs text-gray-500"> (-90,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">810,000</span><br>
+                                        <span class="text-sm text-gray-400">(6,750)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">1,350,000</del>
+                                        <span class="text-xs text-gray-500"> (-270,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,080,000</span><br>
+                                        <span class="text-sm text-gray-400">(6,000)</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">
+                                        임신준비·산후녹용한약
+                                        <br><span class="text-sm text-gray-400 font-normal">(녹용한약 10% 할인)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <span class="text-lg">720,000</span><br>
+                                        <span class="text-sm text-gray-400">(12,000)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">1,440,000</del>
+                                        <span class="text-xs text-gray-500"> (-144,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,296,000</span><br>
+                                        <span class="text-sm text-gray-400">(10,800)</span>
+                                    </td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">2,160,000</del>
+                                        <span class="text-xs text-gray-500"> (-432,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,728,000</span><br>
+                                        <span class="text-sm text-gray-400">(9,600)</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-base sm:text-lg leading-relaxed text-gray-200 mt-6">
+                        <strong class="text-yellow-300">※ 임신준비·산후조리 한약 :</strong> 임신과 출산의 기쁨은 더하고 부담은 나누는, 올본한의원의 응원입니다.
+                    </p>
+
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-8 mb-4">이어서 패키지</h3>
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">한약 패키지</th>
+                                    <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">1개월(-10%)</th>
+                                    <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">2개월(-20%)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">치료한약 (이어서)</td>
+                                    <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">450,000</span></td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">900,000</del>
+                                        <span class="text-xs text-gray-500"> (-100,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">800,000</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">녹용한약 (이어서)</td>
+                                    <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">720,000</span></td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">1,440,000</del>
+                                        <span class="text-xs text-gray-500"> (-160,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,280,000</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">임신준비·산후한약 (이어서)</td>
+                                    <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">405,000</span></td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">810,000</del>
+                                        <span class="text-xs text-gray-500"> (-90,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">720,000</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">임신준비·산후녹용한약 (이어서)</td>
+                                    <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">648,000</span></td>
+                                    <td class="p-3 text-right border-yellow-600/30">
+                                        <del class="text-sm text-gray-500">1,296,000</del>
+                                        <span class="text-xs text-gray-500"> (-144,000원)</span><br>
+                                        <span class="text-lg text-yellow-300">1,152,000</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-base sm:text-lg leading-relaxed text-gray-200 mt-6">
+                        <strong class="text-yellow-300">※ 이어서 패키지:</strong> 한약 1달 복용 후 이어서(복약 완료 후 7일 이내) 한약 처방을 받으실 때 드리는 혜택입니다.
+                    </p>
+
+                </section>
+
+                <section id="section-2" class="mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">2. 올본한의원 복분자쌍화탕, 부기탕 가격을 소개합니다.</h2>
+                    
+                    <p class="text-base sm:text-lg leading-relaxed text-gray-200 mb-6">
+                        복분자쌍화탕과 부기탕은 팩 수량에 따라 할인 혜택이 적용됩니다. 아래 표는 주요 수량의 가격 예시입니다.
+                    </p>
+
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30 mb-8">
+                        <table class="w-full min-w-max text-gray-200">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">수량 (팩)</th>
+                                    <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">팩당 단가</th>
+                                    <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">총 가격</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">1 팩</td>
+                                    <td class="p-3 text-right border-yellow-600/30">5,000 원</td>
+                                    <td class="p-3 text-right border-yellow-600/30">5,000 원</td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">5 팩</td>
+                                    <td class="p-3 text-right border-yellow-600/30">4,000 원</td>
+                                    <td class="p-3 text-right border-yellow-600/30">20,000 원</td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">15 팩</td>
+                                    <td class="p-3 text-right border-yellow-600/30">3,500 원</td>
+                                    <td class="p-3 text-right border-yellow-600/30">52,500 원</td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">30 팩</td>
+                                    <td class="p-3 text-right border-yellow-600/30">3,000 원</td>
+                                    <td class="p-3 text-right border-yellow-600/30">90,000 원</td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30">60 팩</td>
+                                    <td class="p-3 text-right border-yellow-600/30">2,500 원</td>
+                                    <td class="p-3 text-right border-yellow-600/30">150,000 원</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-8 mb-4">수량별 가격 계산</h3>
+                    <div class="bg-[#1f1f1f] p-6 rounded-lg border border-yellow-600/30 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+                        <div class="flex items-center space-x-4">
+                            <label for="quantitySelect" class="text-lg text-yellow-300 font-semibold">수량 선택:</label>
+                            <select id="quantitySelect" class="custom-select text-lg w-32">
+                                </select>
+                        </div>
+                        <div id="totalPriceDisplay" class="text-2xl font-bold text-yellow-400 text-right">
+                            총 5,000 원
+                        </div>
+                    </div>
+
+                </section>
+
+                <section id="section-3" class="mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">3. 올본 우황청심원(2종)</h2>
+                    
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-8 mb-4">우황청심원 현탁액 (액상)</h3>
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200 table-fixed">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30 w-32">항목</th>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">내용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">단위/소비자가</td>
+                                    <td class="p-3 border-yellow-600/30 text-lg">1병 당 <strong class="text-yellow-300">15,000원</strong></td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">효능</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        뇌졸중, 전신불수, 수족불수, 언어장애, 혼수, 정신혼미, 안면신경마비, 고혈압, 두근거림, 정신불안, 경풍, 자율신경실조증, 인사불성
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">약재 구성</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        <strong class="text-yellow-300">사향(5mg), 우황(14mg)</strong>, 감초, 육계, 작약, 황금, 방풍, 백출, 길경, 복령, 산약, 인삼, 포황, 신곡, 대두황권, 아교, 천궁, 맥문동, 백렴, 당귀, 시호, 행인, 용뇌, 영양각, 건강
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-10 mb-4">원방 우황청심원 수 (환)</h3>
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200 table-fixed">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30 w-32">항목</th>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">내용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">단위/소비자가</td>
+                                    <td class="p-3 border-yellow-600/30 text-lg">1환 당 <strong class="text-yellow-300">75,000원</strong></td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">효능</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        뇌졸중, 전신불수, 수족불수, 언어장애, 혼수, 정신혼미, 안면신경마비, 고혈압, 두근거림, 정신불안, 경풍, 자율신경실조증, 인사불성
+
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">적응증상</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed">
+                                        <strong class="text-yellow-300">(두근거림/정신불안)</strong><br>
+                                        사소한 일에도 가슴이 쿵쾅거리고 불안해서 잠 못 이룰 때
+                                        <br><br>
+                                        <strong class="text-yellow-300">(고혈압)</strong><br>
+                                        뒷목이 뻣뻣하고 얼굴로 열이 오르는 느낌이 자주 들 때
+                                        <br><br>
+                                        <strong class="text-yellow-300">(자율신경실조증)</strong><br>
+                                        감정과 몸의 열기가 오르락내리락, 내 몸이 내 것 같지 않을 때
+                                        <br><br>
+                                        <strong class="text-yellow-300">(경풍/인사불성)</strong><br>
+                                        너무 놀라거나 극심한 스트레스로 정신이 아찔해질 때
+                                        <br><br>
+                                        <strong class="text-yellow-300">(뇌졸중 전조증상)</strong><br>
+                                        갑작스러운 긴장과 혈압 상승으로 건강에 대한 걱정이 클 때
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">약재 구성</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        <strong class="text-yellow-300">우황(45mg), 사향(38mg)</strong>, 산약, 감초, 인삼, 포황, 신곡, 대두황권, 육계, 아교, 작약, 맥문동, 황금, 당귀, 방풍, 백출, 시호, 길경, 행인, 복령, 천궁, 용뇌, 백렴, 건강, 대추, 봉밀, 영양각
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+
+                <section id="section-4" class="mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">4. 올본 감기한약 (전문한의약품, 액상 시럽)</h2>
+                    
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-8 mb-4">콜드퀵S (쌍패탕)</h3>
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200 table-fixed">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30 w-32">항목</th>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">내용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">단위/소비자가</td>
+                                    <td class="p-3 border-yellow-600/30 text-lg">
+                                        1박스 6포 (2일분) / <strong class="text-yellow-300">15,000원</strong>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">주요증상</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        초기감기, 몸살감기
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">세부 증상</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        과로 후 감기, 전신 증상이 동반된 감기 초기
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-10 mb-4">콜드퀵E (은교산)</h3>
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200 table-fixed">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30 w-32">항목</th>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">내용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">단위/소비자가</td>
+                                    <td class="p-3 border-yellow-600/30 text-lg">
+                                        1박스 6포 (2일분) / <strong class="text-yellow-300">15,000원</strong>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">주요증상</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        인후염, 목감기
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">세부 증상</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        목이 붓고 아플 때, 미열, 기침이 많을 때
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+
+                <section id="section-5" class="mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">5. 올본 평심액 (교감신경 안정, 액상시럽)</h2>
+                    
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-8 mb-4">올본 평심액 (천왕보심단 액상시럽 한약)</h3>
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200 table-fixed">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30 w-32">항목</th>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">내용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">단위/소비자가</td>
+                                    <td class="p-3 border-yellow-600/30 text-lg">
+                                        1박스 10포 / <strong class="text-yellow-300">18,000원</strong>
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">효능</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        불안, 초조, 긴장, 불면 등의 증상을 완화하고 마음을 안정시키는 데 도움을 주는 한약
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">적응 증상</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        스트레스가 많은 수험생이나 취업 준비생, 심신이 피로한 사람들에게 주로 사용
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+
+                <section id="section-6" class="mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">6. 올본 신선불취환 (숙취해소제, 환제)</h2>
+                    
+                    <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-8 mb-4">올본 신선불취환 (환제)</h3>
+                    <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
+                        <table class="w-full min-w-max text-gray-200 table-fixed">
+                            <thead class="bg-yellow-600/10">
+                                <tr>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30 w-32">항목</th>
+                                    <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">내용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">단위/소비자가</td>
+                                    <td class="p-3 border-yellow-600/30 text-lg leading-relaxed">
+                                        3포 / <strong class="text-yellow-300">5,000원</strong><br>
+                                        1박스 30포 / <strong class="text-yellow-300">45,000원</strong> (-10%)
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">효능</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        숙취 예방, 숙취 해소, 숙취로 인한 식욕 저하, 속쓰림, 구역감, 두통, 어지럼 증상 완화
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1f1f1f]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">구성 약재</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        갈화, 갈근, 백복령, 적소두, 목향, 천문동, 사인, 목단피, 인삼, 육계, 구기자, 진피, 택사 등
+                                    </td>
+                                </tr>
+                                <tr class="bg-[#1a1a1a]">
+                                    <td class="p-3 font-semibold border-yellow-600/30 align-top">복용 방법</td>
+                                    <td class="p-3 border-yellow-600/30 leading-relaxed break-all">
+                                        음주 전 1포, 음주 후 1포, 다음 날 숙취가 심한 경우 1포 이상 복용
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+
+	<section id="section-7" class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">7. 올본한의원 약침</h2>
                 
                 <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
                     <table class="w-full min-w-max text-gray-200">
                         <thead class="bg-yellow-600/10">
                             <tr>
-                                <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">한약 패키지</th>
-                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">1개월(60팩)</th>
-                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">2개월(120팩)</th>
-                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">3개월(180팩)</th>
+                                <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">약침 패키지</th>
+                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">1 vial</th>
+                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">10 vials</th>
+                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">20 vials</th>
+                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">30 vials</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="bg-[#1f1f1f]">
-                                <td class="p-3 font-semibold border-yellow-600/30">치료한약</td>
+                                <td class="p-3 font-semibold border-yellow-600/30">태반약침</td>
                                 <td class="p-3 text-right border-yellow-600/30">
-                                    <span class="text-lg">500,000</span><br>
-                                    <span class="text-sm text-gray-400">(8,333)</span>
+                                    <span class="text-lg">30,000</span><br>
+                                    <span class="text-sm text-gray-400">(30,000)</span>
                                 </td>
                                 <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">1,000,000</del>
-                                    <span class="text-xs text-gray-500"> (-100,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">900,000</span><br>
-                                    <span class="text-sm text-gray-400">(7,500)</span>
+                                    <del class="text-sm text-gray-500">300,000</del>
+                                    <span class="text-xs text-gray-500"> (-30,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">270,000</span><br>
+                                    <span class="text-sm text-gray-400">(27,000)</span>
                                 </td>
                                 <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">1,500,000</del>
-                                    <span class="text-xs text-gray-500"> (-300,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,200,000</span><br>
-                                    <span class="text-sm text-gray-400">(6,667)</span>
-                                </td>
-                            </tr>
-                            <tr class="bg-[#1a1a1a]">
-                                <td class="p-3 font-semibold border-yellow-600/30">녹용한약</td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <span class="text-lg">800,000</span><br>
-                                    <span class="text-sm text-gray-400">(13,333)</span>
-                                </td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">1,600,000</del>
-                                    <span class="text-xs text-gray-500"> (-160,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,440,000</span><br>
-                                    <span class="text-sm text-gray-400">(12,000)</span>
-                                </td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">2,400,000</del>
-                                    <span class="text-xs text-gray-500"> (-480,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,920,000</span><br>
-                                    <span class="text-sm text-gray-400">(10,667)</span>
-                                </td>
-                            </tr>
-                            <tr class="bg-[#1f1f1f]">
-                                <td class="p-3 font-semibold border-yellow-600/30">
-                                    임신준비·산후한약
-                                    <br><span class="text-sm text-gray-400 font-normal">(치료한약 10% 할인)</span>
-                                </td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <span class="text-lg">450,000</span><br>
-                                    <span class="text-sm text-gray-400">(7,500)</span>
+                                    <del class="text-sm text-gray-500">600,000</del>
+                                    <span class="text-xs text-gray-500"> (-120,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">480,000</span><br>
+                                    <span class="text-sm text-gray-400">(24,000)</span>
                                 </td>
                                 <td class="p-3 text-right border-yellow-600/30">
                                     <del class="text-sm text-gray-500">900,000</del>
-                                    <span class="text-xs text-gray-500"> (-90,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">810,000</span><br>
-                                    <span class="text-sm text-gray-400">(6,750)</span>
-                                </td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">1,350,000</del>
                                     <span class="text-xs text-gray-500"> (-270,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,080,000</span><br>
-                                    <span class="text-sm text-gray-400">(6,000)</span>
+                                    <span class="text-lg text-yellow-300">630,000</span><br>
+                                    <span class="text-sm text-gray-400">(21,000)</span>
                                 </td>
                             </tr>
                             <tr class="bg-[#1a1a1a]">
-                                <td class="p-3 font-semibold border-yellow-600/30">
-                                    임신준비·산후녹용한약
-                                    <br><span class="text-sm text-gray-400 font-normal">(녹용한약 10% 할인)</span>
+                                <td class="p-3 font-semibold border-yellow-600/30">무통약침</td>
+                                <td class="p-3 text-right border-yellow-600/30">
+                                    <span class="text-lg">20,000</span><br>
+                                    <span class="text-sm text-gray-400">(20,000)</span>
                                 </td>
                                 <td class="p-3 text-right border-yellow-600/30">
-                                    <span class="text-lg">720,000</span><br>
-                                    <span class="text-sm text-gray-400">(12,000)</span>
+                                    <del class="text-sm text-gray-500">200,000</del>
+                                    <span class="text-xs text-gray-500"> (-20,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">180,000</span><br>
+                                    <span class="text-sm text-gray-400">(18,000)</span>
                                 </td>
                                 <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">1,440,000</del>
-                                    <span class="text-xs text-gray-500"> (-144,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,296,000</span><br>
-                                    <span class="text-sm text-gray-400">(10,800)</span>
+                                    <del class="text-sm text-gray-500">400,000</del>
+                                    <span class="text-xs text-gray-500"> (-80,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">320,000</span><br>
+                                    <span class="text-sm text-gray-400">(16,000)</span>
                                 </td>
                                 <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">2,160,000</del>
-                                    <span class="text-xs text-gray-500"> (-432,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,728,000</span><br>
-                                    <span class="text-sm text-gray-400">(9,600)</span>
+                                    <del class="text-sm text-gray-500">600,000</del>
+                                    <span class="text-xs text-gray-500"> (-180,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">420,000</span><br>
+                                    <span class="text-sm text-gray-400">(14,000)</span>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <p class="text-base sm:text-lg leading-relaxed text-gray-200 mt-6">
-                    <strong class="text-yellow-300">※ 임신준비:</strong> 한약 1달 복용 후 이어서(복약 완료 후 7일 이내) 한약 처방을 받으실 때 드리는 혜택입니다.
-                </p>
-
-
-
-                <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-8 mb-4">이어서 패키지</h3>
-                <div class="overflow-x-auto rounded-lg border border-yellow-600/30">
-                    <table class="w-full min-w-max text-gray-200">
-                        <thead class="bg-yellow-600/10">
-                            <tr>
-                                <th class="p-3 text-left font-semibold text-yellow-300 border-yellow-600/30">한약 패키지</th>
-                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">1개월</th>
-                                <th class="p-3 text-right font-semibold text-yellow-300 border-yellow-600/30">2개월</th>
-                            </tr>
-                        </thead>
-                        <tbody>
                             <tr class="bg-[#1f1f1f]">
-                                <td class="p-3 font-semibold border-yellow-600/30">치료한약 (이어서)</td>
-                                <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">450,000</span></td>
+                                <td class="p-3 font-semibold border-yellow-600/30">라인약침</td>
+                                <td class="p-3 text-right border-yellow-600/30">
+                                    <span class="text-lg">30,000</span><br>
+                                    <span class="text-sm text-gray-400">(30,000)</span>
+                                </td>
+                                <td class="p-3 text-right border-yellow-600/30">
+                                    <del class="text-sm text-gray-500">300,000</del>
+                                    <span class="text-xs text-gray-500"> (-30,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">270,000</span><br>
+                                    <span class="text-sm text-gray-400">(27,000)</span>
+                                </td>
+                                <td class="p-3 text-right border-yellow-600/30">
+                                    <del class="text-sm text-gray-500">600,000</del>
+                                    <span class="text-xs text-gray-500"> (-120,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">480,000</span><br>
+                                    <span class="text-sm text-gray-400">(24,000)</span>
+                                </td>
                                 <td class="p-3 text-right border-yellow-600/30">
                                     <del class="text-sm text-gray-500">900,000</del>
-                                    <span class="text-xs text-gray-500"> (-100,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">800,000</span>
-                                </td>
-                            </tr>
-                            <tr class="bg-[#1a1a1a]">
-                                <td class="p-3 font-semibold border-yellow-600/30">녹용한약 (이어서)</td>
-                                <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">720,000</span></td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">1,440,000</del>
-                                    <span class="text-xs text-gray-500"> (-160,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,280,000</span>
-                                </td>
-                            </tr>
-                            <tr class="bg-[#1f1f1f]">
-                                <td class="p-3 font-semibold border-yellow-600/30">임신준비·산후한약 (이어서)</td>
-                                <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">405,000</span></td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">810,000</del>
-                                    <span class="text-xs text-gray-500"> (-90,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">720,000</span>
-                                </td>
-                            </tr>
-                            <tr class="bg-[#1a1a1a]">
-                                <td class="p-3 font-semibold border-yellow-600/30">임신준비·산후녹용한약 (이어서)</td>
-                                <td class="p-3 text-right border-yellow-600/30"><span class="text-lg">648,000</span></td>
-                                <td class="p-3 text-right border-yellow-600/30">
-                                    <del class="text-sm text-gray-500">1,296,000</del>
-                                    <span class="text-xs text-gray-500"> (-144,000원)</span><br>
-                                    <span class="text-lg text-yellow-300">1,152,000</span>
+                                    <span class="text-xs text-gray-500"> (-270,000원)</span><br>
+                                    <span class="text-lg text-yellow-300">630,000</span><br>
+                                    <span class="text-sm text-gray-400">(21,000)</span>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <p class="text-base sm:text-lg leading-relaxed text-gray-200 mt-6">
-                    <strong class="text-yellow-300">※ 이어서 패키지:</strong> 한약 1달 복용 후 이어서(복약 완료 후 7일 이내) 한약 처방을 받으실 때 드리는 혜택입니다.
-                </p>
+                <h3 class="text-xl sm:text-2xl font-bold text-yellow-400 mt-10 mb-4">약침별 효능</h3>
+                <ul class="space-y-6 text-gray-200">
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">태반약침</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            갱년기 증상(안면홍조, 온도민감) 개선, 진통, 신경재생, 간기능개선, 피로회복, 미백 및 탈모 개선
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">무통약침</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            진통, 항염증, 신경재생, 조직 상처 회복
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="text-lg sm:text-xl font-semibold text-yellow-300 block mb-2">라인약침</strong>
+                        <p class="text-base sm:text-lg leading-relaxed">
+                            국소 지방분해, 지질 축적 억제, 항염증, 셀룰라이트 분해
+                        </p>
+                    </li>
+                </ul>
 
             </section>
 
-        </main>
-        
-        <footer class="text-center mt-12 pt-6 border-t border-yellow-600/30">
-            <p class="text-gray-400 text-base leading-relaxed">
-                언제나 환자분의 건강을 최우선으로 생각합니다.
-                <br>
-                궁금한 점이 있으시면 언제든 문의주시기 바랍니다.
-            </p>_
-            <p class="text-xl font-bold text-yellow-400 mt-6">
-                올본한의원 드림
-            </p>
-        </footer>
+            </main>
+            
+            <footer class="text-center mt-12 pt-6 border-t border-yellow-600/30">
+                <p class="text-gray-400 text-base leading-relaxed">
+                    언제나 환자분의 건강을 최우선으로 생각합니다.
+                    <br>
+                    궁금한 점이 있으시면 언제든 문의주시기 바랍니다.
+                </p>
+                <p class="text-xl font-bold text-yellow-400 mt-6">
+                    올본한의원 드림
+                </p>
+            </footer>
 
-    </div>
+        </div>
+    </div> <script>
+        // 가격 계산 로직 (기존과 동일)
+        function getPricePerPack(quantity) {
+            const q = parseInt(quantity, 10);
+            if (q === 1) {
+                return 5000;
+            } else if (q >= 2 && q <= 14) {
+                return 4000;
+            } else if (q >= 15 && q <= 29) {
+                return 3500;
+            } else if (q >= 30 && q <= 59) {
+                return 3000;
+            } else if (q >= 60) {
+                return 2500;
+            }
+            return 0; // 기본값
+        }
+
+        // 가격 업데이트 함수 (기존과 동일)
+        function updatePrice() {
+            const selectEl = document.getElementById('quantitySelect');
+            const displayEl = document.getElementById('totalPriceDisplay');
+            
+            const quantity = selectEl.value;
+            const pricePerPack = getPricePerPack(quantity);
+            const totalPrice = quantity * pricePerPack;
+            
+            displayEl.innerText = '총 ' + totalPrice.toLocaleString('ko-KR') + ' 원';
+        }
+
+        // 페이지 로드 시 드롭다운 채우기 및 이벤트 리스너 설정 (기존과 동일)
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectEl = document.getElementById('quantitySelect');
+            
+            // 1부터 60까지 옵션 추가
+            for (let i = 1; i <= 60; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = i + ' 팩';
+                selectEl.appendChild(option);
+            }
+            
+            // 드롭다운 변경 시 가격 업데이트
+            selectEl.addEventListener('change', updatePrice);
+            
+            // 초기 가격 설정 (1팩 기준)
+            updatePrice();
+        });
+    </script>
 
 </body>
 </html>
