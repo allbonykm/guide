@@ -404,25 +404,40 @@
                 window.speechSynthesis.onvoiceschanged = loadVoices;
             }, []);
 
-            const speak = (text) => {
+            const speak = useCallback((text) => {
                 window.speechSynthesis.cancel();
                 const u = new SpeechSynthesisUtterance(text);
-                u.lang = accent;
                 u.rate = 0.9;
 
-                // Explicitly find an English voice to prevent "Konglish"
-                // Priority: 1. Exact Match + Google, 2. Exact Match, 3. Language Match
-                const targetVoice = 
-                    voices.find(v => v.lang === accent && v.name.includes('Google')) ||
-                    voices.find(v => v.lang === accent && !v.name.includes('Google')) ||
-                    voices.find(v => v.lang.startsWith(accent.split('-')[0]));
+                // 모바일/브라우저별 호환성을 위해 언어 코드 매칭 로직 강화
+                // 1. 정확히 일치하는 것 (en-US vs en_US 등의 차이 무시)
+                let targetVoice = voices.find(v => v.lang.replace('_', '-') === accent);
+
+                // 2. 정확한 매칭이 없으면 'Google'이 포함된 고품질 목소리 우선 검색 (Android 등)
+                if (!targetVoice) {
+                    targetVoice = voices.find(v => v.lang.replace('_', '-') === accent && v.name.includes('Google'));
+                }
+
+                // 3. 그래도 없으면 지역 코드(US, GB, AU)가 포함된 것 검색
+                if (!targetVoice) {
+                    const region = accent.split('-')[1]; // US, GB, AU
+                    targetVoice = voices.find(v => v.lang.toUpperCase().includes(region));
+                }
+
+                // 4. 최후의 수단: 언어(en)가 같은 아무 목소리
+                if (!targetVoice) {
+                    targetVoice = voices.find(v => v.lang.startsWith(accent.split('-')[0]));
+                }
 
                 if (targetVoice) {
                     u.voice = targetVoice;
+                    u.lang = targetVoice.lang;
+                } else {
+                    u.lang = accent;
                 }
                 
                 window.speechSynthesis.speak(u);
-            };
+            }, [accent, voices]);
 
             const TABS = [
                 { id: 'story', label: 'Story', icon: 'Book' },
