@@ -35,7 +35,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useMemo } = React;
+        const { useState, useEffect, useMemo, useCallback } = React;
 
         // --- 아이콘 컴포넌트 ---
         const Icon = ({ name, size = 24, className = "" }) => {
@@ -118,12 +118,28 @@
             { en: "Real", desc: "가짜가 아니고 진짜인 것", ko: "진짜의", ex: "He tells the real Goldie." }
         ];
 
-        // 대규모 단어 풀 (랜덤 추출용)
+        // 대규모 단어 풀 (다양한 모음 및 발음기호 추가)
         const PHONICS_POOL = {
-            i_short: ["fish", "big", "fin", "is", "list", "sit", "hit", "win", "pig", "six", "pin", "kid"],
-            i_long: ["like", "nice", "time", "ice", "write", "five", "bike", "kite", "ride", "hide", "line", "smile"],
-            o_short: ["got", "mom", "lot", "not", "hot", "dog", "box", "fox", "top", "pot", "dot", "hop"],
-            o_long: ["go", "no", "home", "gold", "old", "rose", "bone", "note", "hole", "hope", "nose", "stone"]
+            a: [
+                { type: "Short 'a' /æ/", list: ["cat", "map", "hat", "dad", "fan"], color: "text-red-500", bg: "bg-red-50" },
+                { type: "Long 'a' /eɪ/", list: ["cake", "lake", "make", "rain", "play"], color: "text-rose-500", bg: "bg-rose-50" }
+            ],
+            e: [
+                { type: "Short 'e' /ɛ/", list: ["bed", "red", "hen", "ten", "pen"], color: "text-green-600", bg: "bg-green-50" },
+                { type: "Long 'e' /i:/", list: ["me", "we", "feet", "leaf", "tree"], color: "text-emerald-600", bg: "bg-emerald-50" }
+            ],
+            i: [
+                { type: "Short 'i' /ɪ/", list: ["fish", "big", "fin", "sit", "kid"], color: "text-sky-600", bg: "bg-sky-50" },
+                { type: "Long 'i' /aɪ/", list: ["like", "nice", "time", "kite", "bike"], color: "text-blue-600", bg: "bg-blue-50" }
+            ],
+            o: [
+                { type: "Short 'o' /ɒ/", list: ["got", "mom", "lot", "dog", "box"], color: "text-orange-600", bg: "bg-orange-50" },
+                { type: "Long 'o' /oʊ/", list: ["go", "no", "home", "gold", "rose"], color: "text-amber-600", bg: "bg-amber-50" }
+            ],
+            u: [
+                { type: "Short 'u' /ʌ/", list: ["bus", "cup", "run", "sun", "bug"], color: "text-purple-600", bg: "bg-purple-50" },
+                { type: "Long 'u' /ju:/", list: ["cute", "use", "tube", "mule", "cube"], color: "text-violet-600", bg: "bg-violet-50" }
+            ]
         };
 
         // --- 컴포넌트 ---
@@ -235,93 +251,91 @@
             );
         };
 
-        // 3. 파닉스 탭 (랜덤 기능 추가)
+        // 3. 파닉스 탭 (다양한 모음 랜덤 표시)
         const PhonicsTab = ({ speak }) => {
-            const [words, setWords] = useState(null);
+            const [selectedVowels, setSelectedVowels] = useState(null);
 
-            // 로딩 시마다 랜덤으로 5개씩 뽑는 함수
-            const getRandomWords = () => {
-                const pick = (arr) => [...arr].sort(() => 0.5 - Math.random()).slice(0, 5);
-                setWords({
-                    i: [
-                        { type: "Short 'i'", list: pick(PHONICS_POOL.i_short), color: "text-sky-600", bg: "bg-sky-50" },
-                        { type: "Long 'i'", list: pick(PHONICS_POOL.i_long), color: "text-purple-600", bg: "bg-purple-50" }
-                    ],
-                    o: [
-                        { type: "Short 'o'", list: pick(PHONICS_POOL.o_short), color: "text-orange-600", bg: "bg-orange-50" },
-                        { type: "Long 'o'", list: pick(PHONICS_POOL.o_long), color: "text-pink-600", bg: "bg-pink-50" }
-                    ]
+            // 로딩 시마다 랜덤으로 2개의 모음 세트를 뽑고, 내부 단어도 섞어서 5개 보여줌
+            const getRandomVowels = useCallback(() => {
+                const vowelKeys = Object.keys(PHONICS_POOL);
+                // 랜덤으로 키 2개 섞어서 뽑기 (예: 'a', 'u')
+                const pickedKeys = vowelKeys.sort(() => 0.5 - Math.random()).slice(0, 2);
+                
+                const result = pickedKeys.map(key => {
+                    const group = PHONICS_POOL[key];
+                    return group.map(subGroup => ({
+                        ...subGroup,
+                        // 단어도 랜덤으로 5개만 추림
+                        list: [...subGroup.list].sort(() => 0.5 - Math.random()).slice(0, 5)
+                    }));
                 });
-            };
-
-            useEffect(() => {
-                getRandomWords();
+                
+                // 결과: [[Short A, Long A], [Short U, Long U]] 구조
+                setSelectedVowels({ keys: pickedKeys, data: result });
             }, []);
 
-            if (!words) return null;
+            useEffect(() => {
+                getRandomVowels();
+            }, [getRandomVowels]);
+
+            if (!selectedVowels) return null;
 
             return (
                 <div className="pb-20 animate-fade-in space-y-8">
                     <div className="flex justify-between items-end mb-2">
                         <div>
                             <h2 className="text-xl font-bold text-slate-700 korean-font">소리 비교하기</h2>
-                            <p className="text-sm text-slate-500 korean-font">철자는 같지만 소리가 달라요</p>
+                            <p className="text-sm text-slate-500 korean-font">알파벳 모음의 다양한 소리</p>
                         </div>
-                        <button onClick={getRandomWords} className="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded hover:bg-slate-300 transition flex gap-1 items-center">
-                            <Icon name="Refresh" size={12} /> New Words
+                        <button onClick={getRandomVowels} className="text-xs bg-slate-200 text-slate-600 px-3 py-2 rounded-lg hover:bg-slate-300 transition flex gap-1 items-center font-bold">
+                            <Icon name="Refresh" size={12} /> New Vowels
                         </button>
                     </div>
 
-                    {/* I Sound */}
-                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-sky-100">
-                        <div className="w-12 h-12 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-4 shadow-md mx-auto">Ii</div>
-                        <div className="space-y-4">
-                            {words.i.map((group, idx) => (
-                                <div key={idx} className={`${group.bg} p-4 rounded-xl`}>
-                                    <h3 className={`font-bold ${group.color} text-sm mb-3 uppercase tracking-wider`}>{group.type}</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {group.list.map(w => (
-                                            <button key={w} onClick={() => speak(w)} className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-1 items-center shadow-sm">
-                                                <Icon name="Vol" size={14} className="text-slate-400" /> {w}
-                                            </button>
-                                        ))}
+                    {selectedVowels.keys.map((key, idx) => (
+                        <div key={key} className="bg-white p-5 rounded-2xl shadow-sm border border-sky-100">
+                            <div className="w-12 h-12 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-4 shadow-md mx-auto uppercase">
+                                {key}{key}
+                            </div>
+                            <div className="space-y-4">
+                                {selectedVowels.data[idx].map((group, gIdx) => (
+                                    <div key={gIdx} className={`${group.bg} p-4 rounded-xl`}>
+                                        <h3 className={`font-bold ${group.color} text-sm mb-3 uppercase tracking-wider`}>{group.type}</h3>
+                                        <div className="flex flex-wrap gap-2">
+                                            {group.list.map(w => (
+                                                <button key={w} onClick={() => speak(w)} className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-1 items-center shadow-sm">
+                                                    <Icon name="Vol" size={14} className="text-slate-400" /> {w}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
-                    </div>
-
-                    {/* O Sound */}
-                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-sky-100">
-                        <div className="w-12 h-12 bg-orange-400 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-4 shadow-md mx-auto">Oo</div>
-                        <div className="space-y-4">
-                            {words.o.map((group, idx) => (
-                                <div key={idx} className={`${group.bg} p-4 rounded-xl`}>
-                                    <h3 className={`font-bold ${group.color} text-sm mb-3 uppercase tracking-wider`}>{group.type}</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {group.list.map(w => (
-                                            <button key={w} onClick={() => speak(w)} className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-1 items-center shadow-sm">
-                                                <Icon name="Vol" size={14} className="text-slate-400" /> {w}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    ))}
                 </div>
             );
         };
 
-        // 4. 단어 카드 탭 (고양이 테마 + 하늘색)
+        // 4. 단어 카드 탭 (랜덤 순서 + 고양이 테마)
         const CardTab = ({ speak }) => {
+            // 랜덤 순서를 위한 상태
+            const [shuffledCards, setShuffledCards] = useState([]);
             const [idx, setIdx] = useState(0);
             const [face, setFace] = useState(0); // 0:en, 1:hint, 2:ko
-            const card = WORD_DATA[idx];
 
+            // 컴포넌트 마운트 시 카드 섞기
+            useEffect(() => {
+                const shuffled = [...WORD_DATA].sort(() => Math.random() - 0.5);
+                setShuffledCards(shuffled);
+            }, []);
+
+            if (shuffledCards.length === 0) return null;
+
+            const card = shuffledCards[idx];
             const flip = () => setFace((f) => (f + 1) % 3);
             const prev = (e) => { e.stopPropagation(); if(idx > 0) { setIdx(i => i-1); setFace(0); } };
-            const next = (e) => { e.stopPropagation(); if(idx < WORD_DATA.length - 1) { setIdx(i => i+1); setFace(0); } };
+            const next = (e) => { e.stopPropagation(); if(idx < shuffledCards.length - 1) { setIdx(i => i+1); setFace(0); } };
 
             return (
                 <div className="flex flex-col h-[calc(100vh-140px)] justify-center animate-fade-in max-w-sm mx-auto">
@@ -382,8 +396,8 @@
                     {/* 컨트롤러 */}
                     <div className="flex items-center justify-between px-4">
                         <button onClick={prev} disabled={idx === 0} className="p-4 bg-white text-sky-500 rounded-full shadow-lg disabled:opacity-30 hover:bg-sky-50 transition active:scale-95"><Icon name="ArrowL" /></button>
-                        <span className="font-bold text-sky-900 font-fredoka text-lg">{idx + 1} / {WORD_DATA.length}</span>
-                        <button onClick={next} disabled={idx === WORD_DATA.length - 1} className="p-4 bg-sky-500 text-white rounded-full shadow-lg shadow-sky-200 disabled:opacity-30 hover:bg-sky-600 transition active:scale-95"><Icon name="ArrowR" /></button>
+                        <span className="font-bold text-sky-900 font-fredoka text-lg">{idx + 1} / {shuffledCards.length}</span>
+                        <button onClick={next} disabled={idx === shuffledCards.length - 1} className="p-4 bg-sky-500 text-white rounded-full shadow-lg shadow-sky-200 disabled:opacity-30 hover:bg-sky-600 transition active:scale-95"><Icon name="ArrowR" /></button>
                     </div>
                 </div>
             );
