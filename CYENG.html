@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pete's English Class</title>
+    
+    <!-- Google Fonts: 귀여운 한글/영어 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body { font-family: 'Fredoka', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .korean-font { font-family: 'Jua', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .animate-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pop { 0% { transform: scale(0.9); } 100% { transform: scale(1); } }
+
+        /* 커스텀 스크롤바 숨김 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-sky-50 text-slate-800 min-h-screen">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // --- 아이콘 컴포넌트 ---
+        const Icon = ({ name, size = 24, className = "" }) => {
+            const icons = {
+                Book: <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />,
+                Quiz: <g><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></g>,
+                Mic: <g><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></g>,
+                Card: <g><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></g>,
+                Vol: <g><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></g>,
+                Refresh: <g><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></g>,
+                ArrowR: <g><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></g>,
+                ArrowL: <g><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></g>
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name]}
+                </svg>
+            );
+        };
+
+        // --- 데이터 ---
+        const STORY_DATA = [
+            { en: "Pete is going to the pet store.", ko: "피트가 애완동물 가게에 가고 있어요." },
+            { en: "He is going to get a pet.", ko: "그는 애완동물을 사려고 해요." },
+            { en: "Pete wants a bird, a hamster, or a lizard.", ko: "피트는 새나 햄스터, 아니면 도마뱀을 원해요." },
+            { en: "But then Pete sees a goldfish.", ko: "하지만 그때 피트는 금붕어를 보았어요." },
+            { en: "\"That's what I want,\" he tells his mom.", ko: "\"저게 제가 원하는 거예요,\" 그가 엄마에게 말해요." },
+            { en: "Pete's mom gets fish food.", ko: "피트의 엄마는 물고기 먹이를 사요." },
+            { en: "\"I'm going to call you Goldie,” Pete says to his new pet.", ko: "\"널 골디라고 부를 거야,\" 피트가 새 애완동물에게 말해요." },
+            { en: "\"You are my first pet,\" Pete tells Goldie on the way home.", ko: "\"넌 내 첫 번째 애완동물이야,\" 피트가 집에 가는 길에 골디에게 말해요." },
+            { en: "Pete takes Goldie to his room.", ko: "피트는 골디를 방으로 데려가요." },
+            { en: "He feeds her fish food.", ko: "그는 그녀에게 물고기 밥을 줘요." },
+            { en: "\"Now what?\" asks Pete.", ko: "\"이제 뭐 하지?\" 피트가 물어요." },
+            { en: "He can't play with Goldie.", ko: "그는 골디랑 놀 수가 없어요." },
+            { en: "He can't swim with her.", ko: "그는 그녀와 수영할 수도 없어요." },
+            { en: "Pete knows what he can do.", ko: "피트는 자기가 뭘 할 수 있는지 알아요." },
+            { en: "Pete paints a picture of Goldie.", ko: "피트는 골디의 그림을 그려요." },
+            { en: "He paints four fins and an orange tail.", ko: "그는 네 개의 지느러미와 주황색 꼬리를 그려요." },
+            { en: "\"What a pretty painting,“ says Pete's mom.", ko: "\"정말 예쁜 그림이구나,\" 피트의 엄마가 말해요." },
+            { en: "\"You can keep it,\" says Pete.", ko: "\"엄마 가지세요,\" 피트가 말해요." },
+            { en: "\"Cool painting!\" says Bob.", ko: "\"멋진 그림인데!\" 밥이 말해요." },
+            { en: "\"Can you make one for me?\"", ko: "\"나한테도 하나 그려줄 수 있어?\"" },
+            { en: "\"Sure,\" says Pete.", ko: "\"그럼,\" 피트가 말해요." },
+            { en: "Pete paints a picture for Bob.", ko: "피트는 밥을 위해 그림을 그려요." },
+            { en: "\"Wow!\" says Bob.", ko: "\"우와!\" 밥이 말해요." },
+            { en: "\"It looks just like Goldie.\"", ko: "\"골디랑 똑같이 생겼네.\"" },
+            { en: "Now everyone in Pete's class wants a painting of Goldie!", ko: "이제 피트네 반 친구들 모두가 골디 그림을 원해요!" },
+            { en: "Pete has a lot to do.", ko: "피트는 할 일이 많아졌어요." },
+            { en: "He makes paintings for everyone on his list.", ko: "그는 목록에 있는 모두를 위해 그림을 그려요." },
+            { en: "At last Pete is done!", ko: "드디어 피트가 다 했어요!" },
+            { en: "There is no paint left.", ko: "물감이 하나도 안 남았어요." },
+            { en: "But Pete is not done.", ko: "하지만 피트는 끝난 게 아니에요." },
+            { en: "Now everyone in town wants a painting of Goldie!", ko: "이제 마을 사람들 모두가 골디 그림을 원해요!" },
+            { en: "Pete's mom has an idea!", ko: "피트의 엄마에게 좋은 생각이 났어요!" },
+            { en: "Pete works outside and makes a huge painting.", ko: "피트는 밖에서 아주 거대한 그림을 만들어요." },
+            { en: "He has made one painting of Goldie for everyone in town to enjoy!", ko: "그는 마을 사람 모두가 즐길 수 있는 골디 그림 하나를 만들었어요!" }
+        ];
+
+        const QUIZ_DATA = [
+            { q: "Where is Pete going?", options: ["To school", "To the pet store", "To the park", "To the library"], a: 1 },
+            { q: "Which animal did Pete NOT want at first?", options: ["A bird", "A hamster", "A lizard", "A dog"], a: 3 },
+            { q: "Which pet does Pete get in the end?", options: ["A goldfish", "A turtle", "A cat", "A parrot"], a: 0 },
+            { q: "What does Pete name his pet?", options: ["Fishy", "Goldie", "Shiny", "Orange"], a: 1 },
+            { q: "What can't Pete do with Goldie?", options: ["Feed her", "Talk to her", "Play or swim with her", "Look at her"], a: 2 },
+            { q: "What does Pete do for Goldie?", options: ["He sings a song", "He paints a picture", "He dances", "He takes her for a walk"], a: 1 },
+            { q: "What does Bob say about Pete's painting?", options: ["Strange!", "Scary!", "Cool painting!", "Small!"], a: 2 },
+            { q: "What happens after Pete shows the picture at school?", options: ["No one cares", "Everyone wants a painting", "The teacher takes it", "Pete stops painting"], a: 1 },
+            { q: "What does Pete do when he runs out of paint?", options: ["Buys more paint", "Stops painting", "Paints one huge painting outside", "Takes a photo"], a: 2 },
+            { q: "What is Pete good at in this story?", options: ["Swimming", "Running", "Painting", "Cooking"], a: 2 }
+        ];
+
+        const WORD_DATA = [
+            { en: "New", desc: "방금 막 생겨난 것", ko: "새로운", ex: "Pete says to his new pet." },
+            { en: "First", desc: "순서가 가장 앞인 것", ko: "첫 번째의", ex: "You are my first pet." },
+            { en: "Orange", desc: "귤이나 오렌지 같은 색깔", ko: "주황색의", ex: "He paints an orange tail." },
+            { en: "Pretty", desc: "보기에 아름답고 고운 것", ko: "예쁜", ex: "What a pretty painting!" },
+            { en: "Cool", desc: "아주 멋있거나 시원한 것", ko: "멋진", ex: "Cool painting! says Bob." },
+            { en: "Cute", desc: "작고 사랑스러운 것", ko: "귀여운", ex: "Cute fish!" },
+            { en: "Huge", desc: "몸집이 아주아주 큰 것", ko: "거대한", ex: "He makes a huge painting." },
+            { en: "Real", desc: "가짜가 아니고 진짜인 것", ko: "진짜의", ex: "He tells the real Goldie." }
+        ];
+
+        // 대규모 단어 풀 (랜덤 추출용)
+        const PHONICS_POOL = {
+            i_short: ["fish", "big", "fin", "is", "list", "sit", "hit", "win", "pig", "six", "pin", "kid"],
+            i_long: ["like", "nice", "time", "ice", "write", "five", "bike", "kite", "ride", "hide", "line", "smile"],
+            o_short: ["got", "mom", "lot", "not", "hot", "dog", "box", "fox", "top", "pot", "dot", "hop"],
+            o_long: ["go", "no", "home", "gold", "old", "rose", "bone", "note", "hole", "hope", "nose", "stone"]
+        };
+
+        // --- 컴포넌트 ---
+
+        // 1. 스토리 탭
+        const StoryTab = ({ accent, speak }) => {
+            return (
+                <div className="space-y-4 pb-20 animate-fade-in">
+                    <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm border border-sky-100">
+                        <div>
+                            <h2 className="text-xl font-bold text-sky-600 font-fredoka">A Pet for Pete</h2>
+                            <p className="text-xs text-slate-400">문장을 눌러 들어보세요</p>
+                        </div>
+                        <button onClick={() => speak(STORY_DATA.map(s => s.en).join(' '))} 
+                            className="bg-orange-400 hover:bg-orange-500 text-white p-3 rounded-full shadow-md active:scale-95 transition">
+                            <Icon name="Vol" />
+                        </button>
+                    </div>
+                    {STORY_DATA.map((item, idx) => (
+                        <div key={idx} onClick={() => speak(item.en)} 
+                             className="p-4 bg-white rounded-xl border border-transparent hover:border-sky-300 hover:shadow-md cursor-pointer transition active:bg-sky-50">
+                            <p className="text-lg font-medium text-slate-800 mb-2 leading-relaxed font-fredoka">{item.en}</p>
+                            <p className="text-slate-500 text-sm korean-font">{item.ko}</p>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        // 2. 퀴즈 탭
+        const QuizTab = () => {
+            const [current, setCurrent] = useState(0);
+            const [score, setScore] = useState(0);
+            const [selected, setSelected] = useState(null);
+            const [finished, setFinished] = useState(false);
+
+            const handleSelect = (idx) => {
+                if (selected !== null) return;
+                setSelected(idx);
+                if (idx === QUIZ_DATA[current].a) setScore(s => s + 1);
+            };
+
+            const next = () => {
+                if (current < QUIZ_DATA.length - 1) {
+                    setCurrent(c => c + 1);
+                    setSelected(null);
+                } else {
+                    setFinished(true);
+                }
+            };
+
+            const retry = () => {
+                setCurrent(0);
+                setScore(0);
+                setSelected(null);
+                setFinished(false);
+            };
+
+            if (finished) return (
+                <div className="flex flex-col items-center justify-center h-[60vh] animate-pop text-center">
+                    <h2 className="text-3xl font-bold text-slate-800 mb-4 font-fredoka">Quiz Complete!</h2>
+                    <div className="text-8xl mb-6">🏆</div>
+                    <p className="text-xl text-slate-600 mb-8 font-fredoka">
+                        You scored <span className="text-sky-600 font-bold text-3xl">{score}</span> / 10
+                    </p>
+                    <button onClick={retry} className="bg-sky-500 text-white px-8 py-3 rounded-full font-bold shadow-lg active:scale-95 transition flex items-center gap-2">
+                        <Icon name="Refresh" /> Try Again
+                    </button>
+                </div>
+            );
+
+            const q = QUIZ_DATA[current];
+
+            return (
+                <div className="pb-20 animate-fade-in max-w-xl mx-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <span className="text-xs font-bold text-sky-600 bg-sky-100 px-3 py-1 rounded-full">Question {current + 1} / 10</span>
+                        <span className="text-xs font-bold text-slate-400">Score: {score}</span>
+                    </div>
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-sky-100 mb-6">
+                        <h3 className="text-xl font-bold text-slate-800 leading-relaxed font-fredoka">{q.q}</h3>
+                    </div>
+                    <div className="grid gap-3">
+                        {q.options.map((opt, idx) => {
+                            let style = "bg-white border-2 border-slate-100 text-slate-600 hover:border-sky-200";
+                            let icon = null;
+                            if (selected !== null) {
+                                if (idx === q.a) { style = "bg-green-50 border-green-400 text-green-700 font-bold"; icon = "⭕"; }
+                                else if (idx === selected) { style = "bg-red-50 border-red-300 text-red-700"; icon = "❌"; }
+                                else { style = "opacity-50 border-slate-100"; }
+                            }
+                            return (
+                                <button key={idx} onClick={() => handleSelect(idx)} disabled={selected !== null}
+                                    className={`p-4 rounded-xl text-left font-fredoka transition-all flex justify-between items-center ${style}`}>
+                                    <span>{opt}</span>
+                                    {icon && <span>{icon}</span>}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <div className="h-16 flex justify-end items-center mt-4">
+                        {selected !== null && (
+                            <button onClick={next} className="bg-sky-500 text-white px-6 py-3 rounded-xl font-bold shadow-md active:scale-95 transition flex items-center gap-2 animate-pop">
+                                {current === QUIZ_DATA.length - 1 ? "See Result" : "Next"} <Icon name="ArrowR" />
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        // 3. 파닉스 탭 (랜덤 기능 추가)
+        const PhonicsTab = ({ speak }) => {
+            const [words, setWords] = useState(null);
+
+            // 로딩 시마다 랜덤으로 5개씩 뽑는 함수
+            const getRandomWords = () => {
+                const pick = (arr) => [...arr].sort(() => 0.5 - Math.random()).slice(0, 5);
+                setWords({
+                    i: [
+                        { type: "Short 'i'", list: pick(PHONICS_POOL.i_short), color: "text-sky-600", bg: "bg-sky-50" },
+                        { type: "Long 'i'", list: pick(PHONICS_POOL.i_long), color: "text-purple-600", bg: "bg-purple-50" }
+                    ],
+                    o: [
+                        { type: "Short 'o'", list: pick(PHONICS_POOL.o_short), color: "text-orange-600", bg: "bg-orange-50" },
+                        { type: "Long 'o'", list: pick(PHONICS_POOL.o_long), color: "text-pink-600", bg: "bg-pink-50" }
+                    ]
+                });
+            };
+
+            useEffect(() => {
+                getRandomWords();
+            }, []);
+
+            if (!words) return null;
+
+            return (
+                <div className="pb-20 animate-fade-in space-y-8">
+                    <div className="flex justify-between items-end mb-2">
+                        <div>
+                            <h2 className="text-xl font-bold text-slate-700 korean-font">소리 비교하기</h2>
+                            <p className="text-sm text-slate-500 korean-font">철자는 같지만 소리가 달라요</p>
+                        </div>
+                        <button onClick={getRandomWords} className="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded hover:bg-slate-300 transition flex gap-1 items-center">
+                            <Icon name="Refresh" size={12} /> New Words
+                        </button>
+                    </div>
+
+                    {/* I Sound */}
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-sky-100">
+                        <div className="w-12 h-12 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-4 shadow-md mx-auto">Ii</div>
+                        <div className="space-y-4">
+                            {words.i.map((group, idx) => (
+                                <div key={idx} className={`${group.bg} p-4 rounded-xl`}>
+                                    <h3 className={`font-bold ${group.color} text-sm mb-3 uppercase tracking-wider`}>{group.type}</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {group.list.map(w => (
+                                            <button key={w} onClick={() => speak(w)} className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-1 items-center shadow-sm">
+                                                <Icon name="Vol" size={14} className="text-slate-400" /> {w}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* O Sound */}
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-sky-100">
+                        <div className="w-12 h-12 bg-orange-400 text-white rounded-full flex items-center justify-center font-bold text-2xl mb-4 shadow-md mx-auto">Oo</div>
+                        <div className="space-y-4">
+                            {words.o.map((group, idx) => (
+                                <div key={idx} className={`${group.bg} p-4 rounded-xl`}>
+                                    <h3 className={`font-bold ${group.color} text-sm mb-3 uppercase tracking-wider`}>{group.type}</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {group.list.map(w => (
+                                            <button key={w} onClick={() => speak(w)} className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-1 items-center shadow-sm">
+                                                <Icon name="Vol" size={14} className="text-slate-400" /> {w}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 4. 단어 카드 탭 (고양이 테마 + 하늘색)
+        const CardTab = ({ speak }) => {
+            const [idx, setIdx] = useState(0);
+            const [face, setFace] = useState(0); // 0:en, 1:hint, 2:ko
+            const card = WORD_DATA[idx];
+
+            const flip = () => setFace((f) => (f + 1) % 3);
+            const prev = (e) => { e.stopPropagation(); if(idx > 0) { setIdx(i => i-1); setFace(0); } };
+            const next = (e) => { e.stopPropagation(); if(idx < WORD_DATA.length - 1) { setIdx(i => i+1); setFace(0); } };
+
+            return (
+                <div className="flex flex-col h-[calc(100vh-140px)] justify-center animate-fade-in max-w-sm mx-auto">
+                    
+                    {/* 카드 본체 */}
+                    <div onClick={flip} className="relative flex-1 bg-white rounded-[3rem] shadow-[0_20px_50px_rgba(14,165,233,0.2)] border-8 border-white cursor-pointer active:scale-[0.98] transition-transform overflow-hidden flex flex-col items-center justify-center text-center p-6 mb-8 group">
+                        
+                        {/* 고양이 배경 SVG */}
+                        <div className="absolute bottom-0 right-0 w-48 h-48 opacity-10 pointer-events-none transition-opacity group-hover:opacity-20">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="#0EA5E9" d="M40,160 Q30,60 100,60 Q170,60 160,160 Z" /> 
+                                <polygon points="45,70 30,20 80,60" fill="#0EA5E9"/>
+                                <polygon points="155,70 170,20 120,60" fill="#0EA5E9"/>
+                                <circle cx="75" cy="90" r="8" fill="#333"/>
+                                <circle cx="125" cy="90" r="8" fill="#333"/>
+                                <path d="M100,105 Q100,120 80,120 M100,105 Q100,120 120,120" stroke="#333" strokeWidth="3" fill="none"/>
+                            </svg>
+                        </div>
+
+                        {/* 단계 표시 점 */}
+                        <div className="absolute top-8 flex gap-2">
+                            {[0,1,2].map(i => <div key={i} className={`w-2 h-2 rounded-full transition-colors ${face === i ? 'bg-sky-500' : 'bg-slate-200'}`} />)}
+                        </div>
+
+                        {/* 듣기 버튼 */}
+                        <button onClick={(e) => {e.stopPropagation(); speak(card.en);}} className="absolute top-6 right-6 p-3 bg-sky-50 text-sky-500 rounded-full hover:bg-sky-100 transition z-10">
+                            <Icon name="Vol" />
+                        </button>
+
+                        {/* 내용 */}
+                        <div className="z-10 w-full animate-pop">
+                            {face === 0 && (
+                                <>
+                                    <h2 className="text-5xl font-bold text-sky-600 mb-4 font-fredoka tracking-tight">{card.en}</h2>
+                                    <p className="text-sky-300 font-bold text-sm uppercase tracking-widest">Tap for Hint</p>
+                                </>
+                            )}
+                            {face === 1 && (
+                                <>
+                                    <h2 className="text-3xl font-bold text-sky-600 mb-8 font-fredoka opacity-50">{card.en}</h2>
+                                    <div className="bg-orange-50 text-orange-500 p-4 rounded-xl font-bold text-xl korean-font border border-orange-100 shadow-sm">
+                                        "{card.desc}"
+                                    </div>
+                                </>
+                            )}
+                            {face === 2 && (
+                                <>
+                                    <h2 className="text-4xl font-bold text-pink-500 mb-2 korean-font">{card.ko}</h2>
+                                    <p className="text-slate-400 font-fredoka mb-6">{card.en}</p>
+                                    <div className="bg-slate-50 text-slate-600 p-4 rounded-xl italic border border-slate-100">
+                                        "{card.ex}"
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* 컨트롤러 */}
+                    <div className="flex items-center justify-between px-4">
+                        <button onClick={prev} disabled={idx === 0} className="p-4 bg-white text-sky-500 rounded-full shadow-lg disabled:opacity-30 hover:bg-sky-50 transition active:scale-95"><Icon name="ArrowL" /></button>
+                        <span className="font-bold text-sky-900 font-fredoka text-lg">{idx + 1} / {WORD_DATA.length}</span>
+                        <button onClick={next} disabled={idx === WORD_DATA.length - 1} className="p-4 bg-sky-500 text-white rounded-full shadow-lg shadow-sky-200 disabled:opacity-30 hover:bg-sky-600 transition active:scale-95"><Icon name="ArrowR" /></button>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 메인 앱 ---
+        const App = () => {
+            const [tab, setTab] = useState('story');
+            const [accent, setAccent] = useState('en-US');
+
+            const speak = (text) => {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = accent;
+                u.rate = 0.9;
+                window.speechSynthesis.speak(u);
+            };
+
+            const TABS = [
+                { id: 'story', label: 'Story', icon: 'Book' },
+                { id: 'quiz', label: 'Quiz', icon: 'Quiz' },
+                { id: 'phonics', label: 'Phonics', icon: 'Mic' },
+                { id: 'cards', label: 'Cards', icon: 'Card' },
+            ];
+
+            return (
+                <div className="max-w-2xl mx-auto min-h-screen flex flex-col bg-sky-50">
+                    {/* 헤더 */}
+                    <div className="bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 py-3 shadow-sm border-b border-sky-100">
+                        <div className="flex justify-between items-center mb-3">
+                            <h1 className="text-2xl font-bold text-sky-500 flex items-center gap-2 font-fredoka">
+                                <Icon name="Book" /> Pete's Class
+                            </h1>
+                            <select value={accent} onChange={e => setAccent(e.target.value)} className="text-xs bg-slate-100 px-2 py-1 rounded-md font-bold text-slate-500 outline-none">
+                                <option value="en-US">🇺🇸 US</option>
+                                <option value="en-GB">🇬🇧 UK</option>
+                                <option value="en-AU">🇦🇺 AU</option>
+                            </select>
+                        </div>
+                        <div className="flex gap-1 bg-sky-100/50 p-1 rounded-xl overflow-x-auto hide-scrollbar">
+                            {TABS.map(t => (
+                                <button key={t.id} onClick={() => setTab(t.id)}
+                                    className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 text-xs font-bold transition-all whitespace-nowrap
+                                    ${tab === t.id ? 'bg-sky-500 text-white shadow-sm' : 'text-sky-600 hover:bg-sky-200/50'}`}>
+                                    <Icon name={t.icon} size={16} /> {t.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* 메인 컨텐츠 */}
+                    <div className="flex-1 p-4 overflow-y-auto">
+                        {tab === 'story' && <StoryTab accent={accent} speak={speak} />}
+                        {tab === 'quiz' && <QuizTab />}
+                        {tab === 'phonics' && <PhonicsTab speak={speak} />}
+                        {tab === 'cards' && <CardTab speak={speak} />}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
