@@ -392,12 +392,35 @@
         const App = () => {
             const [tab, setTab] = useState('story');
             const [accent, setAccent] = useState('en-US');
+            const [voices, setVoices] = useState([]);
+
+            // Load voices
+            useEffect(() => {
+                const loadVoices = () => {
+                    const available = window.speechSynthesis.getVoices();
+                    setVoices(available);
+                };
+                loadVoices();
+                window.speechSynthesis.onvoiceschanged = loadVoices;
+            }, []);
 
             const speak = (text) => {
                 window.speechSynthesis.cancel();
                 const u = new SpeechSynthesisUtterance(text);
                 u.lang = accent;
                 u.rate = 0.9;
+
+                // Explicitly find an English voice to prevent "Konglish"
+                // Priority: 1. Exact Match + Google, 2. Exact Match, 3. Language Match
+                const targetVoice = 
+                    voices.find(v => v.lang === accent && v.name.includes('Google')) ||
+                    voices.find(v => v.lang === accent && !v.name.includes('Google')) ||
+                    voices.find(v => v.lang.startsWith(accent.split('-')[0]));
+
+                if (targetVoice) {
+                    u.voice = targetVoice;
+                }
+                
                 window.speechSynthesis.speak(u);
             };
 
