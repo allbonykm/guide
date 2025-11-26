@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pete's English Class</title>
+    <title>Pete's English Class (Premium Voice)</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
@@ -30,13 +30,13 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useMemo, useCallback } = React;
+        const { useState, useEffect, useCallback } = React;
 
-        /* ==================================================================================
-           ▼▼▼ [여기서부터 데이터를 바꿔주세요] - 새로운 책을 넣을 때 이 아래 내용을 교체하세요 ▼▼▼
-           ================================================================================== */
+        // ⚠️ [중요] 여기에 구글 클라우드에서 발급받은 API 키를 넣으세요.
+        // GitHub Pages 등 웹사이트 설정에서 'HTTP 리퍼러 제한'을 반드시 걸어야 안전합니다.
+        const GOOGLE_API_KEY = "AIzaSyByK5uSOG_fCAsFDtY6vDQLdC1VGc2-wMc"; 
 
-        // 1. 이야기 데이터 (한 문장씩)
+        // --- 데이터 ---
         const STORY_DATA = [
             { en: "Pete is going to the pet store.", ko: "피트가 애완동물 가게에 가고 있어요." },
             { en: "He is going to get a pet.", ko: "그는 애완동물을 사려고 해요." },
@@ -74,7 +74,6 @@
             { en: "He has made one painting of Goldie for everyone in town to enjoy!", ko: "그는 마을 사람 모두가 즐길 수 있는 골디 그림 하나를 만들었어요!" }
         ];
 
-        // 2. 퀴즈 데이터 (10문제)
         const QUIZ_DATA = [
             { q: "Where is Pete going?", options: ["To school", "To the pet store", "To the park", "To the library"], a: 1 },
             { q: "Which animal did Pete NOT want at first?", options: ["A bird", "A hamster", "A lizard", "A dog"], a: 3 },
@@ -88,7 +87,6 @@
             { q: "What is Pete good at in this story?", options: ["Swimming", "Running", "Painting", "Cooking"], a: 2 }
         ];
 
-        // 3. 단어 카드 데이터
         const WORD_DATA = [
             { en: "New", desc: "방금 막 생겨난 것", ko: "새로운", ex: "Pete says to his new pet." },
             { en: "First", desc: "순서가 가장 앞인 것", ko: "첫 번째의", ex: "You are my first pet." },
@@ -104,7 +102,6 @@
             { en: "Great", desc: "대단하고 훌륭한 것", ko: "훌륭한", ex: "What a great day!" }
         ];
 
-        // 4. 파닉스 단어 풀 (모음별 단어)
         const PHONICS_POOL = {
             a: [
                 { type: "Short 'a' /æ/", list: ["cat", "map", "hat", "dad", "fan"], color: "text-red-500", bg: "bg-red-50" },
@@ -128,10 +125,6 @@
             ]
         };
 
-        /* ==================================================================================
-           ▲▲▲ [여기까지 데이터를 바꿔주세요] ▲▲▲
-           ================================================================================== */
-
         // --- 아이콘 컴포넌트 ---
         const Icon = ({ name, size = 24, className = "" }) => {
             const icons = {
@@ -152,16 +145,16 @@
         };
 
         // --- 컴포넌트 ---
-        const StoryTab = ({ accent, speak }) => {
+        const StoryTab = ({ accent, speak, isLoading }) => {
             return (
                 <div className="space-y-4 pb-20 animate-fade-in">
                     <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm border border-sky-100">
                         <div>
                             <h2 className="text-xl font-bold text-sky-600 font-fredoka">Let's Read!</h2>
-                            <p className="text-xs text-slate-400">문장을 눌러 들어보세요</p>
+                            <p className="text-xs text-slate-400">문장을 눌러 들어보세요 (구글 AI 음성)</p>
                         </div>
-                        <button onClick={() => speak(STORY_DATA.map(s => s.en).join(' '))} 
-                            className="bg-orange-400 hover:bg-orange-500 text-white p-3 rounded-full shadow-md active:scale-95 transition">
+                        <button onClick={() => speak(STORY_DATA.map(s => s.en).join(' '))} disabled={isLoading}
+                            className="bg-orange-400 hover:bg-orange-500 text-white p-3 rounded-full shadow-md active:scale-95 transition disabled:opacity-50">
                             <Icon name="Vol" />
                         </button>
                     </div>
@@ -257,7 +250,7 @@
             );
         };
 
-        const PhonicsTab = ({ speak }) => {
+        const PhonicsTab = ({ speak, isLoading }) => {
             const [selectedVowels, setSelectedVowels] = useState(null);
 
             const getRandomVowels = useCallback(() => {
@@ -304,7 +297,8 @@
                                         <h3 className={`font-bold ${group.color} text-sm mb-3 uppercase tracking-wider`}>{group.type}</h3>
                                         <div className="flex flex-wrap gap-2">
                                             {group.list.map(w => (
-                                                <button key={w} onClick={() => speak(w)} className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-1 items-center shadow-sm">
+                                                <button key={w} onClick={() => speak(w)} disabled={isLoading}
+                                                    className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-1 items-center shadow-sm disabled:opacity-50">
                                                     <Icon name="Vol" size={14} className="text-slate-400" /> {w}
                                                 </button>
                                             ))}
@@ -318,7 +312,7 @@
             );
         };
 
-        const CardTab = ({ speak }) => {
+        const CardTab = ({ speak, isLoading }) => {
             const [shuffledCards, setShuffledCards] = useState([]);
             const [idx, setIdx] = useState(0);
             const [face, setFace] = useState(0);
@@ -351,7 +345,8 @@
                         <div className="absolute top-8 flex gap-2">
                             {[0,1,2].map(i => <div key={i} className={`w-2 h-2 rounded-full transition-colors ${face === i ? 'bg-sky-500' : 'bg-slate-200'}`} />)}
                         </div>
-                        <button onClick={(e) => {e.stopPropagation(); speak(card.en);}} className="absolute top-6 right-6 p-3 bg-sky-50 text-sky-500 rounded-full hover:bg-sky-100 transition z-10">
+                        <button onClick={(e) => {e.stopPropagation(); speak(card.en);}} disabled={isLoading}
+                            className="absolute top-6 right-6 p-3 bg-sky-50 text-sky-500 rounded-full hover:bg-sky-100 transition z-10 disabled:opacity-50">
                             <Icon name="Vol" />
                         </button>
                         <div className="z-10 w-full animate-pop">
@@ -392,52 +387,49 @@
         const App = () => {
             const [tab, setTab] = useState('story');
             const [accent, setAccent] = useState('en-US');
-            const [voices, setVoices] = useState([]);
+            const [isLoading, setIsLoading] = useState(false);
 
-            // Load voices
-            useEffect(() => {
-                const loadVoices = () => {
-                    const available = window.speechSynthesis.getVoices();
-                    setVoices(available);
-                };
-                loadVoices();
-                window.speechSynthesis.onvoiceschanged = loadVoices;
-            }, []);
-
-            const speak = useCallback((text) => {
-                window.speechSynthesis.cancel();
-                const u = new SpeechSynthesisUtterance(text);
-                u.rate = 0.9;
-
-                // 모바일/브라우저별 호환성을 위해 언어 코드 매칭 로직 강화
-                // 1. 정확히 일치하는 것 (en-US vs en_US 등의 차이 무시)
-                let targetVoice = voices.find(v => v.lang.replace('_', '-') === accent);
-
-                // 2. 정확한 매칭이 없으면 'Google'이 포함된 고품질 목소리 우선 검색 (Android 등)
-                if (!targetVoice) {
-                    targetVoice = voices.find(v => v.lang.replace('_', '-') === accent && v.name.includes('Google'));
+            // Google TTS Call Logic
+            const speak = useCallback(async (text) => {
+                if (!GOOGLE_API_KEY || GOOGLE_API_KEY === "YOUR_GOOGLE_API_KEY_HERE") {
+                    alert("Google API Key가 설정되지 않았습니다. 코드에서 키를 입력해주세요.");
+                    return;
                 }
 
-                // 3. 그래도 없으면 지역 코드(US, GB, AU)가 포함된 것 검색
-                if (!targetVoice) {
-                    const region = accent.split('-')[1]; // US, GB, AU
-                    targetVoice = voices.find(v => v.lang.toUpperCase().includes(region));
-                }
+                setIsLoading(true);
 
-                // 4. 최후의 수단: 언어(en)가 같은 아무 목소리
-                if (!targetVoice) {
-                    targetVoice = voices.find(v => v.lang.startsWith(accent.split('-')[0]));
-                }
+                // 보이스 매핑: Google Cloud TTS의 고품질 Neural2 보이스 선택
+                let voiceName = 'en-US-Neural2-A'; // Default US Male
+                if (accent === 'en-GB') voiceName = 'en-GB-Neural2-B'; // UK Male
+                if (accent === 'en-AU') voiceName = 'en-AU-Neural2-B'; // AU Male
 
-                if (targetVoice) {
-                    u.voice = targetVoice;
-                    u.lang = targetVoice.lang;
-                } else {
-                    u.lang = accent;
+                try {
+                    const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${GOOGLE_API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            input: { text: text },
+                            voice: { languageCode: accent, name: voiceName },
+                            audioConfig: { audioEncoding: 'MP3' }
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.error) {
+                        console.error("API Error:", data.error);
+                        alert("음성 재생 오류: " + data.error.message);
+                    } else if (data.audioContent) {
+                        const audio = new Audio("data:audio/mp3;base64," + data.audioContent);
+                        audio.play();
+                    }
+                } catch (error) {
+                    console.error("Network Error:", error);
+                    alert("네트워크 오류가 발생했습니다.");
+                } finally {
+                    setIsLoading(false);
                 }
-                
-                window.speechSynthesis.speak(u);
-            }, [accent, voices]);
+            }, [accent]);
 
             const TABS = [
                 { id: 'story', label: 'Story', icon: 'Book' },
@@ -470,10 +462,10 @@
                         </div>
                     </div>
                     <div className="flex-1 p-4 overflow-y-auto">
-                        {tab === 'story' && <StoryTab accent={accent} speak={speak} />}
+                        {tab === 'story' && <StoryTab accent={accent} speak={speak} isLoading={isLoading} />}
                         {tab === 'quiz' && <QuizTab />}
-                        {tab === 'phonics' && <PhonicsTab speak={speak} />}
-                        {tab === 'cards' && <CardTab speak={speak} />}
+                        {tab === 'phonics' && <PhonicsTab speak={speak} isLoading={isLoading} />}
+                        {tab === 'cards' && <CardTab speak={speak} isLoading={isLoading} />}
                     </div>
                 </div>
             );
