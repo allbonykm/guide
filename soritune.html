@@ -434,7 +434,7 @@ const PHONICS_POOL = [
                     {/* 배경 이미지 (전체 화면 꽉 채우기) */}
                     <div className="absolute inset-0 z-0">
                          <img 
-                            src="images/choyul.JPG" 
+                            src="images/cyprince.png" 
                             alt="Joyul" 
                             className="w-full h-full object-cover animate-fade-in"
                             onError={(e) => {
@@ -451,7 +451,7 @@ const PHONICS_POOL = [
                     {/* 상단 텍스트 오버레이 */}
                     <div className="absolute top-16 w-full text-center z-10 px-4">
                         <h1 className="text-6xl font-bold text-sky-400 korean-font animate-pop text-outline drop-shadow-xl tracking-wide">
-                            조율이는 최고!
+                            어린율왕자!
                         </h1>
                     </div>
 
@@ -472,7 +472,7 @@ const PHONICS_POOL = [
                     <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm border border-sky-100">
                         <div>
                             <h2 className="text-xl font-bold text-sky-600 font-fredoka">Let's Read!</h2>
-                            <p className="text-xs text-slate-400">문장을 눌러 들어보세요 (구글 AI 음성)</p>
+                            <p className="text-xs text-slate-400">문장을 눌러 들어보세요</p>
                         </div>
                         <button onClick={() => speak(STORY_DATA.map(s => s.en).join(' '))} disabled={isLoading}
                             className="bg-orange-400 hover:bg-orange-500 text-white p-3 rounded-full shadow-md active:scale-95 transition disabled:opacity-50">
