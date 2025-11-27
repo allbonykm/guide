@@ -541,9 +541,9 @@
                 }
 
                 setIsLoading(true);
-                let voiceName = 'en-US-Neural2-A'; 
-                if (accent === 'en-GB') voiceName = 'en-GB-Neural2-B'; 
-                if (accent === 'en-AU') voiceName = 'en-AU-Neural2-B'; 
+                let voiceName = 'en-US-Neural2-F'; 
+                if (accent === 'en-GB') voiceName = 'en-GB-Neural2-A'; 
+                if (accent === 'en-AU') voiceName = 'en-AU-Neural2-C'; 
 
                 try {
                     const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${GOOGLE_API_KEY}`, {
