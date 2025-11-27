@@ -20,6 +20,13 @@
         @keyframes pop { 0% { transform: scale(0.9); } 100% { transform: scale(1); } }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .text-outline {
+    text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff;
+}
     </style>
 </head>
 <body class="bg-sky-50 text-slate-800 min-h-screen">
@@ -260,6 +267,45 @@ const PHONICS_POOL = [
 
 
         // --- 컴포넌트 ---
+        const IntroScreen = ({ onStart }) => {
+            return (
+                <div onClick={onStart} className="relative h-screen w-full bg-sky-100 cursor-pointer overflow-hidden">
+                    {/* 배경 이미지 (전체 화면 꽉 채우기) */}
+                    <div className="absolute inset-0 z-0">
+                         <img 
+                            src="images/unicorn.jpg" 
+                            alt="choyul" 
+                            className="w-full h-full object-cover animate-fade-in"
+                            onError={(e) => {
+                                e.target.style.display = 'none'; // 이미지 없으면 숨김
+                                console.log("이미지를 찾을 수 없습니다. image/choyul.jpg 경로를 확인해주세요.");
+                            }} 
+                        />
+                        {/* 이미지가 없을 경우를 대비한 대체 배경 */}
+                        <div className="w-full h-full absolute inset-0 -z-10 bg-sky-100 flex items-center justify-center text-sky-300">
+                             이미지 준비중
+                        </div>
+                    </div>
+
+                    {/* 상단 텍스트 오버레이 */}
+                    <div className="absolute top-16 w-full text-center z-10 px-4">
+                        <h1 className="text-6xl font-bold text-sky-400 korean-font animate-pop text-outline drop-shadow-xl tracking-wide">
+                            조율이는 유니콘 머리를 눌러봐!
+                        </h1>
+                    </div>
+
+                    {/* 하단 안내 문구 */}
+                    <div className="absolute bottom-12 w-full text-center z-10">
+                        <div className="inline-block bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full shadow-lg animate-bounce">
+                            <span className="text-sky-600 font-bold font-fredoka">Tap to Start!</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+
+        
         const StoryTab = ({ accent, speak, isLoading }) => {
             return (
                 <div className="space-y-4 pb-20 animate-fade-in">
@@ -601,8 +647,18 @@ const PHONICS_POOL = [
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+const Main = () => {
+    const [showIntro, setShowIntro] = useState(true);
+
+    if (showIntro) {
+        return <IntroScreen onStart={() => setShowIntro(false)} />;
+    }
+
+    return <App />;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Main />);
     </script>
 </body>
 </html>
