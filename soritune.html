@@ -800,8 +800,18 @@ const PHONICS_POOL = [
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+const Main = () => {
+    const [showIntro, setShowIntro] = useState(true);
+
+    if (showIntro) {
+        return <IntroScreen onStart={() => setShowIntro(false)} />;
+    }
+
+    return <App />;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Main />);
     </script>
 </body>
 </html>
