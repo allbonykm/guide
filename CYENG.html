@@ -20,6 +20,13 @@
         @keyframes pop { 0% { transform: scale(0.9); } 100% { transform: scale(1); } }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .text-outline {
+    text-shadow: 
+        -2px -2px 0 #fff,  
+         2px -2px 0 #fff,
+        -2px  2px 0 #fff,
+         2px  2px 0 #fff;
+}
     </style>
 </head>
 <body class="bg-sky-50 text-slate-800 min-h-screen">
@@ -651,8 +658,18 @@
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+const Main = () => {
+    const [showIntro, setShowIntro] = useState(true);
+
+    if (showIntro) {
+        return <IntroScreen onStart={() => setShowIntro(false)} />;
+    }
+
+    return <App />;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Main />);
     </script>
 </body>
 </html>
