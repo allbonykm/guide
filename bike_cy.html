@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>바람의 라이더 조율!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <style>
+        /* --- 시나모롤 테마 및 폰트 설정 --- */
+        :root {
+            --cinnamoroll-blue: #9ED6E8; /* 시나모롤 하늘색 */
+            --cinnamoroll-dark-blue: #7ABCCE; /* 버튼 클릭 시 진한 색 */
+            --accent-pink: #FFB7C5; /* 포인트 핑크색 */
+            --text-dark: #557A8A; /* 가독성을 위한 짙은 하늘색 텍스트 */
+        }
+
+        body {
+            font-family: 'Gamja Flower', cursive;
+            /* 전체 배경: 옅은 하늘색 그라데이션 */
+            background: linear-gradient(135deg, #e0f7fa 0%, #ffeef8 100%);
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--text-dark);
+        }
+
+        /* 화면 상자 디자인 */
+        .screen {
+            display: none;
+            width: 90%;
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.95); /* 흰색 배경 */
+            padding: 35px 25px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(117, 185, 209, 0.3);
+            border: 4px solid var(--cinnamoroll-blue); /* 하늘색 테두리 */
+            text-align: center;
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative; /* 오버레이를 위해 필요 */
+            overflow: hidden; /* 둥근 모서리 밖으로 이미지 나가지 않게 */
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--cinnamoroll-dark-blue);
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 0px #fff;
+        }
+        
+        p {
+            font-size: 22px;
+            line-height: 1.4;
+        }
+
+        button {
+            background-color: var(--cinnamoroll-blue);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 25px;
+            font-family: 'Gamja Flower', cursive;
+            box-shadow: 0 6px 0 #7ABCCE;
+            transition: all 0.1s;
+        }
+        
+        button:active {
+            box-shadow: 0 2px 0 #7ABCCE;
+            transform: translateY(4px);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 15px;
+            font-size: 22px;
+            border: 3px solid var(--accent-pink);
+            border-radius: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            font-family: 'Gamja Flower', cursive;
+            background-color: #FFF0F5;
+            color: var(--text-dark);
+            outline: none;
+        }
+        
+        select:focus, input:focus {
+             border-color: var(--cinnamoroll-blue);
+        }
+
+        input::placeholder {
+            color: #aaa;
+            font-size: 18px;
+        }
+
+        /* --- 마지막 화면 특별 디자인 (이미지 변경됨) --- */
+        #screen4 {
+            /* 1. 배경 이미지 URL 설정 (요청하신 이미지로 변경!) */
+            background-image: url('https://i.pinimg.com/1200x/95/e4/8f/95e48f2d2248b221c625f00db2c72760.jpg);
+            /* 2. 이미지 위치 및 크기 설정 */
+            background-size: cover;
+            background-position: center;
+            border-color: #FF69B4; /* 테두리를 진한 핑크로 */
+            padding: 60px 20px; /* 글씨가 잘 보이게 여백 조정 */
+        }
+
+        /* 사진 위에 깔리는 반투명 핑크색 막 */
+        #screen4::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 182, 193, 0.5); /* 핑크색 50% 투명도 */
+            z-index: 1;
+        }
+
+        #finalMessage {
+            position: relative;
+            z-index: 2; /* 글씨를 맨 앞으로 */
+            font-size: 36px;
+            color: white; /* 글씨는 흰색 */
+            font-weight: bold;
+            line-height: 1.6;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.6); /* 글씨가 잘 보이게 진한 그림자 */
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="screen1" class="screen active">
+        <h2 id="dateDisplay"></h2>
+        <p>조율아 안녕! 👋<br>오늘 자전거 재밌게 탔어?</p>
+        <button onclick="nextScreen(2)">응! 완전 재밌었어! 🚴‍♀️</button>
+    </div>
+
+    <div id="screen2" class="screen">
+        <h2>오늘 얼마나 많이 탔어?</h2>
+        <select id="distanceSelect"></select>
+        <button onclick="nextScreen(3)">이만큼 달렸지! ✅</button>
+    </div>
+
+    <div id="screen3" class="screen">
+        <h2>얼마나 쌩쌩 달렸어?</h2>
+        <p style="font-size:18px; color: var(--text-dark);">가장 빨랐던 속도를 알려줘!<br>(단위: km/h)</p>
+        <input type="number" id="speedInput" step="0.1" inputmode="decimal" placeholder="기록을 불러오는 중...">
+        <p id="recordMsg" style="color: var(--accent-pink); font-size: 18px; margin-top: 15px; font-weight:bold;"></p>
+        <button onclick="processSpeedAndFinish()">입력 완료! 🚀</button>
+    </div>
+
+    <div id="screen4" class="screen">
+        <div id="finalMessage">
+            와아! 대단해!<br>
+            오늘도 멋진 질주였어!<br>
+            바람의 라이더 조율!<br>
+            💨💖✨
+        </div>
+    </div>
+
+    <script>
+        const today = new Date();
+        const dateStr = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+        document.getElementById('dateDisplay').innerText = dateStr;
+
+        const select = document.getElementById('distanceSelect');
+        for (let i = 100; i <= 5000; i += 100) {
+            let option = document.createElement('option');
+            let text = i < 1000 ? `${i}m` : `${(i/1000).toFixed(1)}km`;
+            option.value = text;
+            option.text = text;
+            select.appendChild(option);
+        }
+
+        const STORAGE_KEY = 'joyul_max_speed_v2';
+
+        function nextScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen${screenNum}`).classList.add('active');
+            if (screenNum === 3) {
+                loadMaxSpeed();
+            }
+        }
+
+        function loadMaxSpeed() {
+            const savedSpeed = localStorage.getItem(STORAGE_KEY);
+            const inputField = document.getElementById('speedInput');
+            const msgField = document.getElementById('recordMsg');
+
+            if (savedSpeed) {
+                inputField.placeholder = `지난번 최고 기록: ${savedSpeed}`;
+                msgField.innerText = `🏆 현재 최고 기록: ${savedSpeed} km/h`;
+            } else {
+                inputField.placeholder = "여기에 숫자를 적어줘!";
+                msgField.innerText = "아직 최고 기록이 없어. 첫 기록에 도전!";
+            }
+        }
+
+        function processSpeedAndFinish() {
+            const inputField = document.getElementById('speedInput');
+            let currentSpeed = parseFloat(inputField.value);
+            let savedSpeed = parseFloat(localStorage.getItem(STORAGE_KEY)) || 0;
+
+            if (!isNaN(currentSpeed)) {
+                if (currentSpeed > savedSpeed) {
+                    localStorage.setItem(STORAGE_KEY, currentSpeed.toFixed(1));
+                    alert(`🎊 꺄악! 축하해 조율아! 🎊\n신기록 달성이야!\n\n이전 기록: ${savedSpeed}km/h\n👉 새 기록: ${currentSpeed}km/h`);
+                }
+            }
+            nextScreen(4);
+        }
+    </script>
+</body>
+</html>
