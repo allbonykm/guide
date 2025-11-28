@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>바람의 요정 조율!</title>
+    <title>바람의 라이더 조율!</title>
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
     <style>
-        /* --- 시나모롤 테마 및 폰트 설정 --- */
+        /* --- 기존 스타일 유지 --- */
         :root {
-            --cinnamoroll-blue: #9ED6E8; /* 시나모롤 하늘색 */
-            --cinnamoroll-dark-blue: #7ABCCE; /* 버튼 클릭 시 진한 색 */
-            --accent-pink: #FFB7C5; /* 포인트 핑크색 */
-            --text-dark: #557A8A; /* 가독성을 위한 짙은 하늘색 텍스트 */
+            --cinnamoroll-blue: #9ED6E8;
+            --cinnamoroll-dark-blue: #7ABCCE;
+            --accent-pink: #FFB7C5;
+            --text-dark: #557A8A;
         }
 
         body {
@@ -28,7 +28,6 @@
             color: var(--text-dark);
         }
 
-        /* 화면 상자 디자인 */
         .screen {
             display: none;
             width: 90%;
@@ -44,9 +43,7 @@
             overflow: hidden;
         }
 
-        .screen.active {
-            display: block;
-        }
+        .screen.active { display: block; }
 
         h2 {
             color: var(--cinnamoroll-dark-blue);
@@ -55,10 +52,7 @@
             text-shadow: 1px 1px 0px #fff;
         }
         
-        p {
-            font-size: 22px;
-            line-height: 1.4;
-        }
+        p { font-size: 22px; line-height: 1.4; }
 
         button {
             background-color: var(--cinnamoroll-blue);
@@ -79,6 +73,13 @@
             box-shadow: 0 2px 0 #7ABCCE;
             transform: translateY(4px);
         }
+        
+        /* 버튼 비활성화 스타일 (전송 중일 때) */
+        button:disabled {
+            background-color: #ccc;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
 
         select, input {
             width: 100%;
@@ -94,25 +95,16 @@
             outline: none;
         }
         
-        select:focus, input:focus {
-             border-color: var(--cinnamoroll-blue);
-        }
+        select:focus, input:focus { border-color: var(--cinnamoroll-blue); }
+        input::placeholder { color: #aaa; font-size: 18px; }
 
-        input::placeholder {
-            color: #aaa;
-            font-size: 18px;
-        }
-
-        /* --- 마지막 화면 특별 디자인 (상대 경로 적용됨) --- */
         #screen4 {
-            /* [수정됨] GitHub 배포용 상대 경로 */
-            /* images 폴더 안에 pinkbike.jpg 파일이 있어야 합니다. */
+            /* GitHub용 상대 경로 유지 */
             background-image: url('images/cybike.JPG');
-            
             background-size: cover;
             background-position: center;
             border-color: #FF69B4;
-            padding: 320px 120px;
+            padding: 300px 120px;
         }
 
         #screen4::before {
@@ -158,18 +150,25 @@
         <p style="font-size:18px; color: var(--text-dark);">가장 빨랐던 속도를 알려줘!<br>(단위: km/h)</p>
         <input type="number" id="speedInput" step="0.1" inputmode="decimal" placeholder="기록을 불러오는 중...">
         <p id="recordMsg" style="color: var(--accent-pink); font-size: 18px; margin-top: 15px; font-weight:bold;"></p>
-        <button onclick="processSpeedAndFinish()">입력 완료! 🚀</button>
+        <button id="finishBtn" onclick="processSpeedAndFinish()">입력 완료! 🚀</button>
     </div>
 
     <div id="screen4" class="screen">
         <div id="finalMessage">
             와아! 대단해!<br>
             오늘도 멋진 질주였어!<br>
-            바람의 라이더! 조율!<br>
+            바람의 라이더 조율!<br>
+            💨💖✨
         </div>
     </div>
 
     <script>
+        // ==========================================
+        // [중요] 여기에 앱스 스크립트 배포 URL을 붙여넣으세요!
+        // 예: https://script.google.com/macros/s/AKfycbx.../exec
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXxBem17IS9mRWMjGWyDjz4cQ5NcHnFXNjOturbzmacU1dhhqxOb9h-n_9_hUqq5i4/exec'; 
+        // ==========================================
+
         const today = new Date();
         const dateStr = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
         document.getElementById('dateDisplay').innerText = dateStr;
@@ -209,16 +208,49 @@
 
         function processSpeedAndFinish() {
             const inputField = document.getElementById('speedInput');
+            const distanceValue = document.getElementById('distanceSelect').value;
+            const btn = document.getElementById('finishBtn');
+            
             let currentSpeed = parseFloat(inputField.value);
             let savedSpeed = parseFloat(localStorage.getItem(STORAGE_KEY)) || 0;
 
-            if (!isNaN(currentSpeed)) {
-                if (currentSpeed > savedSpeed) {
-                    localStorage.setItem(STORAGE_KEY, currentSpeed.toFixed(1));
-                    alert(`🎊 꺄악! 축하해 조율아! 🎊\n신기록 달성이야!\n\n이전 기록: ${savedSpeed}km/h\n👉 새 기록: ${currentSpeed}km/h`);
-                }
+            if (isNaN(currentSpeed)) {
+                alert("속도를 숫자로 입력해줘!");
+                return;
             }
-            nextScreen(4);
+
+            // 1. 최고 속도 로직 (LocalStorage 업데이트)
+            if (currentSpeed > savedSpeed) {
+                localStorage.setItem(STORAGE_KEY, currentSpeed.toFixed(1));
+                alert(`🎊 꺄악! 축하해 조율아! 🎊\n신기록 달성이야!\n\n이전 기록: ${savedSpeed}km/h\n👉 새 기록: ${currentSpeed}km/h`);
+            }
+
+            // 2. 구글 시트로 데이터 전송 (비동기 처리)
+            // 버튼 비활성화 (여러 번 누름 방지)
+            btn.disabled = true;
+            btn.innerText = "기록 저장 중...⏳";
+
+            // 전송할 데이터 준비
+            let formData = new FormData();
+            formData.append('distance', distanceValue);
+            formData.append('speed', currentSpeed);
+
+            // fetch로 구글 스크립트에 전송
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors' // 중요: CORS 에러 방지
+            })
+            .then(() => {
+                // 성공하면 마지막 화면으로 이동
+                nextScreen(4);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("기록 저장에 실패했어 ㅠㅠ 인터넷 연결을 확인해줘.");
+                btn.disabled = false;
+                btn.innerText = "입력 완료! 🚀";
+            });
         }
     </script>
 </body>
