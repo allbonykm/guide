@@ -120,7 +120,7 @@
             { type: "car [ɑːr]", list: ["are", "car", "park", "star", "far"], color: "text-red-800", bg: "bg-red-100" }
         ];
 
-        // --- 캐릭터 데이터 및 테마 ---
+        // --- 캐릭터 데이터 ---
         const CHARACTERS = {
             rabbit: {
                 name: "Rabbit",
@@ -163,7 +163,7 @@
             );
         };
 
-        // --- 캐릭터 SVG 컴포넌트 ---
+        // --- 캐릭터 SVG ---
         const CharacterSVG = ({ type }) => {
             const config = CHARACTERS[type];
             const { iconFill, iconStroke, face } = config.colors;
@@ -233,7 +233,7 @@
         };
 
 
-        // --- 컴포넌트 ---
+        // --- 메인 컴포넌트 ---
         const IntroScreen = ({ onStart }) => {
             return (
                 <div onClick={onStart} className="relative h-screen w-full bg-sky-100 cursor-pointer overflow-hidden">
@@ -267,7 +267,6 @@
             );
         };
 
-        
         const StoryTab = ({ accent, speak, isLoading }) => {
             return (
                 <div className="space-y-4 pb-20 animate-fade-in">
@@ -292,7 +291,7 @@
             );
         };
 
-        // --- 수정된 QuizTab (음성 기능 추가) ---
+        // --- 수정된 QuizTab (스피커 분리) ---
         const QuizTab = ({ speak }) => {
             const [current, setCurrent] = useState(0);
             const [score, setScore] = useState(0);
@@ -302,7 +301,7 @@
             const handleSelect = (idx, text) => {
                 if (selected !== null) return;
                 
-                // 음성 재생
+                // 선택 시에도 소리를 내줍니다 (확인용)
                 speak(text);
 
                 setSelected(idx);
@@ -347,7 +346,7 @@
                         <span className="text-xs font-bold text-slate-400">Score: {score}</span>
                     </div>
                     
-                    {/* 질문 클릭 시 음성 재생 */}
+                    {/* 질문 영역 */}
                     <div onClick={() => speak(q.q)} className="bg-white p-6 rounded-2xl shadow-sm border border-sky-100 mb-6 cursor-pointer hover:border-sky-300 transition group">
                         <div className="flex items-start gap-3">
                              <div className="bg-sky-50 p-2 rounded-full text-sky-400 group-hover:bg-sky-100 transition shrink-0">
@@ -357,24 +356,59 @@
                         </div>
                     </div>
 
+                    {/* 보기 영역 (수정됨) */}
                     <div className="grid gap-3">
                         {q.options.map((opt, idx) => {
-                            let style = "bg-white border-2 border-slate-100 text-slate-600 hover:border-sky-200";
+                            let containerStyle = "bg-white border-2 border-slate-100 hover:border-sky-200";
+                            let textStyle = "text-slate-600";
                             let icon = null;
+
                             if (selected !== null) {
-                                if (idx === q.a) { style = "bg-green-50 border-green-400 text-green-700 font-bold"; icon = "⭕"; }
-                                else if (idx === selected) { style = "bg-red-50 border-red-300 text-red-700"; icon = "❌"; }
-                                else { style = "opacity-50 border-slate-100"; }
+                                if (idx === q.a) { 
+                                    containerStyle = "bg-green-50 border-green-400"; 
+                                    textStyle = "text-green-700 font-bold";
+                                    icon = "⭕"; 
+                                }
+                                else if (idx === selected) { 
+                                    containerStyle = "bg-red-50 border-red-300"; 
+                                    textStyle = "text-red-700";
+                                    icon = "❌"; 
+                                }
+                                else { 
+                                    containerStyle = "opacity-50 border-slate-100"; 
+                                }
                             }
+
                             return (
-                                <button key={idx} onClick={() => handleSelect(idx, opt)} disabled={selected !== null}
-                                    className={`p-4 rounded-xl text-left font-fredoka transition-all flex justify-between items-center ${style}`}>
-                                    <span>{opt}</span>
-                                    {icon && <span>{icon}</span>}
-                                </button>
+                                <div key={idx} className={`rounded-xl transition-all flex items-center p-1 ${containerStyle}`}>
+                                    {/* 1. 듣기 버튼 (정답 체크 X) */}
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // 부모 클릭 방지
+                                            speak(opt);
+                                        }}
+                                        className="p-3 rounded-full hover:bg-sky-100 text-sky-400 active:scale-90 transition shrink-0"
+                                        title="Listen"
+                                    >
+                                         <Icon name="Vol" size={18} />
+                                    </button>
+
+                                    {/* 2. 정답 선택 버튼 */}
+                                    <button 
+                                        onClick={() => handleSelect(idx, opt)} 
+                                        disabled={selected !== null}
+                                        className={`flex-1 text-left py-3 px-2 font-fredoka text-lg outline-none ${textStyle}`}
+                                    >
+                                        {opt}
+                                    </button>
+                                    
+                                    {/* 3. 결과 아이콘 */}
+                                    {icon && <span className="pr-4 text-xl">{icon}</span>}
+                                </div>
                             );
                         })}
                     </div>
+
                     <div className="h-16 flex justify-end items-center mt-4">
                         {selected !== null && (
                             <button onClick={next} className="bg-sky-500 text-white px-6 py-3 rounded-xl font-bold shadow-md active:scale-95 transition flex items-center gap-2 animate-pop">
