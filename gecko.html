@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gecko Cash</title>
+    <!-- 구글 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-blue: #9ED6E8; /* 시나모롤 하늘색 */
+            --btn-blue: #7ABCCE;
+            --text-color: #333;
+            --gold-color: #FFD700; /* 황금색 */
+        }
+
+        body {
+            font-family: 'Fredoka', 'Gamja Flower', cursive; /* 영문은 동글동글 Fredoka */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: var(--bg-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            flex-direction: column;
+            justify-content: flex-start; /* 위에서부터 배치 */
+            align-items: center;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .screen.active {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* 텍스트 가독성을 위한 반투명 박스 */
+        .text-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 10%; /* 화면 상단에서 약간 띄움 */
+            width: 80%;
+            max-width: 350px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 4px solid white;
+        }
+
+        h1 { font-size: 32px; color: var(--btn-blue); margin: 0 0 10px 0; }
+        h2 { font-size: 24px; margin: 10px 0; color: #555; }
+        
+        /* 황금색 금액 표시 */
+        .gold-text {
+            color: #FFB300; /* 진한 황금색 */
+            font-size: 40px;
+            font-weight: bold;
+            text-shadow: 2px 2px 0px #fff, 0 0 10px rgba(255, 215, 0, 0.5);
+            margin: 15px 0;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* 버튼 스타일 */
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .action-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            border: none;
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+
+        .btn-plus { background-color: #FF9AA2; } /* 파스텔 레드 */
+        .btn-minus { background-color: #85E3FF; } /* 파스텔 블루 */
+        
+        .action-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        input[type="number"] {
+            font-size: 30px;
+            padding: 15px;
+            width: 80%;
+            border: 3px solid var(--btn-blue);
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            outline: none;
+            color: var(--text-color);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .confirm-btn {
+            background-color: var(--btn-blue);
+            color: white;
+            font-size: 22px;
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #5A9CB5;
+        }
+        .confirm-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        /* 화면별 배경 이미지 설정 (상대 경로) */
+        #screen-intro { background-image: url('images/cash.jpg'); justify-content: flex-start; }
+        #screen-main { background-image: url('images/gecko_smile.jpg'); }
+        #screen-earn { background-image: url('images/gecko_bike.jpg'); }
+        #screen-spend { background-image: url('images/gecko_shop.jpg'); }
+        #screen-result-earn { background-image: url('images/gecko_rich.jpg'); }
+        #screen-result-spend { background-image: url('images/gecko_tongue.jpg'); }
+        #screen-balance { background-image: url('images/gecko_bank.jpg'); }
+
+        /* 인트로 타이틀 특별 스타일 */
+        #intro-title {
+            margin-top: 15%;
+            font-size: 48px;
+            color: white;
+            text-shadow: 3px 3px 0 #000, 0 0 20px rgba(0,0,0,0.5);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* 로딩 표시 */
+        #loading {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.8);
+            display: none; justify-content: center; align-items: center; z-index: 999;
+            font-size: 24px; color: var(--btn-blue); font-weight: bold;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- 로딩 화면 -->
+    <div id="loading">Connecting to Gecko Bank...🦎</div>
+
+    <!-- 1. 인트로 화면 -->
+    <div id="screen-intro" class="screen active" onclick="goToMain()">
+        <div id="intro-title">Gecko Cash</div>
+        <p style="color: white; margin-top: 300px; font-size: 20px; text-shadow: 1px 1px 2px black;">Tap to start!</p>
+    </div>
+
+    <!-- 2. 메인 화면 (날짜, 잔액, 선택) -->
+    <div id="screen-main" class="screen">
+        <div class="text-box">
+            <h2 id="today-date"></h2>
+            <p>Did you get a lot of<br>Gecko Cash today?</p>
+            <div id="current-balance" class="gold-text">Loading...</div>
+            <div class="btn-group">
+                <button class="action-btn btn-plus" onclick="goToEarn()">+</button>
+                <button class="action-btn btn-minus" onclick="goToSpend()">-</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3-1. 적립 입력 화면 -->
+    <div id="screen-earn" class="screen">
+        <div class="text-box">
+            <h2>Enter the cash<br>you earned today!</h2>
+            <input type="number" id="earn-input" placeholder="0" inputmode="numeric">
+            <button class="confirm-btn" onclick="submitCash('earn')">OK! Save it!</button>
+            <button onclick="goToMain()" style="background:none; border:none; color:#999; margin-top:10px; text-decoration:underline;">Back</button>
+        </div>
+    </div>
+
+    <!-- 3-2. 사용 입력 화면 -->
+    <div id="screen-spend" class="screen">
+        <div class="text-box">
+            <h2>Enter the cash<br>you spent today.</h2>
+            <input type="number" id="spend-input" placeholder="0" inputmode="numeric">
+            <button class="confirm-btn" onclick="submitCash('spend')">OK! I spent it.</button>
+            <button onclick="goToMain()" style="background:none; border:none; color:#999; margin-top:10px; text-decoration:underline;">Back</button>
+        </div>
+    </div>
+
+    <!-- 4-1. 적립 성공 화면 -->
+    <div id="screen-result-earn" class="screen" onclick="goToBalance()">
+        <div class="text-box">
+            <h2>Great job!</h2>
+            <p>I'm rich with<br>Gecko Cash!</p>
+            <p style="font-size:14px; color:#aaa;">(Tap to see balance)</p>
+        </div>
+    </div>
+
+    <!-- 4-2. 사용 성공 화면 -->
+    <div id="screen-result-spend" class="screen" onclick="goToBalance()">
+        <div class="text-box">
+            <h2>I'm a smart shopper!</h2>
+            <p>Cho Yul!</p>
+            <p style="font-size:14px; color:#aaa;">(Tap to see balance)</p>
+        </div>
+    </div>
+
+    <!-- 5. 최종 잔액 화면 -->
+    <div id="screen-balance" class="screen">
+        <div class="text-box">
+            <h2>How much<br>Gecko Cash do I have?</h2>
+            <div id="final-balance" class="gold-text">0</div>
+            <button class="confirm-btn" onclick="goToMain()">Go Home 🏠</button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // [필수] 배포한 앱스 스크립트 URL을 여기에 넣으세요
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKsnNwSizn1kaeGbYtBoPUVzc28H2UlSpD2rvEixBS-aCLpYCDLYh08Y8uN4wG11O4WA/exec';
+        // ==========================================
+
+        let myBalance = 0; // 현재 잔액 저장용 변수
+
+        // 날짜 설정
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+        document.getElementById('today-date').innerText = today.toLocaleDateString('en-US', options);
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // 인트로 -> 메인 (이때 잔액을 서버에서 불러옴)
+        function goToMain() {
+            showLoading(true);
+            fetch(SCRIPT_URL) // GET 요청
+                .then(response => response.json())
+                .then(data => {
+                    myBalance = parseInt(data.balance);
+                    updateBalanceDisplay();
+                    showLoading(false);
+                    showScreen('screen-main');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("인터넷 연결을 확인해주세요!");
+                    showLoading(false);
+                    showScreen('screen-main'); // 에러나도 일단 이동
+                });
+        }
+
+        function goToEarn() {
+            document.getElementById('earn-input').value = '';
+            showScreen('screen-earn');
+        }
+
+        function goToSpend() {
+            document.getElementById('spend-input').value = '';
+            showScreen('screen-spend');
+        }
+
+        function goToBalance() {
+            showScreen('screen-balance');
+        }
+
+        // 돈 표시 포맷 (1,000)
+        function formatMoney(num) {
+            return num.toLocaleString();
+        }
+
+        function updateBalanceDisplay() {
+            document.getElementById('current-balance').innerText = formatMoney(myBalance);
+            document.getElementById('final-balance').innerText = formatMoney(myBalance);
+        }
+
+        // 데이터 전송 (적립/사용)
+        function submitCash(type) {
+            const inputId = type === 'earn' ? 'earn-input' : 'spend-input';
+            const val = document.getElementById(inputId).value;
+            
+            if (!val || val <= 0) {
+                alert("Please enter a number!");
+                return;
+            }
+
+            showLoading(true);
+
+            // 폼 데이터 생성
+            let formData = new FormData();
+            formData.append('type', type);
+            formData.append('amount', val);
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 서버에서 계산된 새 잔액을 받아서 업데이트
+                myBalance = parseInt(data.newBalance);
+                updateBalanceDisplay();
+                showLoading(false);
+
+                if (type === 'earn') {
+                    showScreen('screen-result-earn');
+                } else {
+                    showScreen('screen-result-spend');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("저장에 실패했어요 ㅠㅠ");
+                showLoading(false);
+            });
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'flex' : 'none';
+        }
+    </script>
+</body>
+</html>
