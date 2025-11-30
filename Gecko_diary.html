@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>백합이 육아일기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <style>
+        /* 기본 스타일 및 초기화 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { width: 100%; height: 100%; font-family: 'Jua', sans-serif; overflow: hidden; }
+        
+        /* 공통 페이지 스타일 */
+        .page {
+            width: 100%;
+            height: 100vh;
+            display: none; /* 기본 숨김 */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0; left: 0;
+            text-align: center;
+        }
+        
+        .active { display: flex; } /* 활성 페이지 표시 */
+        
+        /* 텍스트 스타일 */
+        h1, h2, p {
+            color: #F5F5DC; /* 베이지색 */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* 가독성을 위한 그림자 */
+        }
+        h1 { font-size: 3rem; margin-bottom: 20px; }
+        h2 { font-size: 2.5rem; margin-top: 30px; margin-bottom: 30px; }
+        
+        /* 페이지별 배경 설정 */
+        #page1 { background-image: url('images/gecko1.jpg'); cursor: pointer; }
+        #page2 { background-image: url('images/gecko2.jpg'); justify-content: flex-start; }
+        #page3 { background-image: url('images/gecko3.jpg'); }
+        #page4 { background-image: url('images/gecko4.png'); justify-content: flex-end; }
+
+        /* Page 2: 조약돌 버튼 스타일 */
+        .pebble-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+
+        .pebble {
+            padding: 20px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; /* 조약돌 모양 */
+            border: none;
+            font-family: 'Jua', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.3s;
+            opacity: 0.6; /* 선택 전 흐림 */
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .pebble.selected {
+            opacity: 1;
+            transform: scale(1.05);
+            border: 3px solid #fff;
+        }
+
+        /* 무지개 색상 (파스텔 톤) */
+        .pebble:nth-child(1) { background-color: #FF6B6B; } /* 빨강 */
+        .pebble:nth-child(2) { background-color: #FFD93D; color: #555; } /* 노랑 */
+        .pebble:nth-child(3) { background-color: #6BCB77; } /* 초록 */
+        .pebble:nth-child(4) { background-color: #4D96FF; } /* 파랑 */
+
+        .next-btn, .confirm-btn {
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-family: 'Jua', sans-serif;
+            cursor: pointer;
+        }
+
+        /* Page 3: 몸무게 입력 */
+        .input-group {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 20px;
+        }
+        input[type="number"] {
+            font-size: 2rem;
+            padding: 10px;
+            width: 150px;
+            text-align: center;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: rgba(255,255,255,0.9);
+            font-family: 'Jua', sans-serif;
+        }
+        input::placeholder { color: #ccc; }
+        .unit { color: #F5F5DC; font-size: 2rem; margin-left: 10px; }
+
+        /* Page 4: 하단 메시지 박스 */
+        .outro-box {
+            background-color: rgba(255, 248, 220, 0.9); /* 옅은 베이지 */
+            width: 90%;
+            padding: 30px;
+            margin-bottom: 50px;
+            border-radius: 20px;
+            color: #5D4037;
+            font-size: 1.8rem;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* 로딩 표시 */
+        #loading {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center; align-items: center; color: white; font-size: 2rem;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading">기록 중...</div>
+
+    <div id="page1" class="page active" onclick="goToPage(2)">
+        <h1>백합이 키우기!</h1>
+        <p>(탭하여 시작)</p>
+    </div>
+
+    <div id="page2" class="page">
+        <h2>오늘 뭐 했어?</h2>
+        <div class="pebble-container">
+            <button class="pebble" data-action="feeding" onclick="toggleSelection(this)">먹이주기</button>
+            <button class="pebble" data-action="handling" onclick="toggleSelection(this)">핸들링</button>
+            <button class="pebble" data-action="cleaning" onclick="toggleSelection(this)">집 치워주기</button>
+            <button class="pebble" data-action="weight" onclick="toggleSelection(this)">몸무게 측정</button>
+        </div>
+        <button class="next-btn" onclick="finishSelection()">다음</button>
+    </div>
+
+    <div id="page3" class="page">
+        <h2>몸무게 입력</h2>
+        <div class="input-group">
+            <input type="number" id="weightInput" step="0.1" placeholder="...">
+            <span class="unit">g</span>
+        </div>
+        <button class="confirm-btn" onclick="submitWeight()">확인</button>
+    </div>
+
+    <div id="page4" class="page">
+        <div class="outro-box" onclick="resetApp()">
+            백합아! 내일 보자!
+        </div>
+    </div>
+
+    <script>
+        // *** 중요: 여기에 1단계에서 복사한 Google Apps Script 배포 URL을 넣으세요 ***
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhMcFL8XtIYs72iI99WHL5KN69O0K7q2Mw2aeqVLpTvJhssHvMJ5-9SoJhWbSOhHI/exec"; 
+        
+        // 상태 변수
+        let selectedActions = {
+            feeding: false,
+            handling: false,
+            cleaning: false,
+            weight: false
+        };
+        let currentWeight = "";
+
+        // 페이지 이동 함수
+        function goToPage(pageNum) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + pageNum).classList.add('active');
+
+            // 3페이지 진입 시 최근 몸무게 불러오기 (선택 사항)
+            if(pageNum === 3 && SCRIPT_URL !== "여기에_웹앱_URL을_붙여넣으세요") {
+                fetchLastWeight();
+            }
+        }
+
+        // 2페이지: 버튼 선택 토글
+        function toggleSelection(element) {
+            element.classList.toggle('selected');
+            const action = element.getAttribute('data-action');
+            selectedActions[action] = element.classList.contains('selected');
+        }
+
+        // 2페이지: 다음 버튼 로직
+        function finishSelection() {
+            if (selectedActions.weight) {
+                goToPage(3);
+            } else {
+                // 몸무게 측정 안 함 -> 바로 데이터 전송 후 4페이지로
+                sendData();
+            }
+        }
+
+        // 3페이지: 몸무게 확인 버튼
+        function submitWeight() {
+            const inputVal = document.getElementById('weightInput').value;
+            if (!inputVal) {
+                alert("몸무게를 입력해주세요!");
+                return;
+            }
+            currentWeight = inputVal;
+            sendData();
+        }
+        
+        // 데이터 전송 (Google Sheets로)
+        function sendData() {
+            document.getElementById('loading').style.display = 'flex';
+            
+            // 데이터 준비
+            const formData = new FormData();
+            formData.append('feeding', selectedActions.feeding);
+            formData.append('handling', selectedActions.handling);
+            formData.append('cleaning', selectedActions.cleaning);
+            formData.append('weight', selectedActions.weight ? currentWeight : "");
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                goToPage(4);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading').style.display = 'none';
+                alert("저장 실패 ㅠㅠ 다시 시도해주세요.");
+                goToPage(4); // 에러나도 일단 넘김 (UX상)
+            });
+        }
+
+        // 최근 몸무게 불러오기 (Placeholder용)
+        function fetchLastWeight() {
+            fetch(SCRIPT_URL)
+            .then(res => res.json())
+            .then(data => {
+                if(data.lastWeight) {
+                    document.getElementById('weightInput').placeholder = data.lastWeight;
+                }
+            });
+        }
+
+        // 앱 리셋 (처음으로)
+        function resetApp() {
+            // 선택 초기화
+            selectedActions = { feeding: false, handling: false, cleaning: false, weight: false };
+            currentWeight = "";
+            document.getElementById('weightInput').value = "";
+            document.querySelectorAll('.pebble').forEach(el => el.classList.remove('selected'));
+            goToPage(1);
+        }
+    </script>
+</body>
+</html>
