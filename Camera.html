@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Yul's English play</title>
+    <title>Yulia's English play</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,53 +30,53 @@
     <script>
         // 1. 앱 설정
         const APP_CONFIG = {
-            title: "Yul's magic with Instax Mini!",  // 브라우저 탭 제목 및 메인 타이틀
+            title: "Yulia's magic with Instax Mini!",  // 브라우저 탭 제목 및 메인 타이틀
             googleApiKey: "AIzaSyByK5uSOG_fCAsFDtY6vDQLdC1VGc2-wMc" // 구글 API 키
         };
 
         // 2. 스토리 데이터
         const STORY_DATA = [
-            { en: "This is a lovely girl named Cho Yul.", ko: "이 소녀는 사랑스러운 조율입니다." },
-            { en: "Yul loves her pink rabbit doll, Toto.", ko: "율이는 분홍색 토끼 인형 토토를 정말 좋아해요." },
-            { en: "Yul has a special friend.", ko: "율이에게는 특별한 친구가 있어요." },
+            { en: "This is a lovely girl named Cho Yulia.", ko: "이 소녀는 사랑스러운 조율입니다." },
+            { en: "Yulia loves her pink rabbit doll, Toto.", ko: "율이는 분홍색 토끼 인형 토토를 정말 좋아해요." },
+            { en: "Yulia has a special friend.", ko: "율이에게는 특별한 친구가 있어요." },
             { en: "It is a camera! A shiny, white Instax Mini.", ko: "그건 바로 카메라예요! 반짝이는 하얀색 인스탁스 미니죠." },
             { en: "It looks like a soft, white cloud.", ko: "마치 부드러운 하얀 구름처럼 보여요." },
             { en: "Click!", ko: "찰칵!" },
-            { en: "Yul takes a photo of Baekhap.", ko: "율이는 백합이 사진을 찍어요." },
+            { en: "Yulia takes a photo of Baekhap.", ko: "율이는 백합이 사진을 찍어요." },
             { en: "Smile, Baekhap! You are a cute gecko!", ko: "웃어 봐, 백합아! 넌 귀여운 도마뱀이야!" },
             { en: "Whirrr~ A small photo comes out! It is magic.", ko: "윙~ 작은 사진이 나와요! 정말 마법 같아요." },
-            { en: "Yul runs to the fish tank.", ko: "율이는 어항으로 달려가요." },
+            { en: "Yulia runs to the fish tank.", ko: "율이는 어항으로 달려가요." },
             { en: "Hello, Guppies! One, two!", ko: "안녕, 구피들아! 하나, 둘!" },
             { en: "Click! Now, the swimming fish are in the photo.", ko: "찰칵! 이제 헤엄치는 물고기들이 사진 속에 있어요." },
-            { en: "Yul goes outside.", ko: "율이는 밖으로 나가요." },
+            { en: "Yulia goes outside.", ko: "율이는 밖으로 나가요." },
             { en: "She rides her two-wheeled bike. Zoom, zoom!", ko: "율이는 두발자전거를 타요. 쌩쌩!" },
             { en: "Look at the flowers and trees!", ko: "꽃이랑 나무 좀 봐!" },
-            { en: "Yul stops her bike and takes a photo of nature.", ko: "율이는 자전거를 멈추고 자연 사진을 찍어요." },
+            { en: "Yulia stops her bike and takes a photo of nature.", ko: "율이는 자전거를 멈추고 자연 사진을 찍어요." },
             { en: "Then, her best friends come.", ko: "그때, 율이의 베스트 프렌드들이 와요." },
-            { en: "Hi, Hwiseo! Hi, Noel! Hi, Hi, Jaei!", ko: "안녕, 휘서야! 안녕, 노엘아! 안녕, 재이야!" },
+            { en: "Hi, Whee-seo! Hi, No-el! Hi, Hi, Jae-i!", ko: "안녕, 휘서야! 안녕, 노엘아! 안녕, 재이야!" },
             { en: "They stand together. Say Cheese!", ko: "친구들은 함께 서요. '치즈!'" },
             { en: "Click!", ko: "찰칵!" },
-            { en: "Now, Yul has a beautiful memory with her friends.", ko: "이제 율이에게는 친구들과의 아름다운 추억이 생겼어요." },
-            { en: "Who does Yul love the most?", ko: "율이는 누구를 가장 사랑할까요?" },
+            { en: "Now, Yulia has a beautiful memory with her friends.", ko: "이제 율이에게는 친구들과의 아름다운 추억이 생겼어요." },
+            { en: "Who does Yulia love the most?", ko: "율이는 누구를 가장 사랑할까요?" },
             { en: "Yes! Mom and Dad.", ko: "맞아요! 엄마와 아빠예요." },
-            { en: "Yul takes a happy photo of Mom and Dad.", ko: "율이는 행복한 엄마와 아빠 사진을 찍어요." },
+            { en: "Yulia takes a happy photo of Mom and Dad.", ko: "율이는 행복한 엄마와 아빠 사진을 찍어요." },
             { en: "She gives the photo to them.", ko: "율이는 그 사진을 엄마 아빠에게 드려요." },
             { en: "I love you!", ko: "사랑해요!" },
-            { en: "With her white Instax Mini, Yul keeps every happy moment forever.", ko: "하얀색 인스탁스 미니와 함께, 율이는 모든 행복한 순간을 영원히 간직해요." }
+            { en: "With her white Instax Mini, Yulia keeps every happy moment forever.", ko: "하얀색 인스탁스 미니와 함께, 율이는 모든 행복한 순간을 영원히 간직해요." }
         ];
 
         // 3. 퀴즈 데이터 (a: 정답 인덱스 0~3)
         const QUIZ_DATA = [
-            { q: "What is the name of Yul's rabbit doll?", options: ["Toto", "Lala", "Baekhap", "Mini"], a: 0 },
-            { q: "What is Yul's special friend?", options: ["A phone", "A camera", "A computer", "A television"], a: 1 },
+            { q: "What is the name of Yulia's rabbit doll?", options: ["Toto", "Lala", "Baekhap", "Mini"], a: 0 },
+            { q: "What is Yulia's special friend?", options: ["A phone", "A camera", "A computer", "A television"], a: 1 },
             { q: "What does the camera look like?", options: ["A red rose", "A blue sky", "A soft, white cloud", "A yellow banana"], a: 2 },
             { q: "Who is Baekhap?", options: ["A dog", "A cat", "A fish", "A gecko"], a: 3 },
-            { q: "Where does Yul run to see the Guppies?", options: ["The garden", "The fish tank", "The park", "The bedroom"], a: 1 },
-            { q: "What does Yul ride outside?", options: ["A scooter", "A skateboard", "A two-wheeled bike", "A car"], a: 2 },
-            { q: "What did Yul take a photo of outside?", options: ["Cars", "Nature", "Buildings", "Toys"], a: 1 },
-            { q: "What do Yul and her friends say for the photo?", options: ["Hello!", "Goodbye!", "Smile!", "Say Cheese!"], a: 3 },
-            { q: "Who does Yul love the most?", options: ["Her bike", "The camera", "Mom and Dad", "Her friends"], a: 2 },
-            { q: "What does Yul keep forever with her camera?", options: ["Happy moments", "Sad moments", "Old toys", "Food"], a: 0 }
+            { q: "Where does Yulia run to see the Guppies?", options: ["The garden", "The fish tank", "The park", "The bedroom"], a: 1 },
+            { q: "What does Yulia ride outside?", options: ["A scooter", "A skateboard", "A two-wheeled bike", "A car"], a: 2 },
+            { q: "What did Yulia take a photo of outside?", options: ["Cars", "Nature", "Buildings", "Toys"], a: 1 },
+            { q: "What do Yulia and her friends say for the photo?", options: ["Hello!", "Goodbye!", "Smile!", "Say Cheese!"], a: 3 },
+            { q: "Who does Yulia love the most?", options: ["Her bike", "The camera", "Mom and Dad", "Her friends"], a: 2 },
+            { q: "What does Yulia keep forever with her camera?", options: ["Happy moments", "Sad moments", "Old toys", "Food"], a: 0 }
         ];
 
         // 4. 단어 카드 데이터
@@ -85,12 +85,12 @@
             { en: "Cloud", desc: "하늘에 떠 있는 하얀 솜 같은 것", ko: "구름", ex: "It looks like a white cloud." },
             { en: "Gecko", desc: "벽을 잘 타는 작은 도마뱀", ko: "도마뱀", ex: "You are a cute gecko!" },
             { en: "Bike", desc: "바퀴를 굴려 타는 탈것", ko: "자전거", ex: "She rides her two-wheeled bike." },
-            { en: "Nature", desc: "꽃, 나무, 산 같은 것들", ko: "자연", ex: "Yul takes a photo of nature." },
+            { en: "Nature", desc: "꽃, 나무, 산 같은 것들", ko: "자연", ex: "Yulia takes a photo of nature." },
             { en: "Friend", desc: "서로 좋아하고 아끼는 사람", ko: "친구", ex: "Her best friends come." },
-            { en: "Memory", desc: "마음속에 간직한 기억", ko: "추억", ex: "Yul has a beautiful memory." },
+            { en: "Memory", desc: "마음속에 간직한 기억", ko: "추억", ex: "Yulia has a beautiful memory." },
             { en: "Magic", desc: "신기하고 놀라운 일", ko: "마법", ex: "It is magic." },
             { en: "Smile", desc: "행복해서 입꼬리를 올리는 표정", ko: "미소, 웃다", ex: "Smile, Baekhap!" },
-            { en: "Outside", desc: "집이나 건물의 밖", ko: "밖", ex: "Yul goes outside." },
+            { en: "Outside", desc: "집이나 건물의 밖", ko: "밖", ex: "Yulia goes outside." },
             { en: "Forever", desc: "끝나지 않고 계속되는 것", ko: "영원히", ex: "She keeps happy moments forever." },
             { en: "Lovely", desc: "사랑스럽고 귀여운", ko: "사랑스러운", ex: "This is a lovely girl." }
         ];
@@ -106,7 +106,7 @@
             { type: "moon [u:]", list: ["you", "two", "zoom", "blue", "moon"], color: "text-purple-600", bg: "bg-purple-50" },
             { type: "book [ʊ]", list: ["look", "good", "book", "cook", "foot"], color: "text-indigo-600", bg: "bg-indigo-50" },
             { type: "bird [ɜːr/ər]", list: ["girl", "whirr", "her", "bird", "shirt"], color: "text-fuchsia-600", bg: "bg-fuchsia-50" },
-            { type: "oh [oʊ]", list: ["photo", "noel", "go", "rose", "home"], color: "text-orange-600", bg: "bg-orange-50" },
+            { type: "oh [oʊ]", list: ["photo", "No-el", "go", "rose", "home"], color: "text-orange-600", bg: "bg-orange-50" },
             { type: "now [aʊ]", list: ["cloud", "flower", "out", "now", "mouse"], color: "text-yellow-700", bg: "bg-yellow-50" },
             { type: "I [aɪ]", list: ["white", "bike", "smile", "like", "ride"], color: "text-blue-600", bg: "bg-blue-50" },
             { type: "say [eɪ]", list: ["say", "take", "nature", "day", "play"], color: "text-pink-600", bg: "bg-pink-50" },
