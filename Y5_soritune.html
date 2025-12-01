@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Y5_soritune</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body { font-family: 'Fredoka', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .korean-font { font-family: 'Jua', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .animate-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pop { 0% { transform: scale(0.9); } 100% { transform: scale(1); } }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .text-outline {
+            text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
+        }
+    </style>
+</head>
+<body class="bg-sky-50 text-slate-800 min-h-screen">
+
+    <script>
+        // 1. 앱 설정
+        const APP_CONFIG = {
+            title: "Youtube 5 : Utah",  // 브라우저 탭 제목 및 메인 타이틀
+            googleApiKey: "AIzaSyByK5uSOG_fCAsFDtY6vDQLdC1VGc2-wMc" // 구글 API 키
+        };
+
+        // 2. 스토리 데이터
+const STORY_DATA = [
+    {
+        en: "Today on Fresh Living, we’re taking you to the heart of Utah for one of the most exciting events of the year: the annual Craft Lake City DIY Festival!",
+        ko: "오늘 Fresh Living에서는, 올해 가장 신나는 행사 중 하나인 연례 Craft Lake City DIY 페스티벌을 위해 여러분을 유타의 중심부로 안내합니다!"
+    },
+    {
+        en: "So, get your crafting shoes on and get ready to celebrate with us as we help mark a special milestone: the sixteenth anniversary of this beloved local favorite festival.",
+        ko: "그러니 공예 신발을 신고, 지역에서 사랑받는 이 인기 축제의 16주년이라는 특별한 이정표를 기념하는 우리와 함께 축하할 준비를 하세요."
+    },
+    {
+        en: "Join us for a weekend filled with over five hundred local artisans, vintage vendors, foodies, youth entrepreneurs, performers, and STEM exhibitors.",
+        ko: "500명이 넘는 지역 예술가, 빈티지 상인, 미식가, 청소년 기업가, 공연자, 그리고 STEM 전시자들로 가득 찬 주말을 우리와 함께하세요."
+    }
+];
+
+const QUIZ_DATA = [
+    {
+        q: "Where does the Craft Lake City DIY Festival take place?",
+        options: ["In the heart of Utah", "In New York City", "On a farm", "In a school gym"],
+        a: 0
+    },
+    {
+        q: "What implies that this event happens every year?",
+        options: ["Exciting", "Annual", "Special", "Favorite"],
+        a: 1
+    },
+    {
+        q: "Which anniversary is the festival celebrating?",
+        options: ["The 10th anniversary", "The 60th anniversary", "The 16th anniversary", "The 6th anniversary"],
+        a: 2
+    },
+    {
+        q: "What is the name of the show presenting this story?",
+        options: ["Craft Time", "Utah News", "DIY Daily", "Fresh Living"],
+        a: 3
+    },
+    {
+        q: "How many artisans and vendors are expected?",
+        options: ["Over 100", "Over 500", "Exactly 50", "Less than 200"],
+        a: 1
+    },
+    {
+        q: "What are you encouraged to put on?",
+        options: ["Your sleeping hat", "Your running gear", "Your crafting shoes", "Your winter coat"],
+        a: 2
+    },
+    {
+        q: "Which group of people is NOT mentioned in the list?",
+        options: ["Foodies", "Performers", "Youth entrepreneurs", "Astronauts"],
+        a: 3
+    },
+    {
+        q: "What kind of exhibitors are mentioned specifically related to science?",
+        options: ["STEM exhibitors", "History exhibitors", "Sports exhibitors", "Pet exhibitors"],
+        a: 0
+    },
+    {
+        q: "How is the festival described by the locals?",
+        options: ["A beloved favorite", "A noisy event", "A small gathering", "A new surprise"],
+        a: 0
+    },
+    {
+        q: "What type of vendors are mentioned alongside artisans?",
+        options: ["Car vendors", "Vintage vendors", "House vendors", "Boat vendors"],
+        a: 1
+    }
+];
+
+const WORD_DATA = [
+    {
+        en: "heart",
+        desc: "어떤 장소의 가장 중심이 되는 부분이에요.",
+        ko: "중심부 (심장)",
+        ex: "We are in the heart of the city."
+    },
+    {
+        en: "annual",
+        desc: "매년 한 번씩 일어나는 일이에요.",
+        ko: "매년의, 연례의",
+        ex: "We have an annual family party."
+    },
+    {
+        en: "milestone",
+        desc: "역사나 인생에서 아주 중요한 단계나 사건을 말해요.",
+        ko: "획기적인 사건 (이정표)",
+        ex: "Graduating is a big milestone."
+    },
+    {
+        en: "anniversary",
+        desc: "특별한 날이 돌아오는 것을 기념하는 날이에요.",
+        ko: "기념일",
+        ex: "Today is our wedding anniversary."
+    },
+    {
+        en: "beloved",
+        desc: "많은 사람들에게 깊이 사랑받는다는 뜻이에요.",
+        ko: "사랑받는",
+        ex: "He is a beloved teacher."
+    },
+    {
+        en: "local",
+        desc: "우리가 살고 있는 그 지역을 말해요.",
+        ko: "지역의, 현지의",
+        ex: "We buy food from a local market."
+    },
+    {
+        en: "artisan",
+        desc: "손으로 물건을 아름답게 만드는 기술자나 예술가예요.",
+        ko: "장인, 예술가",
+        ex: "The artisan made a beautiful chair."
+    },
+    {
+        en: "vendor",
+        desc: "물건을 파는 사람이나 가게를 말해요.",
+        ko: "상인, 판매자",
+        ex: "The vendor sells fresh fruit."
+    },
+    {
+        en: "entrepreneur",
+        desc: "직접 회사를 세우고 사업을 하는 사람이에요.",
+        ko: "사업가, 기업가",
+        ex: "She wants to be a young entrepreneur."
+    },
+    {
+        en: "performer",
+        desc: "노래, 춤, 연기 등으로 무대에서 공연하는 사람이에요.",
+        ko: "공연자",
+        ex: "The performer sang a great song."
+    },
+    {
+        en: "exhibitor",
+        desc: "사람들에게 보여주기 위해 물건이나 작품을 전시하는 사람이에요.",
+        ko: "전시자",
+        ex: "Each exhibitor has a booth."
+    },
+    {
+        en: "celebrate",
+        desc: "즐거운 일을 축하하며 파티를 하거나 기뻐하는 거예요.",
+        ko: "기념하다, 축하하다",
+        ex: "Let's celebrate your birthday!"
+    }
+];
+
+const PHONICS_POOL = [
+    { type: "father [a:]", list: ["on", "of", "box", "hot", "pot"], color: "text-stone-600", bg: "bg-stone-100" },
+    { type: "bus [ʌ]", list: ["us", "loved", "hundred", "bus", "cup"], color: "text-amber-600", bg: "bg-amber-50" },
+    { type: "apple [æ]", list: ["craft", "annual", "apple", "cat", "map"], color: "text-red-600", bg: "bg-red-50" },
+    { type: "red [e]", list: ["fresh", "help", "ready", "stem", "get"], color: "text-rose-600", bg: "bg-rose-50" },
+    { type: "he [i:]", list: ["we", "foodies", "sweet", "tree", "bee"], color: "text-emerald-600", bg: "bg-emerald-50" },
+    { type: "him [ɪ]", list: ["living", "city", "filled", "six", "big"], color: "text-sky-600", bg: "bg-sky-50" },
+    { type: "moon [u:]", list: ["shoes", "youth", "moon", "spoon", "cool"], color: "text-purple-600", bg: "bg-purple-50" },
+    { type: "book [ʊ]", list: ["book", "look", "good", "foot", "cook"], color: "text-indigo-600", bg: "bg-indigo-50" },
+    { type: "bird [ɜːr/ər]", list: ["performers", "bird", "girl", "turn", "nurse"], color: "text-fuchsia-600", bg: "bg-fuchsia-50" },
+    { type: "oh [oʊ]", list: ["so", "local", "over", "go", "home"], color: "text-orange-600", bg: "bg-orange-50" },
+    { type: "now [aʊ]", list: ["now", "cow", "out", "mouse", "house"], color: "text-yellow-700", bg: "bg-yellow-50" },
+    { type: "I [aɪ]", list: ["five", "diy", "time", "like", "bike"], color: "text-blue-600", bg: "bg-blue-50" },
+    { type: "say [eɪ]", list: ["lake", "today", "take", "make", "play"], color: "text-pink-600", bg: "bg-pink-50" },
+    { type: "boy [ɔɪ]", list: ["join", "boy", "toy", "joy", "coin"], color: "text-cyan-700", bg: "bg-cyan-50" },
+    { type: "you [juː]", list: ["Utah", "you", "use", "cute", "mule"], color: "text-violet-600", bg: "bg-violet-50" },
+    { type: "ear [ɪr]", list: ["year", "ear", "hear", "dear", "near"], color: "text-teal-600", bg: "bg-teal-50" },
+    { type: "air [er]", list: ["air", "hair", "chair", "bear", "care"], color: "text-lime-600", bg: "bg-lime-50" },
+    { type: "or [ɔr]", list: ["for", "or", "corn", "fork", "born"], color: "text-orange-800", bg: "bg-orange-100" },
+    { type: "car [ɑːr]", list: ["heart", "mark", "car", "star", "park"], color: "text-red-800", bg: "bg-red-100" }
+];
+    </script>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback } = React;
+
+        // Title 설정 적용
+        document.title = APP_CONFIG.title;
+
+        // --- 캐릭터 데이터 (디자인 요소라 그대로 둠) ---
+        const CHARACTERS = {
+            rabbit: { name: "Rabbit", colors: { bg: "bg-rose-50", text: "text-rose-400", button: "bg-rose-400", buttonHover: "hover:bg-rose-500", iconFill: "#C87F7F", iconStroke: "#8D6E63", face: "#E7A6A6", textHighlight: "text-pink-500" }, emoji: "🐰" },
+            dog: { name: "Doggy", colors: { bg: "bg-sky-50", text: "text-sky-400", button: "bg-sky-400", buttonHover: "hover:bg-sky-500", iconFill: "#93C5FD", iconStroke: "#1E3A8A", face: "#FFFFFF", textHighlight: "text-sky-600" }, emoji: "🐶" },
+            cat: { name: "Kitty", colors: { bg: "bg-purple-50", text: "text-purple-400", button: "bg-purple-400", buttonHover: "hover:bg-purple-500", iconFill: "#A78BFA", iconStroke: "#4C1D95", face: "#E9D5FF", textHighlight: "text-purple-600" }, emoji: "🐱" },
+            gecko: { name: "Gecko", colors: { bg: "bg-amber-50", text: "text-amber-600", button: "bg-amber-500", buttonHover: "hover:bg-amber-600", iconFill: "#D6C0A1", iconStroke: "#78350F", face: "#F5F5DC", textHighlight: "text-amber-700" }, emoji: "🦎" }
+        };
+
+        // --- 아이콘 컴포넌트 ---
+        const Icon = ({ name, size = 24, className = "" }) => {
+            const icons = {
+                Book: <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />,
+                Quiz: <g><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></g>,
+                Mic: <g><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></g>,
+                Card: <g><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></g>,
+                Vol: <g><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></g>,
+                Refresh: <g><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></g>,
+                ArrowR: <g><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></g>,
+                ArrowL: <g><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></g>
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name]}
+                </svg>
+            );
+        };
+
+        // --- 캐릭터 SVG ---
+        const CharacterSVG = ({ type }) => {
+            const config = CHARACTERS[type];
+            const { iconFill, iconStroke, face } = config.colors;
+            const svgStyle = { width: "100%", height: "100%" };
+
+            if (type === 'rabbit') {
+                return ( <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={svgStyle}> <path d="M70,80 C30,80 20,175 55,175 C75,175 85,110 70,80 Z" fill={iconFill} /> <path d="M130,80 C170,80 180,175 145,175 C125,175 115,110 130,80 Z" fill={iconFill} /> <circle cx="100" cy="110" r="55" fill={face} /> <path d="M60,150 Q100,190 140,150 L140,220 L60,220 Z" fill={face} /> <circle cx="80" cy="105" r="5" fill="#5D4037" /> <circle cx="120" cy="105" r="5" fill="#5D4037" /> <path d="M95,120 Q100,125 105,120" stroke={iconStroke} strokeWidth="3" fill="none" strokeLinecap="round" /> <circle cx="100" cy="115" r="3" fill="#FFE0E0" opacity="0.8"/> <circle cx="70" cy="120" r="6" fill="#FFCDD2" opacity="0.6" /> <circle cx="130" cy="120" r="6" fill="#FFCDD2" opacity="0.6" /> </svg> );
+            } else if (type === 'dog') {
+                return ( <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={svgStyle}> <ellipse cx="50" cy="90" rx="45" ry="15" fill={face} stroke={iconFill} strokeWidth="2" transform="rotate(-10 50 90)" /> <ellipse cx="150" cy="90" rx="45" ry="15" fill={face} stroke={iconFill} strokeWidth="2" transform="rotate(10 150 90)" /> <ellipse cx="100" cy="110" rx="60" ry="45" fill={face} /> <path d="M60,145 Q100,180 140,145 L140,220 L60,220 Z" fill={face} /> <circle cx="80" cy="105" r="5" fill="#1E3A8A" /> <circle cx="120" cy="105" r="5" fill="#1E3A8A" /> <path d="M92,115 Q100,122 108,115" stroke={iconStroke} strokeWidth="3" fill="none" strokeLinecap="round" /> <circle cx="70" cy="115" r="8" fill="#FCA5A5" opacity="0.5" /> <circle cx="130" cy="115" r="8" fill="#FCA5A5" opacity="0.5" /> </svg> );
+            } else if (type === 'cat') {
+                return ( <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={svgStyle}> <polygon points="50,60 90,90 40,110" fill={iconFill} /> <polygon points="150,60 110,90 160,110" fill={iconFill} /> <circle cx="100" cy="110" r="50" fill={face} /> <path d="M65,150 Q100,190 135,150 L135,220 L65,220 Z" fill={face} /> <circle cx="85" cy="105" r="5" fill="#4C1D95" /> <circle cx="115" cy="105" r="5" fill="#4C1D95" /> <path d="M95,120 Q100,125 105,120" stroke={iconStroke} strokeWidth="2" fill="none" /> <line x1="60" y1="110" x2="30" y2="105" stroke={iconStroke} strokeWidth="2" opacity="0.5"/> <line x1="60" y1="120" x2="30" y2="125" stroke={iconStroke} strokeWidth="2" opacity="0.5"/> <line x1="140" y1="110" x2="170" y2="105" stroke={iconStroke} strokeWidth="2" opacity="0.5"/> <line x1="140" y1="120" x2="170" y2="125" stroke={iconStroke} strokeWidth="2" opacity="0.5"/> </svg> );
+            } else if (type === 'gecko') {
+                return ( <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={svgStyle}> <path d="M70,160 Q100,200 130,160 L130,220 L70,220 Z" fill={face} /> <path d="M50,110 Q100,40 150,110 Q100,140 50,110 Z" fill={face} stroke={iconFill} strokeWidth="2"/> <circle cx="65" cy="100" r="12" fill="#FEF3C7" stroke={iconFill} strokeWidth="2"/> <rect x="63" y="92" width="4" height="16" rx="2" fill="#78350F" /> <circle cx="135" cy="100" r="12" fill="#FEF3C7" stroke={iconFill} strokeWidth="2"/> <rect x="133" y="92" width="4" height="16" rx="2" fill="#78350F" /> <path d="M55,90 Q40,80 50,70" stroke={iconStroke} strokeWidth="3" fill="none" strokeLinecap="round" /> <path d="M145,90 Q160,80 150,70" stroke={iconStroke} strokeWidth="3" fill="none" strokeLinecap="round" /> <path d="M85,125 Q100,135 115,125" stroke={iconStroke} strokeWidth="3" fill="none" strokeLinecap="round" /> </svg> );
+            }
+            return null;
+        };
+
+        // --- 메인 인트로 ---
+        const IntroScreen = ({ onStart }) => {
+            return (
+                <div onClick={onStart} className="relative h-screen w-full bg-sky-100 cursor-pointer overflow-hidden">
+                    <div className="absolute inset-0 z-0">
+                         <img src="images/cynews.png" alt="Main" className="w-full h-full object-cover animate-fade-in"
+                            onError={(e) => { e.target.style.display = 'none'; }} 
+                        />
+                        <div className="w-full h-full absolute inset-0 -z-10 bg-sky-100 flex items-center justify-center text-sky-300">
+                             이미지 어디 갔지?
+                        </div>
+                    </div>
+                    <div className="absolute top-16 w-full text-center z-10 px-4">
+                        <h1 className="text-6xl font-bold text-sky-400 korean-font animate-pop text-outline drop-shadow-xl tracking-wide">
+                            {APP_CONFIG.title}
+                        </h1>
+                    </div>
+                    <div className="absolute bottom-12 w-full text-center z-10">
+                        <div className="inline-block bg-white/80 backdrop-blur-sm px-6 py-2 rounded-full shadow-lg animate-bounce">
+                            <span className="text-sky-600 font-bold font-fredoka">Tap to Start!</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const StoryTab = ({ accent, speak, isLoading }) => {
+            return (
+                <div className="space-y-4 pb-20 animate-fade-in">
+                    <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm border border-sky-100">
+                        <div>
+                            <h2 className="text-xl font-bold text-sky-600 font-fredoka">Let's Read!</h2>
+                            <p className="text-xs text-slate-400">문장을 눌러 들어보세요</p>
+                        </div>
+                        <button onClick={() => speak(STORY_DATA.map(s => s.en).join(' '))} disabled={isLoading}
+                            className="bg-orange-400 hover:bg-orange-500 text-white p-3 rounded-full shadow-md active:scale-95 transition disabled:opacity-50">
+                            <Icon name="Vol" />
+                        </button>
+                    </div>
+                    {STORY_DATA.map((item, idx) => (
+                        <div key={idx} onClick={() => speak(item.en)} 
+                             className="p-4 bg-white rounded-xl border border-transparent hover:border-sky-300 hover:shadow-md cursor-pointer transition active:bg-sky-50">
+                            <p className="text-lg font-medium text-slate-800 mb-2 leading-relaxed font-fredoka">{item.en}</p>
+                            <p className="text-slate-500 text-sm korean-font">{item.ko}</p>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        const QuizTab = ({ speak }) => {
+            const [current, setCurrent] = useState(0);
+            const [score, setScore] = useState(0);
+            const [selected, setSelected] = useState(null);
+            const [finished, setFinished] = useState(false);
+
+            const handleSelect = (idx, text) => {
+                if (selected !== null) return;
+                speak(text);
+                setSelected(idx);
+                if (idx === QUIZ_DATA[current].a) setScore(s => s + 1);
+            };
+
+            const next = () => {
+                if (current < QUIZ_DATA.length - 1) {
+                    setCurrent(c => c + 1);
+                    setSelected(null);
+                } else {
+                    setFinished(true);
+                }
+            };
+
+            const retry = () => {
+                setCurrent(0);
+                setScore(0);
+                setSelected(null);
+                setFinished(false);
+            };
+
+            if (finished) return (
+                <div className="flex flex-col items-center justify-center h-[60vh] animate-pop text-center">
+                    <h2 className="text-3xl font-bold text-slate-800 mb-4 font-fredoka">Quiz Complete!</h2>
+                    <div className="text-8xl mb-6">🏆</div>
+                    <p className="text-xl text-slate-600 mb-8 font-fredoka">
+                        You scored <span className="text-sky-600 font-bold text-3xl">{score}</span> / {QUIZ_DATA.length}
+                    </p>
+                    <button onClick={retry} className="bg-sky-500 text-white px-8 py-3 rounded-full font-bold shadow-lg active:scale-95 transition flex items-center gap-2">
+                        <Icon name="Refresh" /> Try Again
+                    </button>
+                </div>
+            );
+
+            const q = QUIZ_DATA[current];
+
+            return (
+                <div className="pb-20 animate-fade-in max-w-xl mx-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <span className="text-xs font-bold text-sky-600 bg-sky-100 px-3 py-1 rounded-full">Question {current + 1} / {QUIZ_DATA.length}</span>
+                        <span className="text-xs font-bold text-slate-400">Score: {score}</span>
+                    </div>
+                    
+                    <div onClick={() => speak(q.q)} className="bg-white p-6 rounded-2xl shadow-sm border border-sky-100 mb-6 cursor-pointer hover:border-sky-300 transition group">
+                        <div className="flex items-start gap-3">
+                             <div className="bg-sky-50 p-2 rounded-full text-sky-400 group-hover:bg-sky-100 transition shrink-0">
+                                <Icon name="Vol" size={20} />
+                            </div>
+                            <h3 className="text-xl font-bold text-slate-800 leading-relaxed font-fredoka">{q.q}</h3>
+                        </div>
+                    </div>
+
+                    <div className="grid gap-3">
+                        {q.options.map((opt, idx) => {
+                            let containerStyle = "bg-white border-2 border-slate-100 hover:border-sky-200";
+                            let textStyle = "text-slate-600";
+                            let icon = null;
+
+                            if (selected !== null) {
+                                if (idx === q.a) { 
+                                    containerStyle = "bg-green-50 border-green-400"; 
+                                    textStyle = "text-green-700 font-bold";
+                                    icon = "⭕"; 
+                                }
+                                else if (idx === selected) { 
+                                    containerStyle = "bg-red-50 border-red-300"; 
+                                    textStyle = "text-red-700";
+                                    icon = "❌"; 
+                                }
+                                else { 
+                                    containerStyle = "opacity-50 border-slate-100"; 
+                                }
+                            }
+
+                            return (
+                                <div key={idx} className={`rounded-xl transition-all flex items-center p-1 ${containerStyle}`}>
+                                    <button onClick={(e) => { e.stopPropagation(); speak(opt); }}
+                                        className="p-3 rounded-full hover:bg-sky-100 text-sky-400 active:scale-90 transition shrink-0">
+                                          <Icon name="Vol" size={18} />
+                                    </button>
+                                    <button onClick={() => handleSelect(idx, opt)} disabled={selected !== null}
+                                        className={`flex-1 text-left py-3 px-2 font-fredoka text-lg outline-none ${textStyle}`}>
+                                        {opt}
+                                    </button>
+                                    {icon && <span className="pr-4 text-xl">{icon}</span>}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="h-16 flex justify-end items-center mt-4">
+                        {selected !== null && (
+                            <button onClick={next} className="bg-sky-500 text-white px-6 py-3 rounded-xl font-bold shadow-md active:scale-95 transition flex items-center gap-2 animate-pop">
+                                {current === QUIZ_DATA.length - 1 ? "See Result" : "Next"} <Icon name="ArrowR" />
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const PhonicsTab = ({ speak, isLoading }) => {
+            const [selectedPhonics, setSelectedPhonics] = useState([]);
+
+            const getRandomPhonics = useCallback(() => {
+                const shuffled = [...PHONICS_POOL].sort(() => 0.5 - Math.random());
+                setSelectedPhonics(shuffled.slice(0, 3));
+            }, []);
+
+            useEffect(() => {
+                getRandomPhonics();
+            }, [getRandomPhonics]);
+
+            if (selectedPhonics.length === 0) return null;
+
+            return (
+                <div className="pb-20 animate-fade-in space-y-6">
+                    <div className="flex justify-between items-end mb-2">
+                        <div>
+                            <h2 className="text-xl font-bold text-slate-700 korean-font">소리 연습하기</h2>
+                            <p className="text-sm text-slate-500 korean-font">비슷한 소리를 가진 단어들</p>
+                        </div>
+                        <button onClick={getRandomPhonics} className="text-xs bg-slate-200 text-slate-600 px-3 py-2 rounded-lg hover:bg-slate-300 transition flex gap-1 items-center font-bold">
+                            <Icon name="Refresh" size={12} /> Shuffle
+                        </button>
+                    </div>
+                    {selectedPhonics.map((group, idx) => (
+                        <div key={idx} className={`${group.bg} p-5 rounded-2xl shadow-sm border border-transparent hover:border-sky-100 transition`}>
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="bg-white/80 p-2 rounded-lg shadow-sm text-lg">🔊</span>
+                                <h3 className={`font-bold ${group.color} text-lg uppercase tracking-wide font-fredoka`}>{group.type}</h3>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {group.list.map((w, wIdx) => (
+                                    <button key={wIdx} onClick={() => speak(w)} disabled={isLoading}
+                                        className="bg-white border border-slate-200 px-4 py-2 rounded-xl text-slate-700 font-medium hover:scale-105 active:scale-95 transition flex gap-2 items-center shadow-sm disabled:opacity-50">
+                                        {w} <Icon name="Vol" size={12} className="text-slate-300" />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        const CardTab = ({ speak, isLoading }) => {
+            const [shuffledCards, setShuffledCards] = useState([]);
+            const [idx, setIdx] = useState(0);
+            const [face, setFace] = useState(0);
+            const [character, setCharacter] = useState('rabbit'); 
+
+            useEffect(() => {
+                const shuffled = [...WORD_DATA].sort(() => Math.random() - 0.5);
+                setShuffledCards(shuffled);
+            }, []);
+
+            if (shuffledCards.length === 0) return null;
+
+            const card = shuffledCards[idx];
+            const flip = () => setFace((f) => (f + 1) % 3);
+            const prev = (e) => { e.stopPropagation(); if(idx > 0) { setIdx(i => i-1); setFace(0); } };
+            const next = (e) => { e.stopPropagation(); if(idx < shuffledCards.length - 1) { setIdx(i => i+1); setFace(0); } };
+            const theme = CHARACTERS[character].colors;
+
+            return (
+                <div className="flex flex-col min-h-[calc(100vh-140px)] animate-fade-in max-w-sm mx-auto">
+                    <div className="flex justify-center gap-4 mb-6">
+                        {Object.keys(CHARACTERS).map((key) => (
+                            <button key={key} onClick={() => setCharacter(key)}
+                                className={`w-10 h-10 rounded-full text-xl flex items-center justify-center transition-all shadow-sm border-2
+                                    ${character === key ? 'scale-110 border-sky-400 bg-white' : 'border-transparent bg-slate-100 opacity-60 grayscale'}`}>
+                                {CHARACTERS[key].emoji}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div onClick={flip} className={`relative flex-1 bg-white rounded-[3rem] shadow-xl border-8 border-white cursor-pointer active:scale-[0.98] transition-transform overflow-hidden flex flex-col items-center justify-center text-center p-6 mb-8 group`}>
+                        <div className="absolute bottom-[-10px] right-[-10px] w-56 h-56 opacity-20 pointer-events-none transition-opacity group-hover:opacity-30">
+                            <CharacterSVG type={character} />
+                        </div>
+                        <div className="absolute top-8 flex gap-2">
+                            {[0,1,2].map(i => <div key={i} className={`w-2 h-2 rounded-full transition-colors ${face === i ? theme.button : 'bg-slate-200'}`} />)}
+                        </div>
+                        <button onClick={(e) => {e.stopPropagation(); speak(card.en);}} disabled={isLoading}
+                            className={`absolute top-6 right-6 p-3 ${theme.bg} ${theme.text} rounded-full hover:opacity-80 transition z-10 disabled:opacity-50`}>
+                            <Icon name="Vol" />
+                        </button>
+                        <div className="z-10 w-full animate-pop">
+                            {face === 0 && (
+                                <>
+                                    <h2 className="text-5xl font-bold text-slate-700 mb-4 font-fredoka tracking-tight">{card.en}</h2>
+                                    <p className={`${theme.text} font-bold text-sm uppercase tracking-widest`}>Tap for Hint</p>
+                                </>
+                            )}
+                            {face === 1 && (
+                                <>
+                                    <h2 className="text-3xl font-bold text-slate-400 mb-8 font-fredoka opacity-50">{card.en}</h2>
+                                    <div className={`${theme.bg} ${theme.text} p-4 rounded-xl font-bold text-xl korean-font border border-white/50 shadow-sm`}>"{card.desc}"</div>
+                                </>
+                            )}
+                            {face === 2 && (
+                                <>
+                                    <h2 className={`text-4xl font-bold ${theme.textHighlight} mb-2 korean-font`}>{card.ko}</h2>
+                                    <p className="text-slate-400 font-fredoka mb-6">{card.en}</p>
+                                    <div className="bg-slate-50 text-slate-600 p-4 rounded-xl italic border border-slate-100">"{card.ex}"</div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-between px-4">
+                        <button onClick={prev} disabled={idx === 0} className={`p-4 bg-white ${theme.text} rounded-full shadow-lg disabled:opacity-30 hover:${theme.bg} transition active:scale-95`}> <Icon name="ArrowL" /> </button>
+                        <span className={`font-bold ${theme.textHighlight} font-fredoka text-lg`}>{idx + 1} / {shuffledCards.length}</span>
+                        <button onClick={next} disabled={idx === shuffledCards.length - 1} className={`p-4 ${theme.button} ${theme.buttonHover} text-white rounded-full shadow-lg disabled:opacity-30 transition active:scale-95`}> <Icon name="ArrowR" /> </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [tab, setTab] = useState('story');
+            const [accent, setAccent] = useState('en-US');
+            const [isLoading, setIsLoading] = useState(false);
+
+            const speak = useCallback(async (text) => {
+                if (!APP_CONFIG.googleApiKey || APP_CONFIG.googleApiKey === "YOUR_GOOGLE_API_KEY_HERE") {
+                    alert("Google API Key가 설정되지 않았습니다.");
+                    return;
+                }
+                setIsLoading(true);
+                let voiceName = 'en-US-Neural2-F'; 
+                if (accent === 'en-GB') voiceName = 'en-GB-Neural2-A'; 
+                if (accent === 'en-AU') voiceName = 'en-AU-Neural2-C'; 
+
+                try {
+                    const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${APP_CONFIG.googleApiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            input: { text: text },
+                            voice: { languageCode: accent, name: voiceName },
+                            audioConfig: { audioEncoding: 'MP3' }
+                        })
+                    });
+                    const data = await response.json();
+                    if (data.error) { alert("음성 재생 오류: " + data.error.message); }
+                    else if (data.audioContent) {
+                        const audio = new Audio("data:audio/mp3;base64," + data.audioContent);
+                        audio.play();
+                    }
+                } catch (error) { alert("네트워크 오류가 발생했습니다."); } 
+                finally { setIsLoading(false); }
+            }, [accent]);
+
+            const TABS = [
+                { id: 'story', label: 'Story', icon: 'Book' },
+                { id: 'quiz', label: 'Quiz', icon: 'Quiz' },
+                { id: 'phonics', label: 'Phonics', icon: 'Mic' },
+                { id: 'cards', label: 'Cards', icon: 'Card' },
+            ];
+
+            return (
+                <div className="max-w-2xl mx-auto min-h-screen flex flex-col bg-sky-50">
+                    <div className="bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 py-3 shadow-sm border-b border-sky-100">
+                        <div className="flex justify-between items-center mb-3">
+                            <h1 className="text-2xl font-bold text-sky-500 flex items-center gap-2 font-fredoka">
+                                <Icon name="Book" /> Pete's Class
+                            </h1>
+                            <select value={accent} onChange={e => setAccent(e.target.value)} className="text-xs bg-slate-100 px-2 py-1 rounded-md font-bold text-slate-500 outline-none">
+                                <option value="en-US">🇺🇸 US</option>
+                                <option value="en-GB">🇬🇧 UK</option>
+                                <option value="en-AU">🇦🇺 AU</option>
+                            </select>
+                        </div>
+                        <div className="flex gap-1 bg-sky-100/50 p-1 rounded-xl overflow-x-auto hide-scrollbar">
+                            {TABS.map(t => (
+                                <button key={t.id} onClick={() => setTab(t.id)}
+                                    className={`flex-1 py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 text-xs font-bold transition-all whitespace-nowrap
+                                    ${tab === t.id ? 'bg-sky-500 text-white shadow-sm' : 'text-sky-600 hover:bg-sky-200/50'}`}>
+                                    <Icon name={t.icon} size={16} /> {t.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex-1 p-4 overflow-y-auto">
+                        {tab === 'story' && <StoryTab accent={accent} speak={speak} isLoading={isLoading} />}
+                        {tab === 'quiz' && <QuizTab speak={speak} />}
+                        {tab === 'phonics' && <PhonicsTab speak={speak} isLoading={isLoading} />}
+                        {tab === 'cards' && <CardTab speak={speak} isLoading={isLoading} />}
+                    </div>
+                </div>
+            );
+        };
+
+        const Main = () => {
+            const [showIntro, setShowIntro] = useState(true);
+            if (showIntro) return <IntroScreen onStart={() => setShowIntro(false)} />;
+            return <App />;
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Main />);
+    </script>
+</body>
+</html>
