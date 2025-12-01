@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>율이의 역사여행:불꽃놀이와 화약</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #1a1a1a;
+            color: #333;
+            overflow: hidden; /* 스크롤 방지 */
+            touch-action: manipulation;
+        }
+
+        .font-comic {
+            font-family: 'Jua', sans-serif;
+        }
+
+        /* 불꽃 애니메이션 */
+        @keyframes burn {
+            0% { transform: scale(1); filter: brightness(100%); }
+            50% { transform: scale(1.1); filter: brightness(120%); }
+            100% { transform: scale(1); filter: brightness(100%); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .btn-fire {
+            animation: burn 1.5s infinite ease-in-out;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-fire:active {
+            transform: scale(0.9);
+        }
+
+        .btn-quiz {
+            animation: float 2s infinite ease-in-out;
+        }
+
+        /* 텍스트 박스 스타일 (전자책 느낌) */
+        .text-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* 이미지 컨테이너 */
+        .img-container {
+            width: 100%;
+            height: 100%;
+            background-color: #2d3748;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .img-fit {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #000;
+        }
+
+        /* 페이드 효과 */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-center items-center">
+
+    <div id="app" class="w-full h-full max-w-md bg-white relative shadow-2xl overflow-hidden flex flex-col">
+        <!-- 컨텐츠가 여기에 렌더링 됩니다 -->
+    </div>
+
+    <script>
+        // 데이터 정의
+        const storyData = [
+            {
+                type: 'cover',
+                image: 'images/fire1.jpg',
+                alt: '표지: 화약의 비밀'
+            },
+            {
+                type: 'intro',
+                image: 'images/fire2.jpg',
+                title: '등장인물 소개',
+                content: `
+                    <p class="mb-2"><strong class="text-red-500">조율 (8세)</strong>: 2025년 청곡초등학교 1학년 5반 17번. 호기심 왕성하고 반짝이는 걸 좋아하는 멋진 소녀.</p>
+                    <p class="mb-2"><strong class="text-amber-700">손 할아버지 (손사막)</strong>: 아주 먼 옛날(당나라), 약을 만드는 의사 할아버지. 실수 투성이지만 열정적이다.</p>
+                    <p><strong class="text-orange-500">불꽃 요정 '파팡'</strong>: 불꽃놀이에서 튀어나온 장난꾸러기 불똥 요정.</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/fire3.jpg',
+                title: '1장: 밤하늘에 핀 꽃',
+                sub: '(2025년 청현마을 축제 날 밤)',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> (밤하늘을 올려다보며) "와아! 엄마, 저기 봐요! 하늘에 보석이 터지는 것 같아요! 너무 예쁘다!"</p>
+                    <p class="mb-2"><span class="font-bold text-orange-500">파팡:</span> (율이의 코앞에서 펑! 나타나며) "안녕? 난 불꽃 요정 '파팡'이야! 내가 예쁘니?"</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "엄마야! 깜짝이야. 너는 누구니?"</p>
+                    <p class="mb-2"><span class="font-bold text-orange-500">파팡:</span> "히히, 나는 불꽃 속에 숨어있는 비밀을 알고 있지. 율아, 저 화려한 불꽃이 어떻게 만들어지는지 궁금하지 않아? 나랑 같이 비밀을 찾으러 갈래?"</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "응! 궁금해! 같이 갈래!"</p>
+                    <p><span class="font-bold text-orange-500">파팡:</span> "좋았어! 자, 내 손을 잡아! 펑펑 파라파라 팡팡! 과거로 쓩~!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/fire4.jpg',
+                title: '2장: 앗, 냄새! 이게 무슨 냄새야?',
+                sub: '(7세기 당나라, 어느 깊은 산속 오두막)',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> (엉덩방아를 찧으며) "아야! 어? 여기가 어디지? 으악, 근데 이게 무슨 냄새야? 방귀 냄새 같아!"</p>
+                    <p class="mb-2"><span class="font-bold text-amber-700">손 할아버지:</span> (검은 연기 속에서 콜록거리며) "콜록콜록! 아이구, 또 실패구나. 늙지 않고 영원히 사는 약을 만들기가 이렇게 힘들다니..."</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "할아버지는 누구세요? 그리고 이 노란 가루는 뭐예요? 냄새가 지독해요!"</p>
+                    <p class="mb-2"><span class="font-bold text-amber-700">손 할아버지:</span> "나는 의사 '손사막'이란다. 그 노란 건 <strong class='text-yellow-600'>'유황'</strong>이야. 냄새는 좀 나지만 불을 아주 잘 붙게 도와주는 부싯돌 같은 녀석이지."</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "유황? 냄새나는 노란 가루구나! 그럼 저 검은 건요?"</p>
+                    <p><span class="font-bold text-amber-700">손 할아버지:</span> "저건 나무를 태워 만든 <strong class='text-gray-800'>'숯가루(탄소)'</strong>란다. 그리고 저기 하얀 가루는 <strong class='text-gray-500'>'초석(질산칼륨)'</strong>이지. 이 초석이 아주 중요해. 불꽃이 '파바박!' 하고 튀어오르게 만들거든."</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/fire5.jpg',
+                title: '3장: 3대 2대 1의 비밀 레시피',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-amber-700">손 할아버지:</span> "율아, 내가 힘이 없으니 네가 좀 도와주렴. 약을 만들려면 비율이 중요해!"</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "네! 제가 할게요. 어떻게 섞으면 돼요?"</p>
+                    <p class="mb-2"><span class="font-bold text-amber-700">손 할아버지:</span> "자, 노래를 부르면서 넣어보자!"</p>
+                    <div class="bg-yellow-50 p-3 rounded-lg my-2 border border-yellow-200">
+                        <p class="font-comic text-center text-lg text-orange-600">🎵 할아버지의 쿵짝쿵짝 레시피 송 🎵</p>
+                        <p class="text-center">검은색 숯가루는 듬직하게 세 스푼 (3)!</p>
+                        <p class="text-center">하얀색 초석은 짜릿하게 두 스푼 (2)!</p>
+                        <p class="text-center">노란색 유황은 냄새나도 한 스푼 (1)!</p>
+                        <p class="text-center font-bold">3 대 2 대 1로 섞어섞어~ 쉐킷쉐킷!</p>
+                    </div>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> (신나서 섞으며) "검은 거 3번! 하얀 거 2번! 노란 거 1번! 다 섞었어요 할아버지!"</p>
+                    <p class="mb-2"><span class="font-bold text-amber-700">손 할아버지:</span> "좋아! 이제 여기에 불기운을 살짝 주면... 영원히 사는 약이 되겠지?"</p>
+                    <p class="text-sm text-gray-500 text-center">(할아버지가 그릇에 불씨를 가까이 대는 순간!)</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/fire6.jpg',
+                title: '4장: 약이 아니라 폭탄이었어?!',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-orange-500">파팡:</span> "율아! 귀 막아!"</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "어?!"</p>
+                    <p class="text-center text-3xl font-comic text-red-600 my-4 animate-bounce">퍼어어엉!!! 쾅!!!</p>
+                    <p class="mb-2 bg-gray-100 p-2 rounded">오두막 지붕이 들썩거리고, 그릇에 담긴 가루들이 무지개색 불꽃을 내뿜으며 튀어 올랐어요.</p>
+                    <p class="mb-2"><span class="font-bold text-amber-700">손 할아버지:</span> "으아악! 내 수염 다 탔네!"</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "꺄악! 할아버지, 약이 폭발했어요! 근데... 불꽃이 너무 예뻐요!"</p>
+                    <p class="mb-2"><span class="font-bold text-orange-500">파팡:</span> (깔깔 웃으며) "봤지? 할아버지는 오래 사는 약을 만들려다가 우연히 <strong class='text-red-600'>'화약'</strong>을 발명하게 된 거야! 펑 터지면서 높은 열이랑 빛을 내는 가루, 그게 바로 화약이지!"</p>
+                    <p class="mb-2"><span class="font-bold text-red-500">율:</span> "아하! 숯, 초석, 유황을 섞으니까 '펑'하고 터지는 화약이 되었구나! 옛날에는 이걸로 무기를 만들거나 공사를 했지만, 지금은 예쁜 불꽃놀이가 된 거네?"</p>
+                    <p><span class="font-bold text-amber-700">손 할아버지:</span> (검댕이 묻은 얼굴로) "허허, 약은 실패했지만 엄청난 걸 발견했구먼!"</p>
+                `
+            },
+            {
+                type: 'quiz_intro',
+                image: 'images/fire7.jpg',
+                title: '5장: 율이의 퀴즈 타임!',
+                sub: '(다시 2025년으로 돌아온 율이)',
+                content: `
+                    <p class="mb-4"><span class="font-bold text-orange-500">파팡:</span> "율아, 오늘 여행 어땠어? 돌아가기 전에 퀴즈를 맞혀야 집으로 보내줄 거야!"</p>
+                    <p><span class="font-bold text-red-500">율:</span> "자신 있어! 문제 내봐!"</p>
+                `
+            },
+            {
+                type: 'ending',
+                image: 'images/fire8.jpg',
+                alt: '끝'
+            }
+        ];
+
+        const quizData = [
+            {
+                question: "화약을 처음 만든 사람은 빵을 굽다가 우연히 발견했다?",
+                answer: false,
+                explanation: "당나라의 '손사막' 할아버지가 불로장생(오래 사는) 약을 만들려다가 우연히 발견했어!"
+            },
+            {
+                question: "화약 재료 중 '유황'은 향기로운 꽃 냄새가 난다?",
+                answer: false,
+                explanation: "유황은 방귀 냄새 같은 지독한 냄새가 나. 하지만 불을 잘 붙게 도와주지!"
+            },
+            {
+                question: "화약을 만드는 황금 비율은<br>숯 : 초석 : 유황 = 3 : 2 : 1 이다?",
+                answer: true,
+                explanation: "검은 숯 3번, 하얀 초석 2번, 노란 유황 1번! 이 노래를 기억해!"
+            }
+        ];
+
+        // 상태 관리
+        let currentState = {
+            pageIndex: 0,
+            quizIndex: 0,
+            quizStatus: 'question' // question, result, explanation
+        };
+
+        const app = document.getElementById('app');
+
+        // 메인 렌더링 함수
+        function render() {
+            app.innerHTML = ''; // 초기화
+            
+            // 1. 퀴즈 페이지가 아닌 경우 (스토리, 표지, 엔딩)
+            if (currentState.pageIndex < storyData.length) {
+                const page = storyData[currentState.pageIndex];
+                
+                if (page.type === 'cover') {
+                    renderCover(page);
+                } else if (page.type === 'ending') {
+                    renderEnding(page);
+                } else if (page.type === 'quiz_intro') {
+                    renderStoryPage(page, true);
+                } else {
+                    renderStoryPage(page, false);
+                }
+            } 
+            // 2. 퀴즈 진행 중
+            else if (currentState.pageIndex === storyData.length) {
+                renderQuiz();
+            }
+        }
+
+        // --- 페이지 컴포넌트들 ---
+
+        function renderCover(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = nextPage;
+            div.innerHTML = `
+                <div class="img-container">
+                    <img src="${data.image}" class="img-cover" alt="${data.alt}" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-red-900 flex flex-col items-center justify-center text-white text-2xl font-comic\\'><span class=\\'text-6xl mb-4\\'>🎆</span><h1>화약의 비밀과<br>율이의 모험</h1><p class=\\'text-sm mt-8 animate-pulse\\'>화면을 터치하세요</p></div>'">
+                </div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl drop-shadow-md">
+                    화면을 탭하여 시작하기
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        function renderStoryPage(data, isQuizIntro) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-gray-100 fade-in";
+            
+            // 이미지 영역 (화면 상단)
+            const imgHtml = `
+                <div class="flex-1 img-container relative border-b-4 border-orange-400">
+                    <img src="${data.image}" class="img-fit" alt="삽화" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-gray-800 flex items-center justify-center text-gray-500\\'>이미지 로딩 실패<br>${data.image}</div>'">
+                </div>
+            `;
+
+            // 텍스트 및 컨트롤 영역 (화면 하단)
+            const textHtml = `
+                <div class="h-1/2 flex flex-col relative">
+                    <div class="flex-1 p-6 overflow-y-auto text-box -mt-6 z-10 text-lg leading-relaxed">
+                        ${data.title ? `<h2 class="font-comic text-2xl text-orange-700 mb-1">${data.title}</h2>` : ''}
+                        ${data.sub ? `<p class="text-sm text-gray-500 mb-4">${data.sub}</p>` : ''}
+                        <div class="space-y-2">
+                            ${data.content}
+                        </div>
+                    </div>
+                    
+                    <!-- 네비게이션 버튼 -->
+                    <div class="h-20 bg-white flex justify-between items-center px-8 border-t border-gray-100 z-20">
+                        <div onclick="prevPage()" class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-gray-600 transition">
+                            <span class="text-3xl filter grayscale opacity-50">🔥</span>
+                            <span class="text-xs font-bold mt-1">이전</span>
+                        </div>
+                        
+                        ${isQuizIntro ? 
+                            `<div onclick="startQuiz()" class="btn-quiz flex flex-col items-center cursor-pointer text-purple-600">
+                                <div class="w-14 h-14 bg-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg border-4 border-purple-300">?</div>
+                                <span class="text-xs font-bold mt-1 text-purple-700">퀴즈 시작!</span>
+                            </div>` 
+                            : 
+                            `<div onclick="nextPage()" class="btn-fire flex flex-col items-center text-orange-500">
+                                <span class="text-4xl filter drop-shadow-md">🔥</span>
+                                <span class="text-xs font-bold mt-1 text-red-600">다음</span>
+                            </div>`
+                        }
+                    </div>
+                </div>
+            `;
+            
+            div.innerHTML = imgHtml + textHtml;
+            app.appendChild(div);
+        }
+
+        function renderQuiz() {
+            // 모든 퀴즈가 끝났으면 다음 페이지(엔딩)로 이동
+            if (currentState.quizIndex >= quizData.length) {
+                // 수정: pageIndex를 storyData의 마지막 인덱스(엔딩 페이지)로 설정
+                // storyData 배열의 맨 마지막 요소가 'ending' 타입이므로 해당 인덱스로 이동
+                currentState.pageIndex = storyData.length - 1; 
+                currentState.quizIndex = 0; // 초기화
+                render();
+                return;
+            }
+
+            const currentQ = quizData[currentState.quizIndex];
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-purple-50 fade-in";
+
+            let contentHtml = '';
+
+            // 상태 1: 문제 풀기
+            if (currentState.quizStatus === 'question') {
+                contentHtml = `
+                    <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-purple-600 font-bold text-xl mb-4">문제 ${currentState.quizIndex + 1} / 3</span>
+                        <div class="bg-white p-8 rounded-2xl shadow-xl w-full mb-8 border-2 border-purple-200">
+                            <p class="text-2xl font-bold leading-normal break-keep">${currentQ.question}</p>
+                        </div>
+                        <div class="flex gap-6 w-full justify-center">
+                            <button onclick="checkAnswer(true)" class="w-24 h-24 bg-blue-500 rounded-full text-white text-5xl font-black shadow-lg hover:bg-blue-600 active:scale-95 transition">O</button>
+                            <button onclick="checkAnswer(false)" class="w-24 h-24 bg-red-500 rounded-full text-white text-5xl font-black shadow-lg hover:bg-red-600 active:scale-95 transition">X</button>
+                        </div>
+                    </div>
+                    <div class="h-20 bg-white border-t border-gray-200 flex items-center px-4">
+                        <button onclick="exitQuiz()" class="text-gray-400 font-bold text-sm">◀ 돌아가기</button>
+                    </div>
+                `;
+            } 
+            // 상태 2: 결과 (이모지 표시)
+            else if (currentState.quizStatus === 'result') {
+                const isCorrect = currentState.lastAnswer === currentQ.answer;
+                const emoji = isCorrect ? '🎆' : '😫'; // 🎆 or 🧟/😫
+                const bgColor = isCorrect ? 'bg-blue-900' : 'bg-red-900';
+                const message = isCorrect ? '정답입니다!' : '틀렸어요!';
+
+                contentHtml = `
+                    <div class="w-full h-full ${bgColor} flex flex-col items-center justify-center text-white cursor-pointer" onclick="showExplanation()">
+                        <div class="text-9xl mb-6 animate-bounce">${emoji}</div>
+                        <h2 class="text-4xl font-comic mb-4">${message}</h2>
+                        <p class="animate-pulse text-lg opacity-80">화면을 탭하여 해설 보기</p>
+                    </div>
+                `;
+            }
+            // 상태 3: 해설
+            else if (currentState.quizStatus === 'explanation') {
+                const isLastQuestion = currentState.quizIndex === quizData.length - 1;
+                const nextButtonText = isLastQuestion ? "모험 마치기" : "다음 문제로";
+
+                contentHtml = `
+                    <div class="flex-1 flex flex-col p-6 bg-white cursor-pointer" onclick="nextQuizStep()">
+                        <div class="flex-1 flex flex-col justify-center items-center">
+                            <h3 class="text-2xl font-comic text-purple-700 mb-6">💡 율이의 해설</h3>
+                            <div class="bg-yellow-100 p-6 rounded-xl border-2 border-yellow-300 shadow-md w-full relative">
+                                <div class="absolute -top-4 -left-2 text-4xl">👧🏻</div>
+                                <p class="text-xl font-medium text-gray-800 leading-relaxed mt-2 word-keep">
+                                    "${currentQ.explanation}"
+                                </p>
+                            </div>
+                        </div>
+                        <div class="h-24 w-full flex items-center justify-center">
+                            <div class="btn-fire flex flex-col items-center">
+                                <span class="text-4xl">🔥</span>
+                                <span class="text-sm font-bold text-red-500 mt-1">${nextButtonText}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            div.innerHTML = contentHtml;
+            app.appendChild(div);
+        }
+
+        function renderEnding(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = restart;
+            div.innerHTML = `
+                <div class="img-container">
+                    <img src="${data.image}" class="img-cover" alt="끝" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-black flex flex-col items-center justify-center text-white\\'><span class=\\'text-6xl mb-4\\'>The End</span><p>이미지를 찾을 수 없습니다</p></div>'">
+                </div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl bg-black bg-opacity-30 py-2">
+                    처음으로 돌아가기
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        // --- 로직 함수들 ---
+
+        function nextPage() {
+            if (currentState.pageIndex < storyData.length) {
+                currentState.pageIndex++;
+                render();
+            }
+        }
+
+        function prevPage() {
+            if (currentState.pageIndex > 0) {
+                currentState.pageIndex--;
+                render();
+            }
+        }
+
+        function startQuiz() {
+            // 스토리 배열의 길이와 같으면 퀴즈 섹션으로 간주
+            currentState.pageIndex = storyData.length; 
+            currentState.quizIndex = 0;
+            currentState.quizStatus = 'question';
+            render();
+        }
+
+        function exitQuiz() {
+            currentState.pageIndex--; // 다시 퀴즈 인트로 페이지로
+            render();
+        }
+
+        function checkAnswer(userAnswer) {
+            currentState.lastAnswer = userAnswer;
+            currentState.quizStatus = 'result';
+            render();
+        }
+
+        function showExplanation() {
+            currentState.quizStatus = 'explanation';
+            render();
+        }
+
+        function nextQuizStep() {
+            // 다음 문제 준비
+            currentState.quizIndex++;
+            currentState.quizStatus = 'question';
+            render();
+        }
+
+        function restart() {
+            currentState.pageIndex = 0;
+            currentState.quizIndex = 0;
+            render();
+        }
+
+        // 초기 실행
+        render();
+
+    </script>
+</body>
+</html>
