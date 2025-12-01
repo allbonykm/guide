@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gecko Cash</title>
-    <!-- 구글 폰트 -->
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -155,16 +154,13 @@
 </head>
 <body>
 
-    <!-- 로딩 화면 -->
     <div id="loading">Connecting to Gecko Bank...🦎</div>
 
-    <!-- 1. 인트로 화면 -->
     <div id="screen-intro" class="screen active" onclick="goToMain()">
         <div id="intro-title">Gecko Cash</div>
         <p style="color: white; margin-top: 300px; font-size: 20px; text-shadow: 1px 1px 2px black;">Tap to start!</p>
     </div>
 
-    <!-- 2. 메인 화면 (날짜, 잔액, 선택) -->
     <div id="screen-main" class="screen">
         <div class="text-box">
             <h2 id="today-date"></h2>
@@ -177,7 +173,6 @@
         </div>
     </div>
 
-    <!-- 3-1. 적립 입력 화면 -->
     <div id="screen-earn" class="screen">
         <div class="text-box">
             <h2>Enter the cash<br>you earned today!</h2>
@@ -187,7 +182,6 @@
         </div>
     </div>
 
-    <!-- 3-2. 사용 입력 화면 -->
     <div id="screen-spend" class="screen">
         <div class="text-box">
             <h2>Enter the cash<br>you spent today.</h2>
@@ -197,7 +191,6 @@
         </div>
     </div>
 
-    <!-- 4-1. 적립 성공 화면 -->
     <div id="screen-result-earn" class="screen" onclick="goToBalance()">
         <div class="text-box">
             <h2>Great job!</h2>
@@ -206,7 +199,6 @@
         </div>
     </div>
 
-    <!-- 4-2. 사용 성공 화면 -->
     <div id="screen-result-spend" class="screen" onclick="goToBalance()">
         <div class="text-box">
             <h2>I'm a smart shopper!</h2>
@@ -215,7 +207,6 @@
         </div>
     </div>
 
-    <!-- 5. 최종 잔액 화면 -->
     <div id="screen-balance" class="screen">
         <div class="text-box">
             <h2>How much<br>Gecko Cash do I have?</h2>
@@ -288,13 +279,24 @@
         // 데이터 전송 (적립/사용)
         function submitCash(type) {
             const inputId = type === 'earn' ? 'earn-input' : 'spend-input';
-            const val = document.getElementById(inputId).value;
+            const rawVal = document.getElementById(inputId).value;
             
-            if (!val || val <= 0) {
+            // 1. 값이 아예 없거나(빈칸) 음수인 경우 -> 경고
+            if (rawVal === '' || parseInt(rawVal) < 0) {
                 alert("Please enter a number!");
                 return;
             }
+            
+            // 숫자로 변환
+            const val = parseInt(rawVal);
 
+            // 2. [수정됨] 입력값이 0인 경우 -> 서버 전송 안하고 바로 잔액화면으로
+            if (val === 0) {
+                goToBalance(); 
+                return;
+            }
+
+            // 3. 0보다 큰 경우 -> 기존대로 서버 전송
             showLoading(true);
 
             // 폼 데이터 생성
