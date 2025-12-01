@@ -43,7 +43,7 @@
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen p-4 sm:p-6">
 
-    <div class="max-w-3xl w-full bg-[#1a1a1a] p-8 sm:p-12 rounded-xl border border-yellow-600/50 gold-shadow">
+    <div class="max-w-4xl w-full bg-[#1a1a1a] p-8 sm:p-12 rounded-xl border border-yellow-600/50 gold-shadow">
         
         <header class="text-center mb-10">
             <h1 class="text-4xl font-bold text-yellow-400">권은재 님을 위한 한약 안내글</h1>
@@ -82,102 +82,116 @@
                 </ul>
             </section>
             
-<section class="mb-10">
-            <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">종합 검사 결과</h2>
-            
-            <div class="overflow-x-auto text-gray-200">
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">종합 검사 결과</h2>
                 
-                <table>
-                    <thead>
-                        <tr class="text-yellow-300">
-                            <th class="w-1/3">항목</th>
-                            <th class="w-1/3">이전 결과 (10/19)</th>
-                            <th class="w-1/3">최근 결과 (11/01)</th>
-                        </tr>
-                    </thead>
+                <div class="overflow-x-auto text-gray-200">
                     
-                    <tbody>
-                        <tr>
-                            <td colspan="3" class="table-section-header">인바디 검사 (InBody)</td>
-                        </tr>
+                    <table>
+                        <thead>
+                            <tr class="text-yellow-300">
+                                <th class="w-1/4">항목</th>
+                                <th class="w-1/4">이전 (10/19)</th>
+                                <th class="w-1/4">이전 (11/01)</th>
+                                <th class="w-1/4">최근 (11/29)</th>
+                            </tr>
+                        </thead>
                         
-                        <tr>
-                            <td>체중 (Weight)</td>
-                            <td>67.2 kg</td>
-                            <td>68.5 kg <span class="text-red-400">(+1.3 kg)</span></td>
-                        </tr>
-                        <tr class="highlight">
-                            <td>골격근량 (Skeletal Muscle Mass)</td>
-                            <td>28.1 kg</td>
-                            <td>29.3 kg <span class="text-red-400">(+1.2 kg)</span> <br>(근육량 증가)</td>
-                        </tr>
-                        <tr>
-                            <td>체지방량 (Body Fat Mass)</td>
-                            <td>16.4 kg</td>
-                            <td>15.5 kg <span class="text-blue-400">(-0.9 kg)</span></td>
-                        </tr>
-                        <tr>
-                            <td>BMI (Body Mass Index)</td>
-                            <td>21.6</td>
-                            <td>22.0 <span class="text-red-400">(+0.4)</span></td>
-                        </tr>
-                        <tr class="highlight">
-                            <td>체지방률 (Percent Body Fat)</td>
-                            <td>24.5 %</td>
-                            <td>22.7 % <span class="text-blue-400">(-1.8 %)</span></td>
-                        </tr>
-                        <tr>
-                            <td>기초대사량 (Basal Metabolic Rate)</td>
-                            <td>1466 kcal</td>
-                            <td>1514 kcal <span class="text-green-400">(+48 kcal)</span></td>
-                        </tr>
-                     
-                        <tr>
-                            <td colspan="3" class="table-section-header">자율신경 검사 (HRV)</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>HRV-index</td>
-                            <td>24.3</td>
-                            <td>24.5 <span class="text-green-400">(+0.2)</span></td>
-                        </tr>
-                        <tr>
-                            <td>TP (Total Power)</td>
-                            <td>8.4</td>
-                            <td>9.5 <span class="text-green-400">(+1.1)</span></td>
-                        </tr>
-                        <tr>
-                            <td>LF (Low Frequency)</td>
-                            <td>8.2</td>
-                            <td>9.1 <span class="text-red-400">(+0.9)</span> (교감신경 항진)</td>
-                        </tr>
-                        <tr>
-                            <td>HF (High Frequency)</td>
-                            <td>6.1</td>
-                            <td>8.0 <span class="text-green-400">(+1.9)</span></td>
-                        </tr>
-                 <tr class="highlight">
-                            <td>LF/HF (ratio)</td>
-                            <td>1.34</td>
-                            <td>1.13 <span class="text-red-400">(-0.21)</span></td>
-                        </tr>
-오후 12:45 2025-11-04
-                        <tr>
-                            <td>스트레스 지수 (Stress Index)</td>
-                            <td>52</td>
-                            <td>39 <span class="text-blue-400">(-13)</span></td>
-                        </tr>
-                        <tr>
-                            <td>뇌 스트레스 (Brain Stress)</td>
-                            <td>5.2</td>
-                            <td>6.3 <span class="text-red-400">(+1.1)</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-            </div>
-        </section>
- <section class="mb-10">
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="table-section-header">인바디 검사 (InBody)</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>체중 (Weight)</td>
+                                <td>67.2 kg</td>
+                                <td>68.5 kg</td>
+                                <td>67.4 kg <span class="text-blue-400">(-1.1)</span></td>
+                            </tr>
+                            <tr class="highlight">
+                                <td>골격근량 (Muscle)</td>
+                                <td>28.1 kg</td>
+                                <td>29.3 kg</td>
+                                <td>28.8 kg <span class="text-blue-700">(-0.5)</span></td>
+                            </tr>
+                            <tr>
+                                <td>체지방량 (Fat Mass)</td>
+                                <td>16.4 kg</td>
+                                <td>15.5 kg</td>
+                                <td>15.4 kg <span class="text-blue-400">(-0.1)</span></td>
+                            </tr>
+                            <tr>
+                                <td>BMI</td>
+                                <td>21.6</td>
+                                <td>22.0</td>
+                                <td>21.4 <span class="text-blue-400">(-0.6)</span></td>
+                            </tr>
+                            <tr class="highlight">
+                                <td>체지방률 (% Body Fat)</td>
+                                <td>24.5 %</td>
+                                <td>22.7 %</td>
+                                <td>22.9 % <span class="text-red-700">(+0.2)</span></td>
+                            </tr>
+                            <tr>
+                                <td>기초대사량 (BMR)</td>
+                                <td>1466 kcal</td>
+                                <td>1514 kcal</td>
+                                <td>1493 kcal <span class="text-blue-400">(-21)</span></td>
+                            </tr>
+                          
+                            <tr>
+                                <td colspan="4" class="table-section-header">자율신경 검사 (HRV)</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>HRV-index</td>
+                                <td>24.3</td>
+                                <td>24.5</td>
+                                <td>18.6 <span class="text-red-400">(-5.9)</span></td>
+                            </tr>
+                            <tr>
+                                <td>TP (Total Power)</td>
+                                <td>8.4</td>
+                                <td>9.5</td>
+                                <td>9.1 <span class="text-blue-400">(-0.4)</span></td>
+                            </tr>
+                            <tr>
+                                <td>LF (Low Freq)</td>
+                                <td>8.2</td>
+                                <td>9.1</td>
+                                <td>9.0 <span class="text-blue-400">(-0.1)</span></td>
+                            </tr>
+                            <tr>
+                                <td>HF (High Freq)</td>
+                                <td>6.1</td>
+                                <td>8.0</td>
+                                <td>6.9 <span class="text-red-400">(-1.1)</span></td>
+                            </tr>
+                             <tr class="highlight">
+                                <td>LF/HF (ratio)</td>
+                                <td>1.34</td>
+                                <td>1.13</td>
+                                <td>1.30 <span class="text-red-700">(+0.17)</span></td>
+                            </tr>
+                            <tr>
+                                <td>스트레스 (Stress)</td>
+                                <td>52</td>
+                                <td>39</td>
+                                <td>48 <span class="text-red-400">(+9)</span></td>
+                            </tr>
+                            <tr>
+                                <td>뇌 스트레스 (Brain)</td>
+                                <td>5.2</td>
+                                <td>6.3</td>
+                                <td>5.8 <span class="text-blue-400">(-0.5)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-sm text-gray-400 mt-2 text-right">* 괄호 안의 수치는 직전 검사(11/01) 대비 증감입니다.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
                 <h2 class="text-2xl sm:text-3xl font-bold text-yellow-500 border-b-2 border-yellow-600/30 pb-3 mb-6">치료 계획</h2>
                 <p class="text-base sm:text-lg leading-relaxed text-gray-200 mb-4">
                     현재 주 1회씩 총 3회의 약침치료와 지난 주 1회의 전기침 치료를 병행하였습니다. 두피 염증을 줄이기 위한 약침치료와 두피 근막의 수축/이완을 돕기 위한 전기침치료를 병행은 반응을 보면서 결정합니다.                </p>
