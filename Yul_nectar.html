@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>율이의 과학여행: 꽃은 왜 꿀을 만들까?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0fdf4; /* 연한 초록 배경 */
+            color: #333;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .font-comic {
+            font-family: 'Jua', sans-serif;
+        }
+
+        /* 꿀벌/꽃 애니메이션 */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes pulse-soft {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-honey {
+            animation: float 2s infinite ease-in-out;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-honey:active {
+            transform: scale(0.9);
+        }
+
+        .btn-quiz {
+            animation: pulse-soft 2s infinite ease-in-out;
+        }
+
+        /* 텍스트 박스 스타일 */
+        .text-box {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 15px rgba(255, 180, 0, 0.15);
+        }
+
+        /* 이미지 컨테이너 */
+        .img-container {
+            width: 100%;
+            height: 100%;
+            background-color: #fffbeb; /* 연한 노란 배경 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .img-fit {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-center items-center">
+
+    <div id="app" class="w-full h-full max-w-md bg-white relative shadow-2xl overflow-hidden flex flex-col border-x border-green-100">
+        </div>
+
+    <script>
+        // 데이터 정의
+        const storyData = [
+            {
+                type: 'cover',
+                image: 'images/nectar0.jpg',
+                alt: '표지: 꽃은 왜 꿀을 만들까?'
+            },
+            {
+                type: 'intro',
+                image: 'images/nectar1.jpg',
+                title: '등장인물 소개',
+                content: `
+                    <p class="mb-2"><strong class="text-sky-500">조율 (8세)</strong>: 호기심 많은 청곡초 1학년 5반 17번 여학생. 높게 묶은 포니테일로 씩씩하고 멋진 아이!</p>
+                    <p class="mb-2"><strong class="text-yellow-600">꿀벌 친구</strong>: 율이에게 꿀의 비밀을 알려주는 친절하고 동글동글한 친구.</p>
+                    <p><strong class="text-pink-500">꽃님</strong>: 꿀을 나눠주는 마음씨 착하고 예쁜 꽃.</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/nectar2.jpg',
+                title: '1장: 궁금한 게 생긴 율이',
+                sub: '(어느 따뜻한 오후, 청곡초등학교 꽃밭)',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-gray-500">📢</span> 하굣길, 율이는 화단 앞에 멈춰 섰어요.</p>
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> (꽃을 보며) "꽃아, 너는 왜 벌들한테 맛있는 꿀을 공짜로 주는 거야? 아깝지 않아?"</p>
+                    <p class="mb-2"><span class="font-bold text-yellow-600">벌:</span> (지나가며) "붕~ 붕~ 공짜가 아니야, 율아!"</p>
+                    <p><span class="font-bold text-sky-500">율이:</span> "어? 벌이 말을 하네? 정말 공짜가 아니라고?"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/nectar3.jpg',
+                title: '2장: 뾰로롱! 율이가 벌이 되었어요!',
+                sub: '(갑자기 몸이 콩알만큼 작아졌어요!)',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> (자기 손을 보며) "우와악! 내 몸이 작아졌어! 등 뒤에 날개도 생겼네? 내가 꿀벌이 된 거야?"</p>
+                    <p class="mb-2"><span class="font-bold text-yellow-600">꿀벌 친구:</span> "안녕, 율아! 꽃이 왜 꿀을 주는지 내가 직접 보여줄게. 나를 따라와!"</p>
+                    <p><span class="font-bold text-sky-500">율이:</span> "신난다! 붕붕~ 날아보자!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/nectar4.jpg',
+                title: '3장: 맛있는 꿀 식당',
+                sub: '(꽃 안쪽 깊은 곳)',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-yellow-600">꿀벌 친구:</span> "자, 꽃님이 차려놓은 식탁을 봐. 달콤한 꿀이 가득하지?"</p>
+                    <p class="mb-2"><span class="font-bold text-pink-500">꽃님:</span> "어서 와! 배고프지? 내가 만든 달콤한 꿀을 마음껏 먹으렴!"</p>
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> (꿀을 꿀꺽) "우와! 사탕보다 훨씬 달콤해! 꽃님아, 정말 이걸 그냥 먹어도 돼?"</p>
+                    <p><span class="font-bold text-pink-500">꽃님:</span> "그럼~ 많이 먹고 힘내렴!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/nectar5.jpg',
+                title: '4장: 노란 가루의 비밀',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> "어? 꿀을 먹다 보니 내 털복숭이 배에 노란 가루가 잔뜩 묻었어. 에이 지지~ 털어버려야지."</p>
+                    <p class="mb-2"><span class="font-bold text-yellow-600">꿀벌 친구:</span> (다급하게) "잠깐! 율아, 털면 안 돼! 그건 소중한 <strong class='text-orange-500'>'꽃가루'</strong>야."</p>
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> "꽃가루? 이게 왜 소중해?"</p>
+                    <p><span class="font-bold text-yellow-600">꿀벌 친구:</span> "그게 바로 우리가 <strong class='text-red-500'>밥값</strong>을 하는 방법이거든. 옆에 있는 다른 꽃으로 가보자!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/nectar6.jpg',
+                title: '5장: 꽃가루 배달부 율이',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-gray-500">📢</span> 율이가 다른 꽃으로 이사 가자, 몸에 묻은 꽃가루가 옮겨졌어요.</p>
+                    <p class="mb-2"><span class="font-bold text-yellow-600">꿀벌 친구:</span> "보았지? 네가 옮겨준 꽃가루 덕분에 꽃은 나중에 <strong class='text-green-600'>씨앗과 열매</strong>를 맺을 수 있어."</p>
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> "아하! 꽃은 다리가 없어서 우리한테 꿀을 주고 <strong class='text-blue-600'>꽃가루 배달</strong>을 시키는 거구나!"</p>
+                    <p><span class="font-bold text-pink-500">꽃님:</span> "맞아! 정말 고마워!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/nectar7.jpg',
+                title: '6장: 안녕, 친구들!',
+                sub: '(다시 학교 화단 앞)',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-gray-500">📢</span> 펑! 율이는 다시 씩씩한 1학년 학생으로 돌아왔어요.</p>
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> "꽃이랑 벌은 서로 돕는 단짝 친구였구나! 꽃은 꿀을 주고, 벌은 꽃가루를 배달하고!"</p>
+                    <p class="mb-2"><span class="font-bold text-sky-500">율이:</span> "친구들아 고마워! 나 이제 토브 가야 해, 안녕!"</p>
+                `
+            },
+            {
+                type: 'quiz_intro',
+                image: 'images/nectar8.jpg',
+                title: '율이의 OX 퀴즈!',
+                content: `
+                    <p class="mb-4 text-center text-lg">"잠깐! 그냥 가면 섭섭하지?"</p>
+                    <p class="text-center text-gray-600">율이가 배운 내용을 퀴즈로 낼게요.<br>3문제를 모두 맞혀보세요!</p>
+                `
+            },
+            {
+                type: 'ending',
+                image: 'images/nectar0.jpg', // 표지 이미지 재사용 혹은 nectar9.jpg
+                alt: '끝'
+            }
+        ];
+
+        const quizData = [
+            {
+                question: "꽃이 벌에게 꿀을 주는 이유는 꽃이 너무너무 착해서, 그냥 선물로 주는 것이다?",
+                answer: false,
+                explanation: "꽃은 착하기도 하지만, 사실은 움직일 수 없는 자신을 대신해서 꽃가루를 옮겨달라고 '심부름 값'으로 꿀을 주는 거야!"
+            },
+            {
+                question: "벌의 몸에 묻은 노란 가루는 더러운 먼지니까 깨끗이 털어내야 한다?",
+                answer: false,
+                explanation: "안 돼! 그건 소중한 '꽃가루'야. 그 가루가 다른 꽃의 암술에 닿아야 씨앗이 생기고 맛있는 열매도 열리거든."
+            },
+            {
+                question: "꽃은 꿀을 주고, 벌은 꽃가루를 옮겨준다. 둘은 서로 돕는 사이가 맞다?",
+                answer: true,
+                explanation: "딩동댕! 꽃은 벌에게 먹이를 주고, 벌은 꽃이 아기(씨앗)를 낳게 도와주는 아주 친한 단짝 친구 사이란다."
+            }
+        ];
+
+        // 상태 관리
+        let currentState = {
+            pageIndex: 0,
+            quizIndex: 0,
+            quizStatus: 'question', // question, result, explanation
+            lastAnswer: null
+        };
+
+        const app = document.getElementById('app');
+
+        // 메인 렌더링 함수
+        function render() {
+            app.innerHTML = ''; 
+            
+            // 1. 퀴즈 페이지가 아닌 경우 (스토리, 표지, 엔딩)
+            if (currentState.pageIndex < storyData.length) {
+                const page = storyData[currentState.pageIndex];
+                
+                if (page.type === 'cover') {
+                    renderCover(page);
+                } else if (page.type === 'ending') {
+                    renderEnding(page);
+                } else if (page.type === 'quiz_intro') {
+                    renderStoryPage(page, true);
+                } else {
+                    renderStoryPage(page, false);
+                }
+            } 
+            // 2. 퀴즈 진행 중
+            else if (currentState.pageIndex === storyData.length) {
+                renderQuiz();
+            }
+        }
+
+        // --- 페이지 컴포넌트들 ---
+
+        function renderCover(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = nextPage;
+            div.innerHTML = `
+                <div class="img-container">
+                    <img src="${data.image}" class="img-cover" alt="${data.alt}" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-yellow-200 flex flex-col items-center justify-center text-yellow-800 text-2xl font-comic\\'><span class=\\'text-6xl mb-4\\'>🌸🐝</span><h1>꽃은 왜<br>꿀을 만들까?</h1><p class=\\'text-sm mt-8 animate-pulse\\'>화면을 터치하세요</p></div>'">
+                </div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl drop-shadow-md bg-black/20 py-2">
+                    화면을 탭하여 시작하기
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        function renderStoryPage(data, isQuizIntro) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-white fade-in";
+            
+            // 이미지 영역 (flex-1)
+            const imgHtml = `
+                <div class="flex-1 img-container relative border-b-4 border-yellow-400">
+                    <img src="${data.image}" class="img-fit" alt="삽화" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-yellow-50 flex items-center justify-center text-gray-400\\'>이미지 준비중<br>${data.image}</div>'">
+                </div>
+            `;
+
+            // 텍스트 및 컨트롤 영역 (h-[35%] 유지)
+            const textHtml = `
+                <div class="h-[35%] flex flex-col relative">
+                    <div class="flex-1 p-6 overflow-y-auto text-box -mt-6 z-10 text-lg leading-relaxed text-gray-800">
+                        ${data.title ? `<h2 class="font-comic text-2xl text-pink-600 mb-1">${data.title}</h2>` : ''}
+                        ${data.sub ? `<p class="text-sm text-gray-500 mb-4">${data.sub}</p>` : ''}
+                        <div class="space-y-2">
+                            ${data.content}
+                        </div>
+                    </div>
+                    
+                    <div class="h-20 bg-white flex justify-between items-center px-8 border-t border-yellow-100 z-20 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+                        <div onclick="prevPage()" class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-gray-600 transition">
+                            <span class="text-3xl filter grayscale opacity-50">🍃</span>
+                            <span class="text-xs font-bold mt-1">이전</span>
+                        </div>
+                        
+                        ${isQuizIntro ? 
+                            `<div onclick="startQuiz()" class="btn-quiz flex flex-col items-center cursor-pointer text-sky-600">
+                                <div class="w-14 h-14 bg-sky-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg border-4 border-sky-200">?</div>
+                                <span class="text-xs font-bold mt-1 text-sky-600">퀴즈 시작!</span>
+                            </div>` 
+                            : 
+                            `<div onclick="nextPage()" class="btn-honey flex flex-col items-center text-orange-500">
+                                <span class="text-4xl filter drop-shadow-md">🐝</span>
+                                <span class="text-xs font-bold mt-1 text-orange-600">다음</span>
+                            </div>`
+                        }
+                    </div>
+                </div>
+            `;
+            
+            div.innerHTML = imgHtml + textHtml;
+            app.appendChild(div);
+        }
+
+        function renderQuiz() {
+            if (currentState.quizIndex >= quizData.length) {
+                currentState.pageIndex = storyData.length - 1; // 엔딩 페이지로
+                currentState.quizIndex = 0;
+                render();
+                return;
+            }
+
+            const currentQ = quizData[currentState.quizIndex];
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-yellow-50 fade-in";
+
+            let contentHtml = '';
+
+            // 상태 1: 문제 풀기
+            if (currentState.quizStatus === 'question') {
+                contentHtml = `
+                    <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-pink-500 font-bold text-xl mb-4 bg-pink-100 px-4 py-1 rounded-full">문제 ${currentState.quizIndex + 1} / 3</span>
+                        <div class="bg-white p-8 rounded-2xl shadow-xl w-full mb-8 border-2 border-yellow-300">
+                            <p class="text-2xl font-bold leading-normal break-keep text-gray-800">${currentQ.question}</p>
+                        </div>
+                        <div class="flex gap-6 w-full justify-center">
+                            <button onclick="checkAnswer(true)" class="w-24 h-24 bg-blue-500 rounded-full text-white text-5xl font-black shadow-lg hover:bg-blue-600 active:scale-95 transition border-4 border-blue-300">O</button>
+                            <button onclick="checkAnswer(false)" class="w-24 h-24 bg-red-500 rounded-full text-white text-5xl font-black shadow-lg hover:bg-red-600 active:scale-95 transition border-4 border-red-300">X</button>
+                        </div>
+                    </div>
+                    <div class="h-20 bg-white border-t border-gray-200 flex items-center px-4">
+                        <button onclick="exitQuiz()" class="text-gray-400 font-bold text-sm">◀ 돌아가기</button>
+                    </div>
+                `;
+            } 
+            // 상태 2: 결과
+            else if (currentState.quizStatus === 'result') {
+                const isCorrect = currentState.lastAnswer === currentQ.answer;
+                const emoji = isCorrect ? '🎉🐝🎉' : '🌸🤔🌸'; 
+                const bgColor = isCorrect ? 'bg-green-500' : 'bg-orange-400';
+                const message = isCorrect ? '정답입니다!' : '틀렸어요!';
+
+                contentHtml = `
+                    <div class="w-full h-full ${bgColor} flex flex-col items-center justify-center text-white cursor-pointer" onclick="showExplanation()">
+                        <div class="text-8xl mb-6 animate-bounce">${emoji}</div>
+                        <h2 class="text-4xl font-comic mb-4 drop-shadow-md">${message}</h2>
+                        <p class="animate-pulse text-lg opacity-90">화면을 탭하여 해설 보기</p>
+                    </div>
+                `;
+            }
+            // 상태 3: 해설
+            else if (currentState.quizStatus === 'explanation') {
+                const isLastQuestion = currentState.quizIndex === quizData.length - 1;
+                const nextButtonText = isLastQuestion ? "모험 마치기" : "다음 문제로";
+
+                contentHtml = `
+                    <div class="flex-1 flex flex-col p-6 bg-white cursor-pointer" onclick="nextQuizStep()">
+                        <div class="flex-1 flex flex-col justify-center items-center">
+                            <h3 class="text-2xl font-comic text-sky-600 mb-6">👧🏻 율이의 해설</h3>
+                            <div class="bg-sky-50 p-6 rounded-xl border-2 border-sky-200 shadow-md w-full relative">
+                                <div class="absolute -top-4 -left-2 text-4xl">💡</div>
+                                <p class="text-xl font-medium text-gray-800 leading-relaxed mt-2 word-keep">
+                                    "${currentQ.explanation}"
+                                </p>
+                            </div>
+                        </div>
+                        <div class="h-24 w-full flex items-center justify-center">
+                            <div class="btn-honey flex flex-col items-center">
+                                <span class="text-4xl">🐝</span>
+                                <span class="text-sm font-bold text-orange-600 mt-1">${nextButtonText}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            div.innerHTML = contentHtml;
+            app.appendChild(div);
+        }
+
+        function renderEnding(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = restart;
+            div.innerHTML = `
+                <div class="img-container">
+                    <img src="${data.image}" class="img-cover" alt="끝" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-green-100 flex flex-col items-center justify-center text-green-800\\'><span class=\\'text-6xl mb-4\\'>🏫</span><p>여행이 끝났습니다</p></div>'">
+                </div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl bg-black/40 py-2">
+                    처음으로 돌아가기 ↺
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        // --- 로직 함수들 ---
+
+        function nextPage() {
+            if (currentState.pageIndex < storyData.length) {
+                currentState.pageIndex++;
+                render();
+            }
+        }
+
+        function prevPage() {
+            if (currentState.pageIndex > 0) {
+                currentState.pageIndex--;
+                render();
+            }
+        }
+
+        function startQuiz() {
+            currentState.pageIndex = storyData.length; 
+            currentState.quizIndex = 0;
+            currentState.quizStatus = 'question';
+            render();
+        }
+
+        function exitQuiz() {
+            currentState.pageIndex--; 
+            render();
+        }
+
+        function checkAnswer(userAnswer) {
+            currentState.lastAnswer = userAnswer;
+            currentState.quizStatus = 'result';
+            render();
+        }
+
+        function showExplanation() {
+            currentState.quizStatus = 'explanation';
+            render();
+        }
+
+        function nextQuizStep() {
+            currentState.quizIndex++;
+            currentState.quizStatus = 'question';
+            render();
+        }
+
+        function restart() {
+            currentState.pageIndex = 0;
+            currentState.quizIndex = 0;
+            render();
+        }
+
+        // 초기 실행
+        render();
+
+    </script>
+</body>
+</html>
