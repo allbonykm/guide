@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>율이의 역사여행: 바늘각시의 조상을 찾아서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f1f5f9; /* Slate-100 */
+            color: #334155; /* Slate-700 */
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .font-comic {
+            font-family: 'Jua', sans-serif;
+        }
+
+        /* 바늘 찌르기 애니메이션 */
+        @keyframes poke-right {
+            0% { transform: translateX(0) rotate(45deg); }
+            50% { transform: translateX(5px) rotate(45deg); }
+            100% { transform: translateX(0) rotate(45deg); }
+        }
+        
+        @keyframes poke-left {
+            0% { transform: translateX(0) rotate(-135deg); }
+            50% { transform: translateX(-5px) rotate(-135deg); }
+            100% { transform: translateX(0) rotate(-135deg); }
+        }
+
+        @keyframes shine {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+            100% { opacity: 0.8; }
+        }
+
+        .btn-next-needle {
+            animation: poke-right 1.5s infinite ease-in-out;
+            cursor: pointer;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
+        }
+
+        .btn-prev-needle {
+            animation: poke-left 1.5s infinite ease-in-out;
+            cursor: pointer;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
+        }
+
+        .btn-quiz {
+            animation: shine 2s infinite ease-in-out;
+        }
+
+        /* 텍스트 박스 - 메탈릭 컨셉 */
+        .text-box {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 20px rgba(148, 163, 184, 0.4);
+            border-top: 4px solid #cbd5e1; /* Slate-300 */
+        }
+
+        /* 이미지 컨테이너 */
+        .img-container {
+            width: 100%;
+            height: 100%;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-cover { width: 100%; height: 100%; object-fit: cover; }
+        .img-fit { width: 100%; height: 100%; object-fit: contain; }
+
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* 캐릭터 대사 강조 색상 */
+        .char-yul { color: #0ea5e9; font-weight: 700; }
+        .char-needle { color: #e11d48; font-weight: 700; }
+        .char-ancient { color: #57534e; font-weight: 700; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-center items-center bg-slate-200">
+
+    <div id="app" class="w-full h-full max-w-md bg-white relative shadow-2xl overflow-hidden flex flex-col border-x border-slate-300">
+    </div>
+
+    <script>
+        // 데이터 정의
+        const storyData = [
+            {
+                type: 'cover',
+                image: 'images/needle0.jpg', 
+                alt: '표지: 율이의 역사여행'
+            },
+            {
+                type: 'intro',
+                image: 'images/needle1.jpg',
+                title: '🏫 등장인물 소개',
+                content: `
+                    <div class="space-y-3">
+                        <p><span class="char-yul">조율 (8살)</span>: 청곡초 1학년 5반 17번. 포니테일을 좋아하고, '아씨방 일곱동무' 책을 읽다 잠이 든 호기심 많은 멋진 소녀.</p>
+                        <p><span class="char-needle">바늘각시</span>: 뾰족한 모자와 날씬한 허리를 자랑하는 고운 한복 입은 바늘 요정.</p>
+                        <p><span class="char-ancient">데니</span>: 5만 년 전 시베리아에 사는 데니소바인 친구.</p>
+                        <p><span class="char-ancient">산이</span>: 유럽의 높은 산 동굴에 사는 친구. 호모 사피엔스.</p>
+                        <p><span class="char-ancient">돌이</span>: 티베트 고원에 사는 끈기 있는 친구.</p>
+                        <p><span class="char-ancient">바다</span>: 한국 부산 바닷가에 사는 신석기 시대 친구.</p>
+                    </div>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/needle2.jpg',
+                title: '1장: 바늘각시와의 만남',
+                sub: '(율이의 방, 책에서 빛이 나며!)',
+                content: `
+                    <p class="mb-2"><span class="char-yul">율이:</span> "아함~ 바늘은 뾰족해서 좋겠네. 근데 사람들은 언제부터 바늘을 썼을까? 공룡 시대에도 있었을까?"</p>
+                    <p class="mb-2"><span class="char-needle">바늘각시:</span> (뿅!) "율이야! 나는 호랑이 담배 피우던 시절보다 훨씬 전부터 있었단다!"</p>
+                    <p class="mb-2"><span class="char-yul">율이:</span> "우와! 정말? 나랑 같이 확인하러 가볼래?"</p>
+                    <p><span class="char-needle">바늘각시:</span> "좋아! 내 실을 꽉 잡아. '따끔따끔 콕콕' 타임머신 출발!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/needle3.jpg',
+                title: '2장: 꽁꽁 얼음 나라와 새 뼈 바늘',
+                sub: '(5만 년 전 시베리아 데니소바 동굴(Denisova Cave))',
+                content: `
+                    <p class="mb-2"><span class="char-yul">율이:</span> "으으~ 너무 추워! 냉동실 같아!"</p>
+                    <p class="mb-2"><span class="char-needle">바늘각시:</span> "여기는 빙하기야. 저기 <span class='char-ancient'>데니</span>를 봐. 새 뼈로 뭘 만들고 있어."</p>
+                    <p class="mb-2"><span class="char-ancient">데니:</span> "이 새 뼈는 속이 비어서 가볍고 튼튼해. 여기에 구멍을 뚫어서 옷을 꿰매 입으면 찬 바람도 끄떡없지!"</p>
+                    <p><span class="char-yul">율이:</span> "우와! 저게 세계 최초의 바늘이구나!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/needle4.jpg',
+                title: '3장: 곰 사냥꾼의 튼튼한 바늘',
+                sub: '(유럽의 높은 산속 동굴)',
+                content: `
+                    <p class="mb-2"><span class="char-yul">율이:</span> "저기 쌓인 건 공룡 뼈야?"</p>
+                    <p class="mb-2"><span class="char-needle">바늘각시:</span> "저건 무시무시한 동굴곰(Cave bear) 뼈야!"</p>
+                    <p class="mb-2"><span class="char-ancient">산이:</span> (뼈를 갈며) "두꺼운 곰 가죽을 뚫으려면 새 뼈로는 안 돼. 그래서 우린 더 단단한 곰 뼈나 사슴 뼈로 바늘을 만들지!"</p>
+                    <p><span class="char-yul">율이:</span> "옷이 두꺼우면 바늘도 튼튼해야 하는구나!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/needle5.jpg',
+                title: '4장: 절대 부러지지 않는 돌 바늘',
+                sub: '(바람 부는 티베트 고원)',
+                content: `
+                    <p class="mb-2"><span class="char-yul">율이:</span> "바늘각시야, 뼈바늘은 쓰다가 뚝 부러지면 어떡해?"</p>
+                    <p class="mb-2"><span class="char-ancient">돌이:</span> (땀을 뻘뻘) "아이고 팔이야. 이 돌은 갈기가 10배는 힘들지만, 다 만들면 절대 부러지지 않는 돌바늘이 되지!"</p>
+                    <p><span class="char-yul">율이:</span> "우와... 돌을 갈아서 저렇게 얇게 만들다니, 정말 대단한 정성이다!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/needle6.jpg',
+                title: '5장: 우리나라의 보물창고',
+                sub: '(부산 바닷가 패총(조개무지) 앞)',
+                content: `
+                    <p class="mb-2"><span class="char-ancient">바다:</span> "아빠가 고래 잡으러 가신대! 빨리 이 물개 뼈 바늘로 그물을 고쳐야 해."</p>
+                    <p class="mb-2"><span class="char-yul">율이:</span> "그런데 왜 소중한 바늘이 쓰레기장(패총)에서 발견돼?"</p>
+                    <p class="mb-2"><span class="char-needle">바늘각시:</span> "흙 속에 뼈를 그냥 두면 녹아버리는데, 조개껍데기가 바늘을 감싸서 보호해 준 덕분에 썩지 않은 거야."</p>
+                    <p><span class="char-yul">율이:</span> "조개껍데기가 타임캡슐이었구나!"</p>
+                `
+            },
+            {
+                type: 'story',
+                image: 'images/needle7.jpg',
+                title: '6장: 율이의 깨달음',
+                sub: '(다시 율이의 방)',
+                content: `
+                    <p class="mb-2"><span class="font-bold text-gray-500">📢</span> 눈을 번쩍 뜬 율이!</p>
+                    <p class="mb-2"><span class="char-yul">율이:</span> "꿈이 아니었어! 바늘은 옛날 사람들의 지혜가 담긴 최고의 발명품이었어!"</p>
+                    <p class="mb-2"><span class="font-bold text-gray-700">선미:</span> "율이야 학교 가야지! 시나모롤 인형, 패딩에 다시 꿰매 놨단다."</p>
+                    <p><span class="char-yul">율이:</span> "네! 저도 나중에 바늘처럼 꼭 필요한 걸 발명할래요!"</p>
+                `
+            },
+            {
+                type: 'quiz_intro',
+                image: 'images/needle8.jpg',
+                title: '율이의 알쏭달쏭 O, X 퀴즈',
+                content: `
+                    <p class="mb-4 text-center text-lg">"바늘각시와의 여행 즐거웠나요?"</p>
+                    <p class="text-center text-gray-600">율이와 함께 배운 내용을<br>퀴즈로 풀어봐요! (3문제)</p>
+                `
+            },
+            {
+                type: 'ending',
+                image: 'images/needle9.jpg',
+                alt: '끝'
+            }
+        ];
+
+        const quizData = [
+            {
+                question: "세계에서 가장 오래된 바늘은 '플라스틱'으로 만들었다?",
+                answer: false,
+                explanation: "가장 오래된 바늘은 <span class='text-rose-500 font-bold'>'새의 뼈'</span>로 만들었어요. 속이 비어 있어서 구멍을 뚫기 쉬웠거든요."
+            },
+            {
+                question: "옛날 사람들은 바늘로 옷을 몸에 딱 맞게 만들어 추위를 이겨냈다?",
+                answer: true,
+                explanation: "헐렁한 가죽만 걸치는 것보다, 바늘로 꿰매서 <span class='text-blue-500 font-bold'>몸에 딱 맞는 옷</span>을 입으면 체온을 지킬 수 있어요."
+            },
+            {
+                question: "우리나라 뼈바늘은 '조개무지(패총)' 덕분에 썩지 않고 발견되었다?",
+                answer: true,
+                explanation: "우리나라 흙은 뼈를 녹여버리는데, <span class='text-orange-500 font-bold'>조개껍데기 성분</span>이 뼈바늘이 썩지 않도록 보호해 줬답니다."
+            }
+        ];
+
+        // 상태 관리
+        let currentState = {
+            pageIndex: 0,
+            quizIndex: 0,
+            quizStatus: 'question',
+            lastAnswer: null
+        };
+
+        const app = document.getElementById('app');
+
+        function render() {
+            app.innerHTML = ''; 
+            
+            if (currentState.pageIndex < storyData.length) {
+                const page = storyData[currentState.pageIndex];
+                
+                if (page.type === 'cover') {
+                    renderCover(page);
+                } else if (page.type === 'ending') {
+                    renderEnding(page);
+                } else if (page.type === 'quiz_intro') {
+                    renderStoryPage(page, true);
+                } else {
+                    renderStoryPage(page, false);
+                }
+            } 
+            else if (currentState.pageIndex === storyData.length) {
+                renderQuiz();
+            }
+        }
+
+        // --- 컴포넌트 ---
+
+        function renderCover(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = nextPage;
+            div.innerHTML = `
+                <div class="img-container">
+                    <img src="${data.image}" class="img-cover" alt="${data.alt}" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-slate-200 flex flex-col items-center justify-center text-slate-600 font-comic\\'><span class=\\'text-6xl mb-4\\'>🪡🦕</span><h1 class=\\'text-center text-2xl\\'>율이의 역사여행<br>바늘각시의 조상을<br>찾아서</h1><p class=\\'text-sm mt-8 animate-pulse\\'>화면을 터치하세요</p></div>'">
+                </div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl drop-shadow-md bg-slate-900/40 py-2">
+                    화면을 탭하여 시간여행 떠나기
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        function renderStoryPage(data, isQuizIntro) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-white fade-in";
+            
+            const imgHtml = `
+                <div class="flex-1 img-container relative border-b-4 border-slate-300">
+                    <img src="${data.image}" class="img-fit" alt="삽화" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-slate-50 flex items-center justify-center text-gray-400\\'>이미지 준비중<br>${data.image}</div>'">
+                </div>
+            `;
+
+            const textHtml = `
+                <div class="h-[40%] flex flex-col relative bg-slate-100">
+                    <div class="flex-1 p-6 overflow-y-auto text-box -mt-6 z-10 text-lg leading-relaxed text-slate-800">
+                        ${data.title ? `<h2 class="font-comic text-2xl text-slate-600 mb-1 flex items-center gap-2"><span class="text-sm">🧵</span>${data.title}</h2>` : ''}
+                        ${data.sub ? `<p class="text-sm text-gray-500 mb-4">${data.sub}</p>` : ''}
+                        <div class="space-y-2">
+                            ${data.content}
+                        </div>
+                    </div>
+                    
+                    <div class="h-20 bg-white flex justify-between items-center px-8 border-t border-slate-200 z-20 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+                        <div onclick="prevPage()" class="btn-prev-needle flex flex-col items-center cursor-pointer text-slate-400 hover:text-slate-600 transition">
+                            <span class="text-3xl">🪡</span>
+
+                        </div>
+                        
+                        ${isQuizIntro ? 
+                            `<div onclick="startQuiz()" class="btn-quiz flex flex-col items-center cursor-pointer text-rose-500">
+                                <div class="w-14 h-14 bg-rose-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg border-4 border-rose-200">?</div>
+                                <span class="text-xs font-bold mt-1 text-rose-600">퀴즈 시작!</span>
+                            </div>` 
+                            : 
+                            `<div onclick="nextPage()" class="btn-next-needle flex flex-col items-center text-slate-500">
+                                <span class="text-4xl">🪡</span>
+				<span class="text-xs font-bold mt-1 text-orange-600">다음</span>
+                            </div>`
+                        }
+                    </div>
+                </div>
+            `;
+            
+            div.innerHTML = imgHtml + textHtml;
+            app.appendChild(div);
+        }
+
+        function renderQuiz() {
+            if (currentState.quizIndex >= quizData.length) {
+                currentState.pageIndex = storyData.length - 1; 
+                currentState.quizIndex = 0;
+                render();
+                return;
+            }
+
+            const currentQ = quizData[currentState.quizIndex];
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-slate-50 fade-in";
+
+            let contentHtml = '';
+
+            if (currentState.quizStatus === 'question') {
+                contentHtml = `
+                    <div class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                        <span class="text-slate-500 font-bold text-xl mb-4 bg-slate-200 px-4 py-1 rounded-full">문제 ${currentState.quizIndex + 1} / 3</span>
+                        <div class="bg-white p-8 rounded-2xl shadow-xl w-full mb-8 border-2 border-slate-300">
+                            <p class="text-2xl font-bold leading-normal break-keep text-slate-800">${currentQ.question}</p>
+                        </div>
+                        <div class="flex gap-6 w-full justify-center">
+                            <button onclick="checkAnswer(true)" class="w-24 h-24 bg-blue-500 rounded-full text-white text-5xl font-black shadow-lg hover:bg-blue-600 active:scale-95 transition border-4 border-blue-300 ring-2 ring-offset-2 ring-blue-200">O</button>
+                            <button onclick="checkAnswer(false)" class="w-24 h-24 bg-red-500 rounded-full text-white text-5xl font-black shadow-lg hover:bg-red-600 active:scale-95 transition border-4 border-red-300 ring-2 ring-offset-2 ring-red-200">X</button>
+                        </div>
+                    </div>
+                    <div class="h-20 bg-white border-t border-slate-200 flex items-center px-4">
+                        <button onclick="exitQuiz()" class="text-slate-400 font-bold text-sm">◀ 돌아가기</button>
+                    </div>
+                `;
+            } 
+            else if (currentState.quizStatus === 'result') {
+                const isCorrect = currentState.lastAnswer === currentQ.answer;
+                const emoji = isCorrect ? '🎊🪡🎊' : '🧱🔨🧱'; 
+                const bgColor = isCorrect ? 'bg-sky-500' : 'bg-rose-500';
+                const message = isCorrect ? '정답입니다!' : '땡! 틀렸어요!';
+
+                contentHtml = `
+                    <div class="w-full h-full ${bgColor} flex flex-col items-center justify-center text-white cursor-pointer" onclick="showExplanation()">
+                        <div class="text-8xl mb-6 animate-bounce">${emoji}</div>
+                        <h2 class="text-4xl font-comic mb-4 drop-shadow-md">${message}</h2>
+                        <p class="animate-pulse text-lg opacity-90">화면을 탭하여 해설 보기</p>
+                    </div>
+                `;
+            }
+            else if (currentState.quizStatus === 'explanation') {
+                const isLastQuestion = currentState.quizIndex === quizData.length - 1;
+                const nextButtonText = isLastQuestion ? "여행 마치기" : "다음 문제";
+
+                contentHtml = `
+                    <div class="flex-1 flex flex-col p-6 bg-white cursor-pointer" onclick="nextQuizStep()">
+                        <div class="flex-1 flex flex-col justify-center items-center">
+                            <h3 class="text-2xl font-comic text-slate-600 mb-6 flex items-center gap-2"><span>👧🏻</span> 율이의 해설</h3>
+                            <div class="bg-slate-50 p-6 rounded-xl border-2 border-slate-300 shadow-md w-full relative">
+                                <div class="absolute -top-4 -left-2 text-4xl">💡</div>
+                                <p class="text-xl font-medium text-slate-800 leading-relaxed mt-2 word-keep">
+                                    "${currentQ.explanation}"
+                                </p>
+                            </div>
+                        </div>
+                        <div class="h-24 w-full flex items-center justify-center">
+                            <div class="btn-next-needle flex flex-col items-center">
+                                <span class="text-4xl text-slate-600">🪡</span>
+                                <span class="text-sm font-bold text-slate-500 mt-1">${nextButtonText}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            div.innerHTML = contentHtml;
+            app.appendChild(div);
+        }
+
+        function renderEnding(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = restart;
+            div.innerHTML = `
+                <div class="img-container">
+                    <img src="${data.image}" class="img-cover" alt="끝" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full bg-slate-200 flex flex-col items-center justify-center text-slate-500\\'><span class=\\'text-6xl mb-4\\'>🏫</span><p>역사 여행 끝!</p></div>'">
+                </div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl bg-black/50 py-2">
+                    처음으로 돌아가기 ↺
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        // --- 로직 ---
+
+        function nextPage() {
+            if (currentState.pageIndex < storyData.length) {
+                currentState.pageIndex++;
+                render();
+            }
+        }
+
+        function prevPage() {
+            if (currentState.pageIndex > 0) {
+                currentState.pageIndex--;
+                render();
+            }
+        }
+
+        function startQuiz() {
+            currentState.pageIndex = storyData.length; 
+            currentState.quizIndex = 0;
+            currentState.quizStatus = 'question';
+            render();
+        }
+
+        function exitQuiz() {
+            currentState.pageIndex--; 
+            render();
+        }
+
+        function checkAnswer(userAnswer) {
+            currentState.lastAnswer = userAnswer;
+            currentState.quizStatus = 'result';
+            render();
+        }
+
+        function showExplanation() {
+            currentState.quizStatus = 'explanation';
+            render();
+        }
+
+        function nextQuizStep() {
+            currentState.quizIndex++;
+            currentState.quizStatus = 'question';
+            render();
+        }
+
+        function restart() {
+            currentState.pageIndex = 0;
+            currentState.quizIndex = 0;
+            render();
+        }
+
+        render();
+
+    </script>
+</body>
+</html>
