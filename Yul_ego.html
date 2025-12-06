@@ -81,9 +81,8 @@
                     <p class="mt-2"><span class="char-gyeol">김결</span>: "내 거야! 내가 먼저 봤어!"</p>
                     <p class="mt-2"><span class="char-yul">조율</span>: "아니라니까! 이건 아빠가 사준 내 거야!"</p>
                     <hr class="my-4 border-dashed border-gray-300">
-                    <p>결국 율이는 힘으로 폼롤러를 뺏어 침대 위로 휙 올렸어요. 결이는 바닥에 털썩 주저앉았죠. 입술이 파르르 떨리기 시작했어요.</p>
                     <p class="mt-2"><span class="char-gyeol">김결</span>: "......으....으아..."</p>
-                    <p class="mt-4">결이가 바닥을 구르며 대성통곡을 시작했어요.</p>
+                    <p class="mt-4">결이가 바닥에 누워 대성통곡을 시작했어요.</p>
                     <p class="mt-2"><span class="char-gyeol">김결</span>: "으아앙!! 엄마!! 엄마 보고 싶어!!"</p>
                     <p class="mt-2"><span class="char-yul">조율</span>: "아, 시끄러워! 왜 자꾸 떼를 쓰는 거야?"</p>
                 `
@@ -146,8 +145,6 @@
             {
                 type: 'ending',
                 image: 'images/ego8.jpg', // 경로 수정
-                title: '여행 완료!',
-                sub: '다음 여행도 기대해줘!'
             }
         ];
 
@@ -180,7 +177,7 @@
                 if (page.type === 'cover') renderCover(page);
                 else if (page.type === 'ending') renderEnding(page);
                 else renderStoryPage(page, page.type === 'quiz_intro');
-            } else if (currentState.pageIndex === storyData.length) renderQuiz();
+            } else if (currentState.pageIndex === storyData.length) renderQuiz();f
         }
 
         function renderCover(data) {
@@ -241,14 +238,15 @@
 
         function renderEnding(data) {
             const div = document.createElement('div');
-            div.className = "w-full h-full relative cursor-pointer fade-in flex flex-col bg-black";
+            div.className = "w-full h-full relative cursor-pointer fade-in";
             div.onclick = restart;
             div.innerHTML = `
-                <div class="flex-1 img-container"><img src="${data.image}" class="img-cover opacity-80" alt="엔딩" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-500\\'>이미지 준비중<br>${data.image}</div>'"></div>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full px-4">
-                    <h2 class="text-4xl font-comic text-white mb-4 drop-shadow-lg">${data.title}</h2>
-                    <p class="text-xl text-white/90 mb-8">${data.sub}</p>
-                    <div class="inline-block px-8 py-3 bg-white text-orange-500 rounded-full font-bold text-lg shadow-lg animate-bounce">처음으로 돌아가기</div>
+                <div class="img-container"><img src="${data.image}" class="img-cover" alt="엔딩" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-500\\'>이미지 준비중<br>${data.image}</div>'"></div>
+                
+                <div class="absolute bottom-16 w-full flex justify-center pb-4">
+                     <div class="px-8 py-3 bg-white text-orange-500 rounded-full font-bold text-xl shadow-2xl animate-bounce border-4 border-orange-100">
+                        ↺ 처음으로 돌아가기
+                    </div>
                 </div>
             `;
             app.appendChild(div);
