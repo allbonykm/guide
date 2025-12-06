@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>율이의 자아여행</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #fff7ed; overflow: hidden; touch-action: manipulation; }
+        .font-comic { font-family: 'Jua', sans-serif; }
+        @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-5px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+        .btn-theme { animation: float 2.5s infinite ease-in-out; cursor: pointer; transition: all 0.2s; }
+        .btn-theme:active { transform: scale(0.9); }
+        .text-box { background-color: rgba(255, 255, 255, 0.98); border-radius: 20px 20px 0 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); }
+        .img-container { width: 100%; height: 100%; background-color: #fef3c7; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .img-cover { width: 100%; height: 100%; object-fit: cover; }
+        .img-fit { width: 100%; height: 100%; object-fit: contain; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* 캐릭터 색상 클래스 */
+        .char-yul { color: #0ea5e9; font-weight: 700; } /* sky-500 */
+        .char-toto { color: #ec4899; font-weight: 700; } /* pink-500 */
+        .char-lily { color: #16a34a; font-weight: 700; } /* green-600 */
+        .char-gyeol { color: #f97316; font-weight: 700; } /* orange-500 */
+        .char-mom { color: #a855f7; font-weight: 700; } /* purple-500 */
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-center items-center">
+    <div id="app" class="w-full h-full max-w-md bg-white relative shadow-2xl overflow-hidden flex flex-col border-x border-orange-100"></div>
+    <script>
+        // *** AI 데이터 생성 영역 ***
+        // 이미지 키워드: ego
+        
+        // 이모지 변경: 캐스터네츠 소리(딱딱딱)와 유사한 박수(👏) 적용
+        const THEME_EMOJI = "👏"; 
+
+        const storyData = [
+            // 0. 표지
+            {
+                type: 'cover',
+                image: 'ego0.jpg',
+                title: '율이의 자아여행',
+                sub: '결아! 왜 그러니?'
+            },
+            // 1. 등장인물
+            {
+                type: 'intro',
+                image: 'ego1.jpg',
+                title: '등장인물 소개',
+                content: `
+                    <p class="mb-2"><span class="char-yul">조율 (청곡초 1학년)</span><br>포니테일이 잘 어울리고, 배려심이 많은 멋진 아이.</p>
+                    <p class="mb-2"><span class="char-gyeol">김결 (사촌 동생, 4살)</span><br>세상 모든 게 자기 것인 귀여운 고집쟁이.</p>
+                    <p class="mb-2"><span class="char-toto">토토 (가이드)</span><br>율이의 마음을 읽어주고 애착 토끼 인형.</p>
+                    <p><span class="char-lily">백합 (릴리 화이트)</span><br>꼬리가 빛나면 시간 여행을 하는 릴리 화이트.</p>
+                `
+            },
+            // 2. 제1장 (장면 1,2,3 통합)
+            {
+                type: 'story', image: 'ego2.jpg',
+                title: '제1장: 검은 기둥을 지켜라!',
+                content: `
+                    <p>율이는 검은색 폼롤러 위에 서서 균형을 잡고 있었어요. 떨어지지 않으려고 발가락에 힘을 꽉 주었지요.</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "나 잘 서 있지? 균형 잡는 거 재밌어."</p>
+                    <p class="mt-2"><span class="char-toto">토토</span>: "오, 율이 자세가 좋은데?"</p>
+                    <hr class="my-4 border-dashed border-gray-300">
+                    <p>그때 방문이 열리고 동생 결이가 들어왔어요. 결이의 눈이 폼롤러를 보자마자 반짝거렸어요.</p>
+                    <p class="mt-2"><span class="char-gyeol">김결</span>: "우와! 결이거다! 칙칙폭폭 할래!"</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "어? 결아, 안녕? 근데 이건 기차가 아니야."</p>
+                    <p class="mt-4">결이가 달려들자 율이는 폼롤러를 뒤로 휙 숨겼어요.</p>
+                    <p class="mt-2"><span class="char-gyeol">김결</span>: "결이도 할래! 굴러가는 거 줘!"</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "안 돼! 이건 율이 운동하는 거야. 장난감이 아니라고!"</p>
+                `
+            },
+            // 3. 제2장 (장면 1,2,3 통합)
+            {
+                type: 'story', image: 'ego3.jpg',
+                title: '제2장: 눈물 바다가 된 거실',
+                content: `
+                    <p>결이는 율이의 바지 자락을 잡고 늘어졌어요. 파자마가 쭉 늘어났지요.</p>
+                    <p class="mt-2"><span class="char-gyeol">김결</span>: "내 거야! 내가 먼저 봤어!"</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "아니라니까! 이건 아빠가 사준 내 거야!"</p>
+                    <hr class="my-4 border-dashed border-gray-300">
+                    <p>결국 율이는 힘으로 폼롤러를 뺏어 침대 위로 휙 올렸어요. 결이는 바닥에 털썩 주저앉았죠. 입술이 파르르 떨리기 시작했어요.</p>
+                    <p class="mt-2"><span class="char-gyeol">김결</span>: "......으....으아..."</p>
+                    <p class="mt-4">결이가 바닥을 구르며 대성통곡을 시작했어요.</p>
+                    <p class="mt-2"><span class="char-gyeol">김결</span>: "으아앙!! 엄마!! 엄마 보고 싶어!!"</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: (귀를 막으며) "아, 시끄러워! 왜 자꾸 떼를 쓰는 거야?"</p>
+                `
+            },
+            // 4. 제3장 (장면 1,2,3 통합)
+            {
+                type: 'story', image: 'ego4.jpg',
+                title: '제3장: 백합의 꼬리가 빛날 때',
+                content: `
+                    <p>그 순간, 시간이 멈춘 듯 방 안이 조용해졌어요. 율이 어깨 위의 백합 꼬리가 형광등처럼 환하게 빛나기 시작했죠!</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "어? 백합아! 꼬리에 불 들어왔어!"</p>
+                    <p class="mt-2"><span class="char-toto">토토</span>: (둥실 떠오르며) "자, 율아! 여행을 떠나볼까? 김결의 머릿속으로!"</p>
+                    <hr class="my-4 border-dashed border-gray-300">
+                    <p>토토가 몽글몽글한 구름 속에서 칠판을 가리켰어요. 칠판에는 왕관을 쓴 결이가 그려져 있었죠.</p>
+                    <p class="mt-2"><span class="char-toto">토토</span>: "율아, 4살 결이의 세상에서는 자기가 왕이야. '내가 보고 싶은 건 내 것', '내가 갖고 싶은 것도 내 것'이라고 생각해. 나쁜 게 아니라 아직 배우는 중인 거야."</p>
+                    <p class="mt-4">다시 방으로 돌아오자, 백합이 폼롤러 위에서 꼬리를 살랑거렸어요.</p>
+                    <p class="mt-2"><span class="char-toto">토토</span>: "그럴 땐 뺏는 게 아니라 '교환'을 하는 거야. 결이는 지금 이 까만 기둥에 꽂혀서 다른 건 안 보이거든? 더 재밌는 걸 보여줘서 시선을 돌려봐!"</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "시선을 돌리라고? 아하!"</p>
+                `
+            },
+            // 5. 제4장 (장면 1,2,3 통합)
+            {
+                type: 'story', image: 'ego5.jpg',
+                title: '제4장: 나이스한 율이 언니',
+                content: `
+                    <p>백합의 꼬리 빛이 꺼지고 현실로 돌아왔어요. 율이는 얼른 서랍에서 '캐스터네츠'를 꺼냈어요.</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: (과장되게) "우와~! <b>딱딱딱!</b> 이게 무슨 소리지? 연주 놀이 할 사람?"</p>
+                    <hr class="my-4 border-dashed border-gray-300">
+                    <p>울던 결이가 뚝 그치고 고개를 들었어요. 칙칙한 폼롤러보다 화려한 소리가 나는 캐스터네츠에 눈이 휘둥그레졌죠.</p>
+                    <p class="mt-2"><span class="char-gyeol">김결</span>: (훌쩍이며) "......연주 놀이?"</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "응! 결이가 연주 해. 언니가 관객 할게. 자, 캐스터네츠!"</p>
+                    <p class="mt-4">결이는 언제 울었냐는 듯 벌떡 일어나 연주를 시작했어요.</p>
+                    <p class="mt-2"><span class="char-gyeol">김결</span>: "head and shoulders and knees and toes♪"</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: (속마음) '휴, 성공이다! 폼롤러는 지켰어.'</p>
+                `
+            },
+            // 6. 제5장 (장면 1,2,3 통합)
+            {
+                type: 'story', image: 'ego6.jpg',
+                title: '제5장: 우리는 평화 협정',
+                content: `
+                    <p>엄마와 고모가 과일을 깎아 들어오다가 사이좋게 노는 둘을 보고 미소 지었어요.</p>
+                    <p class="mt-2"><span class="char-mom">고모</span>: "어머, 우리 결이 뚝 그쳤네? 율이가 잘 놀아줬구나."</p>
+                    <hr class="my-4 border-dashed border-gray-300">
+                    <p>율이는 파자마 주머니에 손을 넣고 의젓하게 웃었어요.</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: "네, 결이가 노래를 참 잘해요. 그치, 토토?"</p>
+                    <p class="mt-4">백합의 꼬리가 아주 살짝 반짝였답니다.</p>
+                    <p class="mt-2"><span class="char-yul">조율</span>: (속마음) '동생을 다루는 법, 이제 마스터했어! 다음엔 또 무슨 일이 생길까?'</p>
+                `
+            },
+            // 7. 퀴즈 인트로
+            {
+                type: 'quiz_intro',
+                image: 'ego7.jpg',
+                title: '율이의 OX 퀴즈!',
+                content: `
+                    <p class="text-center text-xl font-bold mt-4">자, 여행에서 배운 내용을<br>퀴즈로 풀어볼까?</p>
+                `
+            },
+            // 8. 엔딩
+            {
+                type: 'ending',
+                image: 'ego8.jpg',
+                title: '여행 완료!',
+                sub: '다음 여행도 기대해줘!'
+            }
+        ];
+
+        const quizData = [
+            {
+                question: "동생이 내 폼롤러를 달라고 떼쓰는 건 욕심쟁이라서 그런 걸까?",
+                answer: false,
+                explanation: "4살 동생들은 아직 세상의 중심이 자기라고 생각해서 그렇대. 조금 더 크면 다른 사람 마음도 이해하게 될 거야."
+            },
+            {
+                question: "동생이 울 때 같이 화를 내거나 물건을 뺏으면 해결될까?",
+                answer: false,
+                explanation: "같이 화내면 동생은 더 크게 울어. 토토가 알려준 대로 침착하게 다른 방법을 찾는 게 멋진 언니야!"
+            },
+            {
+                question: "동생이 갖고 싶어 하는 물건 대신, 더 재미있는 장난감을 보여주는 건 좋은 방법일까?",
+                answer: true,
+                explanation: "이걸 '주의 환기'라고 해. 폼롤러 대신 캐스터네츠를 보여주니까 금방 잊어버렸지? 싸우지 않고 평화를 지키는 꿀팁이야."
+            }
+        ];
+
+        // --- 고정 로직 (수정 불필요) ---
+        let currentState = { pageIndex: 0, quizIndex: 0, quizStatus: 'question', lastAnswer: null };
+        const app = document.getElementById('app');
+
+        function render() {
+            app.innerHTML = ''; 
+            if (currentState.pageIndex < storyData.length) {
+                const page = storyData[currentState.pageIndex];
+                if (page.type === 'cover') renderCover(page);
+                else if (page.type === 'ending') renderEnding(page);
+                else renderStoryPage(page, page.type === 'quiz_intro');
+            } else if (currentState.pageIndex === storyData.length) renderQuiz();
+        }
+
+        function renderCover(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = nextPage;
+            div.innerHTML = `
+                <div class="img-container"><img src="${data.image}" class="img-cover" alt="표지" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-500\\'>이미지 준비중<br>${data.image}</div>'"></div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl drop-shadow-md bg-black/20 py-2">화면을 탭하여 시작하기</div>
+            `;
+            app.appendChild(div);
+        }
+
+        function renderStoryPage(data, isQuizIntro) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-white fade-in";
+            const imgHtml = `<div class="flex-1 img-container relative border-b-4 border-orange-200"><img src="${data.image}" class="img-fit" alt="삽화" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-400\\'>이미지 준비중<br>${data.image}</div>'"></div>`;
+            
+            // 텍스트 비율 33% 고정
+            const textHtml = `
+                <div class="h-[33%] flex flex-col relative">
+                    <div class="flex-1 p-6 overflow-y-auto text-box -mt-6 z-10 text-lg leading-relaxed text-gray-800">
+                        ${data.title ? `<h2 class="font-comic text-2xl text-orange-500 mb-1">${data.title}</h2>` : ''}
+                        ${data.sub ? `<p class="text-sm text-gray-500 mb-4">${data.sub}</p>` : ''}
+                        <div class="space-y-2">${data.content}</div>
+                    </div>
+                    <div class="h-20 bg-white flex justify-between items-center px-8 border-t border-orange-100 z-20">
+                        <div onclick="prevPage()" class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-gray-600 transition"><span class="text-2xl opacity-60">⏪</span><span class="text-xs font-bold mt-1">이전</span></div>
+                        ${isQuizIntro ? 
+                            `<div onclick="startQuiz()" class="cursor-pointer text-pink-500 flex flex-col items-center"><div class="w-14 h-14 bg-pink-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg border-4 border-pink-200">?</div><span class="text-xs font-bold mt-1">퀴즈 풀기!</span></div>` : 
+                            `<div onclick="nextPage()" class="btn-theme flex flex-col items-center text-yellow-500"><span class="text-4xl filter drop-shadow-md">${THEME_EMOJI}</span><span class="text-xs font-bold mt-1 text-yellow-600">다음</span></div>`
+                        }
+                    </div>
+                </div>
+            `;
+            div.innerHTML = imgHtml + textHtml;
+            app.appendChild(div);
+        }
+
+        function renderQuiz() {
+            if (currentState.quizIndex >= quizData.length) { currentState.pageIndex = storyData.length - 1; currentState.quizIndex = 0; render(); return; }
+            const currentQ = quizData[currentState.quizIndex];
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-yellow-50 fade-in";
+            
+            if (currentState.quizStatus === 'question') {
+                div.innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><span class="text-pink-500 font-bold text-xl mb-4 bg-pink-100 px-4 py-1 rounded-full">문제 ${currentState.quizIndex + 1} / 3</span><div class="bg-white p-8 rounded-2xl shadow-xl w-full mb-8 border-2 border-yellow-300"><p class="text-2xl font-bold break-keep text-gray-800">${currentQ.question}</p></div><div class="flex gap-6 justify-center"><button onclick="checkAnswer(true)" class="w-24 h-24 bg-blue-500 rounded-full text-white text-5xl font-black shadow-lg">O</button><button onclick="checkAnswer(false)" class="w-24 h-24 bg-red-500 rounded-full text-white text-5xl font-black shadow-lg">X</button></div></div>`;
+            } else if (currentState.quizStatus === 'result') {
+                const isCorrect = currentState.lastAnswer === currentQ.answer;
+                const emoji = isCorrect ? `🎉${THEME_EMOJI}🎉` : '🤔💦';
+                div.innerHTML = `<div class="w-full h-full ${isCorrect ? 'bg-green-500' : 'bg-orange-400'} flex flex-col items-center justify-center text-white cursor-pointer" onclick="showExplanation()"><div class="text-8xl mb-6 animate-bounce">${emoji}</div><h2 class="text-4xl font-comic mb-4">${isCorrect ? '정답!' : '땡!'}</h2><p class="animate-pulse">탭하여 해설 보기</p></div>`;
+            } else if (currentState.quizStatus === 'explanation') {
+                const isLast = currentState.quizIndex === quizData.length - 1;
+                div.innerHTML = `<div class="flex-1 flex flex-col p-6 bg-white cursor-pointer" onclick="nextQuizStep()"><div class="flex-1 flex flex-col justify-center items-center"><h3 class="text-2xl font-comic text-sky-600 mb-6">👧🏻 율이의 설명</h3><div class="bg-sky-50 p-6 rounded-xl border-2 border-sky-200 shadow-md relative"><div class="absolute -top-4 -left-2 text-4xl">💡</div><p class="text-xl font-medium text-gray-800 leading-relaxed word-keep">"${currentQ.explanation}"</p></div></div><div class="h-24 flex items-center justify-center"><div class="btn-theme flex flex-col items-center"><span class="text-4xl">${THEME_EMOJI}</span><span class="text-sm font-bold text-yellow-600 mt-1">${isLast ? "완료!" : "다음 문제"}</span></div></div></div>`;
+            }
+            app.appendChild(div);
+        }
+
+        function renderEnding(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in flex flex-col bg-black";
+            div.onclick = restart;
+            div.innerHTML = `
+                <div class="flex-1 img-container"><img src="${data.image}" class="img-cover opacity-80" alt="엔딩" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-500\\'>이미지 준비중<br>${data.image}</div>'"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full px-4">
+                    <h2 class="text-4xl font-comic text-white mb-4 drop-shadow-lg">${data.title}</h2>
+                    <p class="text-xl text-white/90 mb-8">${data.sub}</p>
+                    <div class="inline-block px-8 py-3 bg-white text-orange-500 rounded-full font-bold text-lg shadow-lg animate-bounce">처음으로 돌아가기</div>
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        function nextPage() { if (currentState.pageIndex < storyData.length) { currentState.pageIndex++; render(); }}
+        function prevPage() { if (currentState.pageIndex > 0) { currentState.pageIndex--; render(); }}
+        function startQuiz() { currentState.pageIndex = storyData.length; currentState.quizIndex = 0; currentState.quizStatus = 'question'; render(); }
+        function checkAnswer(ans) { currentState.lastAnswer = ans; currentState.quizStatus = 'result'; render(); }
+        function showExplanation() { currentState.quizStatus = 'explanation'; render(); }
+        function nextQuizStep() { currentState.quizIndex++; currentState.quizStatus = 'question'; render(); }
+        function restart() { currentState.pageIndex = 0; currentState.quizIndex = 0; render(); }
+
+        render();
+    </script>
+</body>
+</html>
