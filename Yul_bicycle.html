@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>율이의 여행시리즈: 율이의 역사여행</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #fff7ed; overflow: hidden; touch-action: manipulation; }
+        .font-comic { font-family: 'Jua', sans-serif; }
+        @keyframes float { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-5px) rotate(5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+        .btn-theme { animation: float 2.5s infinite ease-in-out; cursor: pointer; transition: all 0.2s; }
+        .btn-theme:active { transform: scale(0.9); }
+        .text-box { background-color: rgba(255, 255, 255, 0.98); border-radius: 20px 20px 0 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); }
+        .img-container { width: 100%; height: 100%; background-color: #fef3c7; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .img-cover { width: 100%; height: 100%; object-fit: cover; }
+        .img-fit { width: 100%; height: 100%; object-fit: contain; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* 캐릭터 대사 스타일 */
+        .char-yul { color: #0ea5e9; font-weight: 700; }    /* sky-500 */
+        .char-toto { color: #ec4899; font-weight: 700; }   /* pink-500 */
+        .char-baek { color: #16a34a; font-weight: 700; }   /* green-600 */
+        .char-daon { color: #9333ea; font-weight: 700; }   /* purple-600 (다온 추가) */
+        .char-extra { color: #4b5563; font-weight: 700; }  /* gray-600 (기타 인물) */
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-center items-center">
+    <div id="app" class="w-full h-full max-w-md bg-white relative shadow-2xl overflow-hidden flex flex-col border-x border-orange-100"></div>
+    <script>
+        // *** AI 데이터 생성 영역 ***
+        // 이미지 키워드: bicycle
+        const storyData = [
+            // 0. 표지
+            {
+                type: 'cover',
+                title: '율이의 역사여행',
+                sub: '자전거 할아버지를 만나러 가요!',
+                image: 'images/bicycle0.jpg'
+            },
+            // 1. 등장인물 소개
+            {
+                type: 'story',
+                title: '등장인물 소개',
+                image: 'images/bicycle1.jpg',
+                content: `
+                    <div class="space-y-4">
+                        <p><span class="char-yul text-lg">율</span><br>청곡초 1학년, 호기심 대장! 궁금한 건 못 참는 씩씩하고 멋진 소녀. 다온 언니와 자전거 타는 것을 좋아해요.</p>
+                        <p><span class="char-daon text-lg">다온</span><br>청곡초 2학년, 운동 신경 최고! 태권도를 사랑하는 멋진 소녀. 율이의 든든한 단짝 언니.</p>
+                        <p><span class="char-toto text-lg">토토</span><br>율이의 애착 토끼 인형, 율이의 궁금증을 해결해 주는 척척박사 토끼. 시간 여행 가이드.</p>
+                        <p><span class="char-baek text-lg">백합</span><br>율이의 반려 도마뱀, 귀여운 릴리 화이트 게코. 꼬리에서 신비한 빛을 뿜어 시간 여행 문을 열어요.</p>
+                        <p><span class="char-daon text-lg">자몽, 푸딩</span><br>다온이의 반려 도마뱀, 귀여운 크레스티드 게코.</p>
+                    </div>
+                `
+            },
+            // 2. 제1장
+            {
+                type: 'story',
+                title: '제1장: 자전거는 언제 태어났을까?',
+                image: 'images/bicycle2.jpg',
+                content: `
+                    <p class="mb-2"><span class="char-daon">다온:</span> 율아! 날씨 진짜 좋다! 자전거 타니까 완전 신나지?</p>
+                    <p class="mb-2"><span class="char-yul">율:</span> 응! 언니랑 타니까 더 재밌어!</p>
+                    <p class="mb-2"><span class="char-yul">율:</span> 그런데 언니, 자전거는 누가 처음 만들었을까? 옛날 사람들도 우리처럼 탔을까?</p>
+                    <p class="mb-2"><span class="char-daon">다온:</span> 글쎄? 아주 옛날엔 말을 탔을 텐데... 언제부터 자전거를 탔지?</p>
+                    <p class="mb-2"><span class="char-toto">토토:</span> 흠흠! 그건 내가 알려줄 수 있지. 백합아, 출발 준비!</p>
+                    <p class="mb-2"><span class="char-baek">백합:</span> 쉭! (반짝!)</p>
+                    <p><span class="char-yul">율</span> & <span class="char-daon">다온</span>: 으악! 빨려 들어간다~!</p>
+                `
+            },
+            // 3. 제2장
+            {
+                type: 'story',
+                title: '제2장: 발로 달리는 기계 (독일)',
+                image: 'images/bicycle3.jpg',
+                content: `
+                    <p class="mb-2"><span class="char-toto">토토:</span> 짠! 여기는 약 200년 전인 1817년 독일이야. 저기 가는 '드라이스' 아저씨를 봐.</p>
+                    <p class="mb-2"><span class="char-yul">율:</span> 어? 자전거는 맞는데... 페달이 없어! 발로 땅을 쿵쿵 차면서 가네?</p>
+                    <p class="mb-2"><span class="char-daon">다온:</span> 푸하하! 앉아서 타는 킥보드 같아. 엉덩이 안 아픈가?</p>
+                    <p class="mb-2"><span class="char-toto">토토:</span> 저게 최초의 자전거 <strong>'드라이지네'</strong>야. 페달은 없지만 걷는 것보다 훨씬 빨라서 인기가 많았대.</p>
+                    <p class="mb-2"><span class="char-extra">드라이스:</span> 비켜요, 비켜! 내 '달리는 기계'가 나가신다! 으랏차차!</p>
+                `
+            },
+            // 4. 제3장
+            {
+                type: 'story',
+                title: '제3장: 조선에 나타난 축지차',
+                image: 'images/bicycle4.jpg',
+                content: `
+                    <p class="mb-2"><span class="char-toto">토토:</span> 자, 이번엔 우리나라야! 저기 안경 쓴 멋쟁이 박사님이 오신다.</p>
+                    <p class="mb-2"><span class="char-extra">사람1:</span> 아이고! 저게 뭐여? 소도 없고 말도 없는데 바퀴가 혼자 굴러가네!</p>
+                    <p class="mb-2"><span class="char-extra">사람2:</span> 귀신이 곡할 노릇이네! 땅을 접어서 달린다는 <strong>'축지차'</strong>인가 봐! 괴물 차다!</p>
+                    <p class="mb-2"><span class="char-extra">서재필:</span> 허허, 놀라지 마시오. 이것은 미국에서 가져온 문명의 이기, 자전거라 하오. 우리도 이제 이런 편리한 것을 배워야 하오!</p>
+                    <p class="mb-2"><span class="char-yul">율:</span> 우와! 서재필 박사님이다! 우리나라에 처음 자전거 타는 모습을 보여주셨구나!</p>
+                `
+            },
+            // 5. 제4장
+            {
+                type: 'story',
+                title: '제4장: 엉덩이를 지켜라!',
+                image: 'images/bicycle5.jpg',
+                content: `
+                    <p class="mb-2"><span class="char-daon">다온:</span> 처음엔 발로 차고 다녔는데, 서재필 박사님이 탈 때는 페달이 있었어! 그 사이에 무슨 일이 있었던 거지?</p>
+                    <p class="mb-2"><span class="char-toto">토토:</span> 오, 다온이 예리한데? 사람들이 "발을 계속 구르니까 너무 힘들어!" 해서 페달을 달았어.</p>
+                    <p class="mb-2"><span class="char-yul">율:</span> 그리고 바퀴도 달라! 옛날엔 나무나 쇠 바퀴라 엉덩이가 엄청 아팠을 것 같은데?</p>
+                    <p class="mb-2"><span class="char-toto">토토:</span> 정답! 충격을 줄이려고 바퀴에 공기를 넣은 <strong>'공기 타이어'</strong>를 발명했지. 덕분에 너희처럼 엉덩이 안 아프게 탈 수 있는 거야.</p>
+                    <p class="mb-2"><span class="char-baek">백합:</span> (끄덕끄덕) 쉭!</p>
+                `
+            },
+            // 6. 제5장
+            {
+                type: 'story',
+                title: '제5장: 우리들의 신나는 자전거 경주',
+                image: 'images/bicycle6.jpg',
+                content: `
+                    <p class="mb-2"><span class="char-yul">율:</span> 우와! 역사 여행을 하고 오니까 힘이 펄펄 나는 것 같아! 속도가 점점 올라가!</p>
+                    <p class="mb-2"><span class="char-yul">율:</span> 언니! 속도 20 넘으면 다온 언니랑 자전거 시합하자! 준비됐지?</p>
+                    <p class="mb-2"><span class="char-daon">다온:</span> 하하! 좋아! 태권 소녀의 스피드를 이길 수 있을까? 어디 한번 따라와 봐!</p>
+                    <p class="mb-2"><span class="char-toto">토토:</span> 으악! 율아, 너무 빨라!</p>
+                    <p class="mb-2"><span class="char-baek">백합:</span> 쉭! (꽉 잡아!)</p>
+                    <p class="mb-4"><span class="char-yul">율</span> & <span class="char-daon">다온</span>: 하나, 둘, 셋, 출발~!</p>
+                `
+            },
+            // 7. 퀴즈 인트로
+            {
+                type: 'quiz_intro',
+                title: '율이와 함께하는 역사 OX 퀴즈!',
+                image: 'images/bicycle7.jpg',
+                content: `
+                    <p class="text-center text-lg mb-4">자전거 역사여행 재미있었니?</p>
+                    <p class="text-center">이제 율이, 다온이와 함께<br>퀴즈를 풀어보며 내용을 정리해 보자!</p>
+                    <br>
+                    <p class="text-center font-bold text-pink-500">Are you ready?</p>
+                `
+            },
+            // 8. 엔딩 (새로 추가된 부분)
+            {
+                type: 'ending',
+                title: '여행 끝!',
+                image: 'images/bicycle8.jpg',
+                content: '율이와 함께한 자전거 역사 여행 즐거웠니?<br>다음에는 더 신기한 여행지에서 만나자!'
+            }
+        ];
+
+        const quizData = [
+            {
+                question: "약 200년 전(1817년) 만들어진 최초의 자전거 '드라이지네'는 페달이 있었다?",
+                answer: false,
+                explanation: "드라이지네는 페달이 없었어. 두 발로 땅을 뻥뻥 차면서 '으랏차차!' 하고 앞으로 나갔대. 마치 킥보드처럼 말이야!"
+            },
+            {
+                question: "우리나라에서 서재필 박사님이 자전거를 타는 모습을 보고 사람들은 '축지차'라고 불렀다?",
+                answer: true,
+                explanation: "옛날 사람들은 혼자 굴러가는 바퀴를 처음 보고 깜짝 놀랐대. '축지차'는 땅을 접어서 순식간에 이동하는 도술을 부리는 차라는 뜻이야!"
+            },
+            {
+                question: "자전거 바퀴에 공기 타이어를 끼운 이유는 엉덩이가 아프지 않게 하기 위해서다?",
+                answer: true,
+                explanation: "딱딱한 나무 바퀴나 쇠 바퀴는 울퉁불퉁한 길을 가면 엉덩이가 너무 아팠대. 공기가 빵빵한 고무 타이어 덕분에 푹신푹신하게 탈 수 있게 된 거야."
+            }
+        ];
+        
+        const THEME_EMOJI = "🚲"; // 자전거 이모지 선정
+
+        // --- 고정 로직 (수정 불필요) ---
+        let currentState = { pageIndex: 0, quizIndex: 0, quizStatus: 'question', lastAnswer: null };
+        const app = document.getElementById('app');
+
+        function render() {
+            app.innerHTML = ''; 
+            if (currentState.pageIndex < storyData.length) {
+                const page = storyData[currentState.pageIndex];
+                if (page.type === 'cover') renderCover(page);
+                else if (page.type === 'ending') renderEnding(page);
+                else renderStoryPage(page, page.type === 'quiz_intro');
+            } else if (currentState.pageIndex === storyData.length) renderQuiz();
+        }
+
+        function renderCover(data) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = nextPage;
+            div.innerHTML = `
+                <div class="img-container"><img src="${data.image}" class="img-cover" alt="표지" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-500\\'>이미지 준비중<br>${data.image}</div>'"></div>
+                <div class="absolute bottom-10 w-full text-center text-white font-comic animate-pulse text-xl drop-shadow-md bg-black/20 py-2">화면을 탭하여 시작하기</div>
+            `;
+            app.appendChild(div);
+        }
+
+        function renderStoryPage(data, isQuizIntro) {
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-white fade-in";
+            const imgHtml = `<div class="flex-1 img-container relative border-b-4 border-orange-200"><img src="${data.image}" class="img-fit" alt="삽화" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-400\\'>이미지 준비중<br>${data.image}</div>'"></div>`;
+            
+            // 텍스트 비율 33% 고정
+            const textHtml = `
+                <div class="h-[33%] flex flex-col relative">
+                    <div class="flex-1 p-6 overflow-y-auto text-box -mt-6 z-10 text-lg leading-relaxed text-gray-800">
+                        ${data.title ? `<h2 class="font-comic text-2xl text-orange-500 mb-2">${data.title}</h2>` : ''}
+                        ${data.sub ? `<p class="text-sm text-gray-500 mb-4">${data.sub}</p>` : ''}
+                        <div class="space-y-1">${data.content}</div>
+                    </div>
+                    <div class="h-20 bg-white flex justify-between items-center px-8 border-t border-orange-100 z-20">
+                        <div onclick="prevPage()" class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-gray-600 transition"><span class="text-2xl opacity-60">⏪</span><span class="text-xs font-bold mt-1">이전</span></div>
+                        ${isQuizIntro ? 
+                            `<div onclick="startQuiz()" class="cursor-pointer text-pink-500 flex flex-col items-center"><div class="w-14 h-14 bg-pink-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg border-4 border-pink-200">?</div><span class="text-xs font-bold mt-1">퀴즈 풀기!</span></div>` : 
+                            `<div onclick="nextPage()" class="btn-theme flex flex-col items-center text-yellow-500"><span class="text-4xl filter drop-shadow-md">${THEME_EMOJI}</span><span class="text-xs font-bold mt-1 text-yellow-600">다음</span></div>`
+                        }
+                    </div>
+                </div>
+            `;
+            div.innerHTML = imgHtml + textHtml;
+            app.appendChild(div);
+        }
+
+        function renderEnding(data) {
+            const div = document.createElement('div');
+            // 전체 화면을 꽉 채우고, 클릭 시 재시작(restart)
+            div.className = "w-full h-full relative cursor-pointer fade-in";
+            div.onclick = restart; 
+            
+            // 텍스트 오버레이(div.absolute...) 부분을 완전히 삭제하고 이미지만 남김
+            div.innerHTML = `
+                <div class="img-container">
+                    <img src="${data.image}" class="img-cover" alt="엔딩" onerror="this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center h-full text-gray-500\\'>이미지 준비중<br>${data.image}</div>'">
+                </div>
+            `;
+            app.appendChild(div);
+        }
+
+        function renderQuiz() {
+            if (currentState.quizIndex >= quizData.length) { currentState.pageIndex = storyData.length - 1; currentState.quizIndex = 0; render(); return; }
+            const currentQ = quizData[currentState.quizIndex];
+            const div = document.createElement('div');
+            div.className = "w-full h-full flex flex-col bg-yellow-50 fade-in";
+            
+            if (currentState.quizStatus === 'question') {
+                div.innerHTML = `<div class="flex-1 flex flex-col items-center justify-center p-6 text-center"><span class="text-pink-500 font-bold text-xl mb-4 bg-pink-100 px-4 py-1 rounded-full">문제 ${currentState.quizIndex + 1} / 3</span><div class="bg-white p-8 rounded-2xl shadow-xl w-full mb-8 border-2 border-yellow-300"><p class="text-2xl font-bold break-keep text-gray-800">${currentQ.question}</p></div><div class="flex gap-6 justify-center"><button onclick="checkAnswer(true)" class="w-24 h-24 bg-blue-500 rounded-full text-white text-5xl font-black shadow-lg">O</button><button onclick="checkAnswer(false)" class="w-24 h-24 bg-red-500 rounded-full text-white text-5xl font-black shadow-lg">X</button></div></div>`;
+            } else if (currentState.quizStatus === 'result') {
+                const isCorrect = currentState.lastAnswer === currentQ.answer;
+                const emoji = isCorrect ? `🎉${THEME_EMOJI}🎉` : '🤔💦';
+                div.innerHTML = `<div class="w-full h-full ${isCorrect ? 'bg-green-500' : 'bg-orange-400'} flex flex-col items-center justify-center text-white cursor-pointer" onclick="showExplanation()"><div class="text-8xl mb-6 animate-bounce">${emoji}</div><h2 class="text-4xl font-comic mb-4">${isCorrect ? '정답!' : '땡!'}</h2><p class="animate-pulse">탭하여 해설 보기</p></div>`;
+            } else if (currentState.quizStatus === 'explanation') {
+                const isLast = currentState.quizIndex === quizData.length - 1;
+                div.innerHTML = `<div class="flex-1 flex flex-col p-6 bg-white cursor-pointer" onclick="nextQuizStep()"><div class="flex-1 flex flex-col justify-center items-center"><h3 class="text-2xl font-comic text-sky-600 mb-6">👧🏻 율이의 설명</h3><div class="bg-sky-50 p-6 rounded-xl border-2 border-sky-200 shadow-md relative"><div class="absolute -top-4 -left-2 text-4xl">💡</div><p class="text-xl font-medium text-gray-800 leading-relaxed word-keep">"${currentQ.explanation}"</p></div></div><div class="h-24 flex items-center justify-center"><div class="btn-theme flex flex-col items-center"><span class="text-4xl">${THEME_EMOJI}</span><span class="text-sm font-bold text-yellow-600 mt-1">${isLast ? "완료!" : "다음 문제"}</span></div></div></div>`;
+            }
+            app.appendChild(div);
+        }
+
+        function nextPage() { if (currentState.pageIndex < storyData.length) { currentState.pageIndex++; render(); }}
+        function prevPage() { if (currentState.pageIndex > 0) { currentState.pageIndex--; render(); }}
+        function startQuiz() { currentState.pageIndex = storyData.length; currentState.quizIndex = 0; currentState.quizStatus = 'question'; render(); }
+        function checkAnswer(ans) { currentState.lastAnswer = ans; currentState.quizStatus = 'result'; render(); }
+        function showExplanation() { currentState.quizStatus = 'explanation'; render(); }
+        function nextQuizStep() { currentState.quizIndex++; currentState.quizStatus = 'question'; render(); }
+        function restart() { currentState.pageIndex = 0; currentState.quizIndex = 0; render(); }
+
+        render();
+    </script>
+</body>
+</html>
