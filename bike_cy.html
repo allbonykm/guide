@@ -6,7 +6,7 @@
     <title>바람의 요정 조율!</title>
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
     <style>
-        /* --- 기존 스타일 유지 --- */
+        /* --- 스타일 유지 --- */
         :root {
             --cinnamoroll-blue: #9ED6E8;
             --cinnamoroll-dark-blue: #7ABCCE;
@@ -74,7 +74,6 @@
             transform: translateY(4px);
         }
         
-        /* 버튼 비활성화 스타일 (전송 중일 때) */
         button:disabled {
             background-color: #ccc;
             box-shadow: none;
@@ -148,8 +147,10 @@
     <div id="screen3" class="screen">
         <h2>얼마나 쌩쌩 달렸어?</h2>
         <p style="font-size:18px; color: var(--text-dark);">가장 빨랐던 속도를 알려줘!<br>(단위: km/h)</p>
-        <input type="number" id="speedInput" step="0.1" inputmode="decimal" placeholder="기록을 불러오는 중...">
-        <p id="recordMsg" style="color: var(--accent-pink); font-size: 18px; margin-top: 15px; font-weight:bold;"></p>
+        <input type="number" id="speedInput" step="0.1" inputmode="decimal" placeholder="기록 확인 중...☁️">
+        <p id="recordMsg" style="color: var(--accent-pink); font-size: 18px; margin-top: 15px; font-weight:bold;">
+            ☁️ 서버에서 기록을 가져오고 있어...
+        </p>
         <button id="finishBtn" onclick="processSpeedAndFinish()">입력 완료! 🚀</button>
     </div>
 
@@ -164,8 +165,7 @@
 
     <script>
         // ==========================================
-        // [중요] 여기에 앱스 스크립트 배포 URL을 붙여넣으세요!
-        // 예: https://script.google.com/macros/s/AKfycbx.../exec
+        // 여기에 Apps Script 배포 URL을 넣어주세요
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXxBem17IS9mRWMjGWyDjz4cQ5NcHnFXNjOturbzmacU1dhhqxOb9h-n_9_hUqq5i4/exec'; 
         // ==========================================
 
@@ -182,28 +182,46 @@
             select.appendChild(option);
         }
 
-        const STORAGE_KEY = 'joyul_max_speed_v2';
+        // 서버에서 받아온 최고 기록을 저장할 변수
+        let serverMaxSpeed = 0.0;
+        let isRecordLoaded = false;
 
         function nextScreen(screenNum) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(`screen${screenNum}`).classList.add('active');
+            
+            // 3번 화면(속도 입력)으로 갈 때 서버에서 기록 조회
             if (screenNum === 3) {
-                loadMaxSpeed();
+                fetchMaxSpeedFromServer();
             }
         }
 
-        function loadMaxSpeed() {
-            const savedSpeed = localStorage.getItem(STORAGE_KEY);
-            const inputField = document.getElementById('speedInput');
+        function fetchMaxSpeedFromServer() {
             const msgField = document.getElementById('recordMsg');
+            const inputField = document.getElementById('speedInput');
 
-            if (savedSpeed) {
-                inputField.placeholder = `지난번 최고 기록: ${savedSpeed}`;
-                msgField.innerText = `🏆 현재 최고 기록: ${savedSpeed} km/h`;
-            } else {
-                inputField.placeholder = "여기에 숫자를 적어줘!";
-                msgField.innerText = "아직 최고 기록이 없어. 첫 기록에 도전!";
-            }
+            // GET 요청으로 데이터 가져오기 (no-cors 아님!)
+            fetch(SCRIPT_URL)
+            .then(response => response.text())
+            .then(data => {
+                serverMaxSpeed = parseFloat(data);
+                if (isNaN(serverMaxSpeed)) serverMaxSpeed = 0;
+                
+                isRecordLoaded = true;
+
+                if (serverMaxSpeed > 0) {
+                    msgField.innerText = `🏆 현재 최고 기록: ${serverMaxSpeed} km/h`;
+                    inputField.placeholder = `기록: ${serverMaxSpeed} km/h`;
+                } else {
+                    msgField.innerText = "아직 최고 기록이 없어. 첫 기록에 도전!";
+                    inputField.placeholder = "여기에 숫자를 적어줘!";
+                }
+            })
+            .catch(error => {
+                console.error('기록 불러오기 실패:', error);
+                msgField.innerText = "기록을 불러오지 못했어 ㅠㅠ";
+                isRecordLoaded = true; // 에러나도 입력은 가능하게
+            });
         }
 
         function processSpeedAndFinish() {
@@ -212,37 +230,37 @@
             const btn = document.getElementById('finishBtn');
             
             let currentSpeed = parseFloat(inputField.value);
-            let savedSpeed = parseFloat(localStorage.getItem(STORAGE_KEY)) || 0;
 
             if (isNaN(currentSpeed)) {
                 alert("속도를 숫자로 입력해줘!");
                 return;
             }
 
-            // 1. 최고 속도 로직 (LocalStorage 업데이트)
-            if (currentSpeed > savedSpeed) {
-                localStorage.setItem(STORAGE_KEY, currentSpeed.toFixed(1));
-                alert(`🎊 꺄악! 축하해 조율아! 🎊\n신기록 달성이야!\n\n이전 기록: ${savedSpeed}km/h\n👉 새 기록: ${currentSpeed}km/h`);
+            if (!isRecordLoaded) {
+                alert("아직 이전 기록을 불러오는 중이야. 잠시만 기다려줘!");
+                return;
             }
 
-            // 2. 구글 시트로 데이터 전송 (비동기 처리)
-            // 버튼 비활성화 (여러 번 누름 방지)
+            // 1. 최고 속도 비교 (서버 값과 비교)
+            // 서버값(serverMaxSpeed)보다 클 때만 축하 메시지
+            if (currentSpeed > serverMaxSpeed) {
+                alert(`🎊 꺄악! 축하해 조율아! 🎊\n신기록 달성이야!\n\n이전 기록: ${serverMaxSpeed}km/h\n👉 새 기록: ${currentSpeed}km/h`);
+            }
+
+            // 2. 구글 시트로 데이터 전송 (POST)
             btn.disabled = true;
             btn.innerText = "기록 저장 중...⏳";
 
-            // 전송할 데이터 준비
             let formData = new FormData();
             formData.append('distance', distanceValue);
             formData.append('speed', currentSpeed);
 
-            // fetch로 구글 스크립트에 전송
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: formData,
-                mode: 'no-cors' // 중요: CORS 에러 방지
+                mode: 'no-cors' 
             })
             .then(() => {
-                // 성공하면 마지막 화면으로 이동
                 nextScreen(4);
             })
             .catch(error => {
