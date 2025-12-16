@@ -196,33 +196,35 @@
             }
         }
 
-        function fetchMaxSpeedFromServer() {
-            const msgField = document.getElementById('recordMsg');
-            const inputField = document.getElementById('speedInput');
+function fetchMaxSpeedFromServer() {
+    const msgField = document.getElementById('recordMsg');
+    const inputField = document.getElementById('speedInput');
 
-            // GET 요청으로 데이터 가져오기 (no-cors 아님!)
-            fetch(SCRIPT_URL)
-            .then(response => response.text())
-            .then(data => {
-                serverMaxSpeed = parseFloat(data);
-                if (isNaN(serverMaxSpeed)) serverMaxSpeed = 0;
-                
-                isRecordLoaded = true;
+    // 캐시 방지를 위한 타임스탬프 추가
+    const url = SCRIPT_URL + '?timestamp=' + new Date().getTime();
 
-                if (serverMaxSpeed > 0) {
-                    msgField.innerText = `🏆 현재 최고 기록: ${serverMaxSpeed} km/h`;
-                    inputField.placeholder = `기록: ${serverMaxSpeed} km/h`;
-                } else {
-                    msgField.innerText = "아직 최고 기록이 없어. 첫 기록에 도전!";
-                    inputField.placeholder = "여기에 숫자를 적어줘!";
-                }
-            })
-            .catch(error => {
-                console.error('기록 불러오기 실패:', error);
-                msgField.innerText = "기록을 불러오지 못했어 ㅠㅠ";
-                isRecordLoaded = true; // 에러나도 입력은 가능하게
-            });
+    fetch(url)  // ← url 변수 사용
+    .then(response => response.text())
+    .then(data => {
+        serverMaxSpeed = parseFloat(data);
+        if (isNaN(serverMaxSpeed)) serverMaxSpeed = 0;
+        
+        isRecordLoaded = true;
+
+        if (serverMaxSpeed > 0) {
+            msgField.innerText = `🏆 현재 최고 기록: ${serverMaxSpeed} km/h`;
+            inputField.placeholder = `기록: ${serverMaxSpeed} km/h`;
+        } else {
+            msgField.innerText = "아직 최고 기록이 없어. 첫 기록에 도전!";
+            inputField.placeholder = "여기에 숫자를 적어줘!";
         }
+    })
+    .catch(error => {
+        console.error('기록 불러오기 실패:', error);
+        msgField.innerText = "기록을 불러오지 못했어 ㅠㅠ";
+        isRecordLoaded = true;
+    });
+}
 
         function processSpeedAndFinish() {
             const inputField = document.getElementById('speedInput');
