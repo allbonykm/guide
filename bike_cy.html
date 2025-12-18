@@ -203,11 +203,29 @@ function fetchMaxSpeedFromServer() {
     // 캐시 방지를 위한 타임스탬프 추가
     const url = SCRIPT_URL + '?timestamp=' + new Date().getTime();
 
-    fetch(url)  // ← url 변수 사용
-    .then(response => response.text())
+    fetch(url)
+    .then(response => {
+        console.log('응답 상태:', response.status);
+        if (!response.ok) {
+            throw new Error('서버 응답 실패: ' + response.status);
+        }
+        return response.text();
+    })
     .then(data => {
-        serverMaxSpeed = parseFloat(data);
-        if (isNaN(serverMaxSpeed)) serverMaxSpeed = 0;
+        console.log('서버에서 받은 원본 데이터:', data);
+        console.log('데이터 타입:', typeof data);
+        
+        // 공백 제거 후 파싱
+        const trimmedData = data.trim();
+        console.log('공백 제거 후:', trimmedData);
+        
+        serverMaxSpeed = parseFloat(trimmedData);
+        console.log('파싱된 최고 속도:', serverMaxSpeed);
+        
+        if (isNaN(serverMaxSpeed)) {
+            console.warn('숫자가 아닌 데이터 수신:', trimmedData);
+            serverMaxSpeed = 0;
+        }
         
         isRecordLoaded = true;
 
