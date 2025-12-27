@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Referral Letter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .referral-card {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 40px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header {
+            border-bottom: 2px solid #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        h1 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 24px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        .patient-info {
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 5px;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        section {
+            margin-bottom: 25px;
+        }
+        h2 {
+            font-size: 18px;
+            color: #2c3e50;
+            border-left: 4px solid #2c3e50;
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .note {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        .image-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .image-caption {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #444;
+            font-size: 14px;
+        }
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .referral-card { border: none; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="referral-card">
+    <header>
+        <h1>Medical Referral Letter</h1>
+    </header>
+
+    <div class="patient-info">
+        <span class="label">Date:</span>
+        <span>December 27, 2025</span>
+        <span class="label">Subject:</span>
+        <span>Referral for Further Evaluation of Left Shoulder Arthritis</span>
+        <span class="label">Patient:</span>
+        <span>49-year-old Female</span>
+    </div>
+
+    <section>
+        <h2>1. Clinical History</h2>
+        <ul>
+            <li><strong>Onset:</strong> November 17, 2025</li>
+            <li><strong>Symptoms:</strong> The patient presents with persistent left shoulder pain, characterized by significant nocturnal pain and resting pain.</li>
+            <li><strong>Range of Motion (ROM):</strong> Markedly restricted in multiple planes, including abduction, flexion, extension, and external rotation. The clinical presentation is highly suggestive of a capsular involvement or inflammatory process.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>2. Physical Examination & Findings</h2>
+        <ul>
+            <li>Pain is localized to the anterior and lateral aspects of the left shoulder.</li>
+            <li>The patient exhibits a capsular pattern of restriction, pointing towards advanced glenohumeral joint involvement or adhesive capsulitis.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>3. Imaging Findings (Ultrasonography)</h2>
+        <ul>
+            <li><strong>Region:</strong> Left humerus bicipital groove (Intertubercular sulcus).</li>
+            <li><strong>View:</strong> Transverse sonographic image.</li>
+            <li><strong>Observations:</strong> The Long Head of the Biceps Brachii (LHBT) tendon was evaluated within the groove. Based on the sonographic features and clinical correlation, the patient was diagnosed with Left Shoulder Arthritis (Glenohumeral Arthritis).</li>
+        </ul>
+        <div class="note">Note: Possible tenosynovitis of the LHBT and associated synovial thickening were considered.</div>
+    </section>
+
+    <section>
+        <h2>4. Assessment & Impression</h2>
+        <ul>
+            <li><strong>Primary Diagnosis:</strong> Left Shoulder Arthritis (Glenohumeral Osteoarthritis).</li>
+            <li><strong>R/O:</strong> Adhesive Capsulitis (Frozen Shoulder).</li>
+            <li><strong>R/O:</strong> Bicipital Tenosynovitis.</li>
+        </ul>
+    </section>
+
+    <div class="image-section">
+        <img src="images/US_LMJ.jpg" alt="Ultrasound Image of Bicipital Groove">
+        <div class="image-caption">Lt shoulder, transverse (Long Head of the Biceps Brachii tendon)</div>
+    </div>
+</div>
+
+</body>
+</html>
