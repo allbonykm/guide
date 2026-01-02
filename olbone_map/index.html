@@ -1,1 +1,846 @@
+<!DOCTYPE html>
+<html lang="ko">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="올본한의원 수원점 오시는 길 - 수인분당선 수원시청역 8번 출구에서 도보 1분">
+    <title>올본한의원 수원점 오시는 길</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --primary-green-light: #4CAF50;
+            --primary-green-dark: #1B5E20;
+            --accent-green: #81C784;
+            --bg-white: #FFFFFF;
+            --bg-gray: #F5F7F5;
+            --text-dark: #212121;
+            --text-gray: #616161;
+            --text-light: #9E9E9E;
+            --border-color: #E0E0E0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+            padding: 24px 20px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                transform: translateX(-30%) translateY(-30%);
+            }
+
+            50% {
+                transform: translateX(30%) translateY(30%);
+            }
+        }
+
+        .logo {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-sub {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 4px;
+        }
+
+        .header-title {
+            position: relative;
+            z-index: 1;
+            margin-top: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Map Buttons Section */
+        .map-buttons {
+            padding: 20px;
+            background: var(--bg-white);
+            margin: -16px 16px 16px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            z-index: 10;
+        }
+
+        .map-buttons-title {
+            font-size: 13px;
+            color: var(--text-gray);
+            text-align: center;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .map-buttons-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .map-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 12px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .map-btn-naver {
+            background: linear-gradient(135deg, #03C75A 0%, #02B350 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(3, 199, 90, 0.3);
+        }
+
+        .map-btn-naver:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(3, 199, 90, 0.3);
+        }
+
+        .map-btn-kakao {
+            background: linear-gradient(135deg, #FEE500 0%, #F5DC00 100%);
+            color: #3C1E1E;
+            box-shadow: 0 4px 12px rgba(254, 229, 0, 0.3);
+        }
+
+        .map-btn-kakao:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(254, 229, 0, 0.3);
+        }
+
+        .map-btn-icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Subway Guide Banner */
+        .subway-banner {
+            margin: 0 16px 16px;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .subway-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .subway-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .subway-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-green-dark);
+            line-height: 1.5;
+        }
+
+        .subway-highlight {
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        /* Step Guide Section */
+        .section {
+            margin: 0 16px 16px;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .section-title {
+            padding: 18px 20px;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-title-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        /* Step Items */
+        .step-item {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(46, 125, 50, 0.3);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        .step-image {
+            width: 100%;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-top: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Parking Section */
+        .parking-section {
+            margin: 0 16px 16px;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            border: 1px solid #FFE082;
+        }
+
+        .parking-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .parking-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+
+        .parking-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .parking-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #E65100;
+        }
+
+        .parking-info {
+            font-size: 15px;
+            color: #5D4037;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .parking-info strong {
+            color: #E65100;
+        }
+
+        .parking-detail-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+
+        .parking-detail-btn:active {
+            transform: scale(0.98);
+        }
+
+        .parking-detail-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Footer Address Section */
+        .footer-section {
+            margin: 0 16px 16px;
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+        }
+
+        .address-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .address-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .address-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .address-content {
+            flex: 1;
+        }
+
+        .address-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .address-text {
+            font-size: 15px;
+            color: var(--text-dark);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-gray);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:active {
+            background: var(--border-color);
+            transform: scale(0.98);
+        }
+
+        .copy-btn.copied {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .copy-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Floating Call Button */
+        .floating-call {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .call-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 17px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(46, 125, 50, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .call-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(46, 125, 50, 0.4);
+        }
+
+        .call-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(33, 33, 33, 0.95);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-text">올본한의원</div>
+            <div class="logo-sub">수원점</div>
+        </div>
+        <div class="header-title">🏥 가장 가까운 올본한의원 오시는 방법</div>
+    </header>
+
+    <!-- Map Buttons -->
+    <section class="map-buttons animate-in">
+        <div class="map-buttons-title">지도 앱으로 바로 길찾기</div>
+        <div class="map-buttons-row">
+            <a href="https://naver.me/xcnasoGN" class="map-btn map-btn-naver" target="_blank" rel="noopener">
+                <svg class="map-btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.273 12.845L7.376 0H0v24h7.726V11.155L16.624 24H24V0h-7.727z" />
+                </svg>
+                네이버 지도
+            </a>
+            <a href="https://kko.to/UK19B2nT-4" class="map-btn map-btn-kakao" target="_blank" rel="noopener">
+                <svg class="map-btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 3C6.477 3 2 6.463 2 10.714c0 2.683 1.77 5.033 4.426 6.375l-.874 3.244a.515.515 0 00.77.578l3.873-2.582c.594.082 1.197.128 1.805.128 5.523 0 10-3.463 10-7.714S17.523 3 12 3" />
+                </svg>
+                카카오맵
+            </a>
+        </div>
+    </section>
+
+    <!-- Subway Banner -->
+    <section class="subway-banner animate-in delay-1">
+        <div class="subway-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 2C8 2 4 2.5 4 6v9.5c0 1.93 1.57 3.5 3.5 3.5l-1.5 1.5v.5h12v-.5l-1.5-1.5c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-4-4-8-4zM7.5 17c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm3.5-6H6V6h5v5zm2 0V6h5v5h-5zm3.5 6c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+            </svg>
+        </div>
+        <div class="subway-text">
+            <span class="subway-highlight">수인분당선 수원시청역 8번 출구</span>에서<br>
+            도보 <span class="subway-highlight">1분!</span>
+        </div>
+    </section>
+
+    <!-- Step Guide -->
+    <section class="section animate-in delay-2">
+        <div class="section-title">
+            <div class="section-title-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7" />
+                </svg>
+            </div>
+            도보 안내
+        </div>
+
+        <div class="step-item">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">8번 출구로 나오기</div>
+                    <div class="step-desc">수인분당선 수원시청역 8번 출구로 나와주세요</div>
+                </div>
+            </div>
+            <div class="step-image">
+                <img src="/images/map0.jpg" alt="8번 출구 이미지" loading="lazy">
+            </div>
+        </div>
+
+        <div class="step-item">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">씨네파크 방향으로 40m 직진</div>
+                    <div class="step-desc">출구에서 나오자마자 씨네파크(Cine Park) 방향으로 약 40m 직진하세요</div>
+                </div>
+            </div>
+            <div class="step-image">
+                <img src="/images/map1.jpg" alt="씨네파크 방향 이미지" loading="lazy">
+            </div>
+        </div>
+
+        <div class="step-item">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">조원빌딩 도착</div>
+                    <div class="step-desc">1층에 이디야커피/속초중앙어시장이 있는 조원빌딩에 도착합니다</div>
+                </div>
+            </div>
+            <div class="step-image">
+                <img src="/images/map2.jpg" alt="조원빌딩 외관 이미지" loading="lazy">
+            </div>
+        </div>
+
+        <div class="step-item">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">조원빌딩 2층으로 이동</div>
+                    <div class="step-desc">엘리베이터 또는 계단을 이용하여 2층 올본한의원으로 오세요</div>
+                </div>
+            </div>
+            <div class="step-image">
+                <img src="/images/map3.jpg" alt="올본한의원 입구 이미지" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Parking Section -->
+    <section class="parking-section animate-in delay-3">
+        <div class="parking-header">
+            <div class="parking-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6zm.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2z" />
+                </svg>
+            </div>
+            <div class="parking-title">주차 안내</div>
+        </div>
+        <div class="parking-info">
+            <strong>조원빌딩 내 조원주차장</strong> 이용 가능<br>
+            (버거킹 건물 사이 입구로 진입)<br><br>
+            ⚠️ 만차 시 건물 뒷편 주차장을 이용해주세요
+        </div>
+        <a href="https://allbonykm.github.io/guide/ABpark.html" class="parking-detail-btn" target="_blank"
+            rel="noopener">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+            </svg>
+            주차장 상세 안내 보기
+        </a>
+    </section>
+
+    <!-- Footer Address -->
+    <section class="footer-section animate-in delay-4">
+        <div class="address-row">
+            <div class="address-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                </svg>
+            </div>
+            <div class="address-content">
+                <div class="address-label">올본한의원 수원점 주소</div>
+                <div class="address-text">경기 수원시 팔달구 권광로 169<br>조원빌딩 2층</div>
+            </div>
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyAddress()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+            </svg>
+            <span id="copyBtnText">주소 복사하기</span>
+        </button>
+    </section>
+
+    <!-- Floating Call Button -->
+    <div class="floating-call">
+        <a href="tel:031-304-9000" class="call-btn">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+            </svg>
+            전화 문의 031-304-9000
+        </a>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">주소가 복사되었습니다</div>
+
+    <script>
+        // 주소 복사 기능
+        function copyAddress() {
+            const address = '경기 수원시 팔달구 권광로 169 조원빌딩 2층';
+            const copyBtn = document.getElementById('copyBtn');
+            const copyBtnText = document.getElementById('copyBtnText');
+
+            // 클립보드 API 사용
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(address).then(function () {
+                    showCopySuccess();
+                }).catch(function (err) {
+                    // 폴백: execCommand 사용
+                    fallbackCopy(address);
+                });
+            } else {
+                // 폴백: execCommand 사용
+                fallbackCopy(address);
+            }
+        }
+
+        // 폴백 복사 방법
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+                showCopySuccess();
+            } catch (err) {
+                showToast('복사에 실패했습니다');
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        // 복사 성공 UI 표시
+        function showCopySuccess() {
+            const copyBtn = document.getElementById('copyBtn');
+            const copyBtnText = document.getElementById('copyBtnText');
+
+            copyBtn.classList.add('copied');
+            copyBtnText.textContent = '✓ 복사 완료!';
+            showToast('주소가 복사되었습니다');
+
+            setTimeout(function () {
+                copyBtn.classList.remove('copied');
+                copyBtnText.textContent = '주소 복사하기';
+            }, 2000);
+        }
+
+        // 토스트 메시지 표시
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(function () {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 페이지 로드 시 애니메이션
+        document.addEventListener('DOMContentLoaded', function () {
+            const animatedElements = document.querySelectorAll('.animate-in');
+            animatedElements.forEach(function (el) {
+                el.style.opacity = '0';
+            });
+
+            setTimeout(function () {
+                animatedElements.forEach(function (el) {
+                    el.style.opacity = '';
+                });
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
