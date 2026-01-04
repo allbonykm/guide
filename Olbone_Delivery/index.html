@@ -434,35 +434,65 @@
     </div>
 
     <script>
-        // 택배사 정보
-        const carriers = [
-            { name: 'CJ대한통운', code: 'kr.cjlogistics', url: 'https://trace.cjlogistics.com/web/detail.jsp?slipno=' },
-            { name: '롯데택배', code: 'kr.lotte', url: 'https://www.lotteglogis.com/home/reservation/tracking/linkView?InvNo=' },
-            { name: '한진택배', code: 'kr.hanjin', url: 'https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mession=Tracking&wblnum=' },
-            { name: '우체국택배', code: 'kr.epost', url: 'https://service.epost.go.kr/trace.RetrieveDomRi498.postal?sid1=' },
-            { name: '로젠택배', code: 'kr.logen', url: 'https://www.ilogen.com/web/personal/trace/' },
-            { name: '경동택배', code: 'kr.kdexp', url: 'https://kdexp.com/basicNew498.kd?barcode=' }
-        ];
+        // ==============================================
+        // 스위트트래커 API 키 설정 (발급받은 키로 교체)
+        // https://tracking.sweettracker.co.kr/ 에서 발급
+        // ==============================================
+        const SWEETTRACKER_API_KEY = 'kXb6KW8y5EHcM8swQN6P5A'; // TODO: API 키 입력
+
+        // 주요 택배사 코드 (스위트트래커 기준)
+        const CARRIER_CODES = {
+            '한의사랑(HPL)': '16',
+            'CJ대한통운': '04',
+            '롯데택배': '08',
+            '한진택배': '05',
+            '우체국택배': '01',
+            '로젠택배': '06',
+            '경동택배': '23',
+            'GS택배': '24',
+            '대신택배': '22',
+            '일양로지스': '11',
+            'CVSnet편의점택배': '21',
+            '천일택배': '17'
+        };
 
         let currentTrackingNumber = '';
+        let selectedCarrier = '';
 
         // 초기화
         function init() {
             const params = new URLSearchParams(window.location.search);
             currentTrackingNumber = params.get('trackingNumber') || params.get('t') || '';
+            selectedCarrier = params.get('carrier') || params.get('c') || '';
 
             const displayDiv = document.getElementById('tracking-display');
 
             if (currentTrackingNumber) {
-                displayDiv.innerHTML = `
-                    <div class="tracking-number-display">
-                        <div class="tracking-label">송장번호</div>
-                        <div class="tracking-value">${formatTrackingNumber(currentTrackingNumber)}</div>
-                    </div>
-                    <button class="tracking-btn" onclick="openCarrierModal()">
-                        🔍 한약 배송 조회하기
-                    </button>
-                `;
+                // API 키가 설정되었는지 확인
+                if (SWEETTRACKER_API_KEY === 'YOUR_API_KEY_HERE') {
+                    // API 키 미설정 시 택배사 선택 방식으로 폴백
+                    displayDiv.innerHTML = `
+                        <div class="tracking-number-display">
+                            <div class="tracking-label">송장번호</div>
+                            <div class="tracking-value">${formatTrackingNumber(currentTrackingNumber)}</div>
+                        </div>
+                        <button class="tracking-btn" onclick="openCarrierModal()">
+                            🔍 한약 배송 조회하기
+                        </button>
+                    `;
+                } else {
+                    // 스위트트래커로 바로 조회
+                    displayDiv.innerHTML = `
+                        <div class="tracking-number-display">
+                            <div class="tracking-label">송장번호</div>
+                            <div class="tracking-value">${formatTrackingNumber(currentTrackingNumber)}</div>
+                        </div>
+                        <button class="tracking-btn" onclick="trackWithSweetTracker()">
+                            🔍 한약 배송 조회하기
+                        </button>
+                        <div id="tracking-result" style="margin-top:20px;"></div>
+                    `;
+                }
             } else {
                 displayDiv.innerHTML = `
                     <div class="no-tracking">
@@ -478,11 +508,60 @@
 
         // 송장번호 포맷팅 (가독성)
         function formatTrackingNumber(num) {
-            // 12자리 이상이면 4자리씩 끊어서 표시
             if (num.length >= 12) {
                 return num.replace(/(.{4})/g, '$1 ').trim();
             }
             return num;
+        }
+
+        // 스위트트래커로 배송 조회
+        function trackWithSweetTracker() {
+            // 택배사명 → 코드 매핑
+            const CARRIER_NAME_TO_CODE = {
+                '한의사랑': '16',
+                '우체국': '01'
+            };
+
+            // 기본 택배사: 한의사랑(HPL) - 코드 16
+            const DEFAULT_CARRIER_CODE = '16';
+
+            // URL 파라미터로 전달된 택배사명을 코드로 변환
+            if (selectedCarrier && CARRIER_NAME_TO_CODE[selectedCarrier]) {
+                submitToSweetTracker(CARRIER_NAME_TO_CODE[selectedCarrier]);
+            } else if (selectedCarrier && CARRIER_CODES[selectedCarrier]) {
+                // 혹시 전체 이름으로 전달된 경우
+                submitToSweetTracker(CARRIER_CODES[selectedCarrier]);
+            } else {
+                // 기본값: 한의사랑으로 바로 조회
+                submitToSweetTracker(DEFAULT_CARRIER_CODE);
+            }
+        }
+
+        // 스위트트래커 템플릿으로 제출
+        function submitToSweetTracker(carrierCode) {
+            // 새 창에서 스위트트래커 템플릿 열기
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://info.sweettracker.co.kr/tracking/5'; // Sky 템플릿
+            form.target = '_blank';
+
+            const inputs = [
+                { name: 't_key', value: SWEETTRACKER_API_KEY },
+                { name: 't_code', value: carrierCode },
+                { name: 't_invoice', value: currentTrackingNumber }
+            ];
+
+            inputs.forEach(input => {
+                const el = document.createElement('input');
+                el.type = 'hidden';
+                el.name = input.name;
+                el.value = input.value;
+                form.appendChild(el);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
         }
 
         // 택배사 선택 모달
@@ -490,24 +569,38 @@
             const modal = document.getElementById('carrier-modal');
             const listDiv = document.getElementById('carrier-list');
 
-            listDiv.innerHTML = carriers.map(c => `
-                <button class="carrier-btn" onclick="trackPackage('${c.code}', '${c.url}')">
-                    ${c.name}
-                </button>
-            `).join('');
+            // API 키 여부에 따라 다르게 처리
+            const hasApiKey = SWEETTRACKER_API_KEY !== 'YOUR_API_KEY_HERE';
+
+            if (hasApiKey) {
+                // 스위트트래커 방식
+                listDiv.innerHTML = Object.entries(CARRIER_CODES).map(([name, code]) => `
+                    <button class="carrier-btn" onclick="submitToSweetTracker('${code}')">
+                        ${name}
+                    </button>
+                `).join('');
+            } else {
+                // 직접 링크 방식 (폴백)
+                const carriers = [
+                    { name: 'CJ대한통운', url: 'https://trace.cjlogistics.com/web/detail.jsp?slipno=' },
+                    { name: '롯데택배', url: 'https://www.lotteglogis.com/home/reservation/tracking/linkView?InvNo=' },
+                    { name: '한진택배', url: 'https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mession=Tracking&wblnum=' },
+                    { name: '우체국택배', url: 'https://service.epost.go.kr/trace.RetrieveDomRi498.postal?sid1=' },
+                    { name: '로젠택배', url: 'https://www.ilogen.com/web/personal/trace/' },
+                    { name: '경동택배', url: 'https://kdexp.com/basicNew498.kd?barcode=' }
+                ];
+                listDiv.innerHTML = carriers.map(c => `
+                    <button class="carrier-btn" onclick="window.open('${c.url}${currentTrackingNumber}', '_blank'); closeCarrierModal();">
+                        ${c.name}
+                    </button>
+                `).join('');
+            }
 
             modal.classList.add('show');
         }
 
         function closeCarrierModal() {
             document.getElementById('carrier-modal').classList.remove('show');
-        }
-
-        // 배송 조회
-        function trackPackage(carrierCode, baseUrl) {
-            const url = baseUrl + currentTrackingNumber;
-            window.open(url, '_blank');
-            closeCarrierModal();
         }
 
         // 모달 외부 클릭 시 닫기
