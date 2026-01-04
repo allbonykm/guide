@@ -1,1 +1,524 @@
-a
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>한약 배송조회 | 올본한의원</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy-deep: #1A2B4C;
+            --navy-dark: #002060;
+            --gold-warm: #C5A572;
+            --gold-light: #E0C097;
+            --bg-cream: #F8F9FA;
+            --text-dark: #1a1a1a;
+            --text-gray: #666666;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 헤더 */
+        header {
+            background: var(--navy-deep);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.85;
+            letter-spacing: 0;
+        }
+
+        .header-tagline {
+            color: var(--gold-warm);
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        /* 메인 콘텐츠 */
+        main {
+            flex: 1;
+            padding: 30px 20px;
+            max-width: 560px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* 배송조회 카드 */
+        .tracking-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px 25px;
+            margin-bottom: 25px;
+        }
+
+        .tracking-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy-deep);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .tracking-subtitle {
+            font-size: 14px;
+            color: var(--text-gray);
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .tracking-number-display {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .tracking-label {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+        }
+
+        .tracking-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--navy-deep);
+            letter-spacing: 2px;
+        }
+
+        .tracking-btn {
+            display: block;
+            width: 100%;
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--gold-warm) 0%, var(--gold-light) 100%);
+            color: var(--navy-deep);
+            font-size: 17px;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(197, 165, 114, 0.4);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .tracking-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(197, 165, 114, 0.5);
+        }
+
+        .tracking-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 안내 섹션 */
+        .info-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy-deep);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--gold-warm);
+            border-radius: 2px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list li::before {
+            content: '✓';
+            color: var(--gold-warm);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* 안심 약속 */
+        .promise-section {
+            background: linear-gradient(135deg, var(--navy-deep) 0%, #2a3f5f 100%);
+            border-radius: 16px;
+            padding: 25px;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .promise-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .promise-list {
+            list-style: none;
+        }
+
+        .promise-list li {
+            padding: 8px 0;
+            font-size: 13px;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            opacity: 0.95;
+        }
+
+        .promise-list li::before {
+            content: '✅';
+            flex-shrink: 0;
+        }
+
+        /* 푸터 */
+        footer {
+            background: var(--navy-deep);
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .footer-contact {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .footer-phone {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-warm);
+            margin-bottom: 5px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .footer-brand {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 15px;
+        }
+
+        /* 송장번호 없을 때 */
+        .no-tracking {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .no-tracking-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .no-tracking-text {
+            font-size: 15px;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* 택배사 선택 모달 */
+        .carrier-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .carrier-modal.show {
+            display: flex;
+        }
+
+        .carrier-content {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .carrier-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy-deep);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .carrier-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .carrier-btn {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .carrier-btn:hover {
+            border-color: var(--gold-warm);
+            background: #fff;
+        }
+
+        .carrier-close {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-gray);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="header-content">
+            <div class="logo-text">
+                올본한의원
+                <span>내 몸을 올바르게 보는</span>
+            </div>
+            <div class="header-tagline">귀한 처방, 정성을 담아 안전하게</div>
+        </div>
+    </header>
+
+    <!-- 메인 -->
+    <main>
+        <!-- 배송조회 카드 -->
+        <div class="tracking-card">
+            <div class="tracking-title">📦 한약 배송 조회</div>
+            <div class="tracking-subtitle">
+                정성껏 탕전한 한약이<br>어디쯤 오고 있는지 확인해 보세요
+            </div>
+
+            <div id="tracking-display">
+                <!-- 동적 내용 -->
+            </div>
+        </div>
+
+        <!-- 복약 안내 -->
+        <div class="info-section">
+            <div class="info-title">복약 안내</div>
+            <ul class="info-list">
+                <li>하루 2회, 4시간 이상 간격을 유지해 주세요</li>
+                <li>식전 또는 식후 30분 내 복용하세요</li>
+                <li>직사광선을 피해 서늘한 곳에 보관해 주세요</li>
+                <li>한 달 이상 장기 보관 시 냉장 보관을 권장합니다</li>
+            </ul>
+        </div>
+
+        <!-- 안심 약속 -->
+        <div class="promise-section">
+            <div class="promise-title">🏥 올본의 안심 약속</div>
+            <ul class="promise-list">
+                <li>100% GMP 인증 규격 한약재만 사용합니다</li>
+                <li>정수된 깨끗한 물과 위생적인 탕전 설비를 갖추고 있습니다</li>
+                <li>한의사가 직접 검수하여 믿고 복용하실 수 있습니다</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="footer-contact">
+            <div class="footer-phone">📞 031-304-9000</div>
+            <div class="footer-text">궁금하신 점은 언제든 연락 주세요</div>
+        </div>
+        <div class="footer-brand">© 올본한의원 All rights reserved.</div>
+    </footer>
+
+    <!-- 택배사 선택 모달 -->
+    <div id="carrier-modal" class="carrier-modal">
+        <div class="carrier-content">
+            <div class="carrier-title">택배사를 선택해 주세요</div>
+            <div class="carrier-list" id="carrier-list">
+                <!-- 동적 생성 -->
+            </div>
+            <button class="carrier-close" onclick="closeCarrierModal()">닫기</button>
+        </div>
+    </div>
+
+    <script>
+        // 택배사 정보
+        const carriers = [
+            { name: 'CJ대한통운', code: 'kr.cjlogistics', url: 'https://trace.cjlogistics.com/web/detail.jsp?slipno=' },
+            { name: '롯데택배', code: 'kr.lotte', url: 'https://www.lotteglogis.com/home/reservation/tracking/linkView?InvNo=' },
+            { name: '한진택배', code: 'kr.hanjin', url: 'https://www.hanjin.com/kor/CMS/DeliveryMgr/WaybillResult.do?mession=Tracking&wblnum=' },
+            { name: '우체국택배', code: 'kr.epost', url: 'https://service.epost.go.kr/trace.RetrieveDomRi498.postal?sid1=' },
+            { name: '로젠택배', code: 'kr.logen', url: 'https://www.ilogen.com/web/personal/trace/' },
+            { name: '경동택배', code: 'kr.kdexp', url: 'https://kdexp.com/basicNew498.kd?barcode=' }
+        ];
+
+        let currentTrackingNumber = '';
+
+        // 초기화
+        function init() {
+            const params = new URLSearchParams(window.location.search);
+            currentTrackingNumber = params.get('trackingNumber') || params.get('t') || '';
+
+            const displayDiv = document.getElementById('tracking-display');
+
+            if (currentTrackingNumber) {
+                displayDiv.innerHTML = `
+                    <div class="tracking-number-display">
+                        <div class="tracking-label">송장번호</div>
+                        <div class="tracking-value">${formatTrackingNumber(currentTrackingNumber)}</div>
+                    </div>
+                    <button class="tracking-btn" onclick="openCarrierModal()">
+                        🔍 한약 배송 조회하기
+                    </button>
+                `;
+            } else {
+                displayDiv.innerHTML = `
+                    <div class="no-tracking">
+                        <div class="no-tracking-icon">📭</div>
+                        <div class="no-tracking-text">
+                            송장번호 정보가 없습니다.<br>
+                            알림톡을 통해 다시 접속해 주세요.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // 송장번호 포맷팅 (가독성)
+        function formatTrackingNumber(num) {
+            // 12자리 이상이면 4자리씩 끊어서 표시
+            if (num.length >= 12) {
+                return num.replace(/(.{4})/g, '$1 ').trim();
+            }
+            return num;
+        }
+
+        // 택배사 선택 모달
+        function openCarrierModal() {
+            const modal = document.getElementById('carrier-modal');
+            const listDiv = document.getElementById('carrier-list');
+
+            listDiv.innerHTML = carriers.map(c => `
+                <button class="carrier-btn" onclick="trackPackage('${c.code}', '${c.url}')">
+                    ${c.name}
+                </button>
+            `).join('');
+
+            modal.classList.add('show');
+        }
+
+        function closeCarrierModal() {
+            document.getElementById('carrier-modal').classList.remove('show');
+        }
+
+        // 배송 조회
+        function trackPackage(carrierCode, baseUrl) {
+            const url = baseUrl + currentTrackingNumber;
+            window.open(url, '_blank');
+            closeCarrierModal();
+        }
+
+        // 모달 외부 클릭 시 닫기
+        document.getElementById('carrier-modal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeCarrierModal();
+            }
+        });
+
+        init();
+    </script>
+</body>
+
+</html>
