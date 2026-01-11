@@ -7,6 +7,11 @@
     <title>올본한의원 주차장 오시는 길</title>
     <style>
         /* 기본 리셋 및 폰트 */
+        * {
+            box-sizing: border-box;
+            /* 레이아웃 넘침 방지 핵심 */
+        }
+
         body,
         html {
             margin: 0;
@@ -70,10 +75,11 @@
         }
 
         .copy-btn {
-            background-color: #4c6ef5;
+            background-color: #03C75A;
+            /* 네이버 그린 */
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 16px;
             border-radius: 12px;
             font-size: 15px;
             font-weight: 700;
@@ -84,11 +90,18 @@
             justify-content: center;
             gap: 8px;
             transition: transform 0.1s;
+            text-decoration: none;
+
+            /* 텍스트 줄바꿈 처리 */
+            word-break: keep-all;
+            white-space: normal;
+            height: auto;
+            line-height: 1.3;
         }
 
         .copy-btn:active {
             transform: scale(0.98);
-            background-color: #3b5bdb;
+            background-color: #02b351;
         }
 
         /* --- 이미지 컨테이너 --- */
@@ -152,29 +165,6 @@
         .fab-btn:active {
             transform: scale(0.98);
         }
-
-        /* 토스트 메시지 */
-        .toast {
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 14px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 200;
-        }
-
-        .toast.show {
-            opacity: 1;
-            visibility: visible;
-            bottom: 100px;
-        }
     </style>
 </head>
 
@@ -189,14 +179,15 @@
         <div class="nav-box">
             <span class="nav-label">📍 네비게이션 목적지</span>
             <span class="nav-target">CU 수원시청역점</span>
-            <a href="https://m.map.naver.com/route.nhn?menu=route&ename=CU%20%EC%88%98%EC%9B%90%EC%8B%9C%EC%B2%AD%EC%97%AD%EC%A0%90&ex=127.0310854&ey=37.2625988&pathType=0&showMap=true"
-                target="_blank" class="copy-btn"
-                style="text-decoration: none; display: flex; align-items: center; justify-content: center; text-align: center; word-break: keep-all; white-space: normal; height: auto; padding: 16px;">
-                <span>🚙 네이버지도 네비게이션 바로가기</span>
+
+            <!-- 네비게이션 실행 버튼 -->
+            <a href="#" onclick="openNaverMap(); return false;" class="copy-btn">
+                <span>🚙 네이버지도 네비게이션 실행</span>
             </a>
         </div>
         <p style="font-size: 13px; color: #888; margin-top: 12px;">
-            *위 버튼을 누르면 네이버 지도 앱으로 연결됩니다.
+            *앱이 있으면 바로 길안내가 시작됩니다.<br>
+            (출발지: 현위치 / 도착지: 주차장 입구)
         </p>
     </div>
 
@@ -227,6 +218,32 @@
         </a>
     </div>
 
+    <script>
+        function openNaverMap() {
+            // 목적지 정보
+            const lat = "37.2625988";
+            const lng = "127.0310854";
+            const name = encodeURIComponent("CU 수원시청역점");
+
+            // 1. 앱 스킴 (네이버지도 내비게이션 모드 실행)
+            // nmap://navigation?dlat={lat}&dlng={lng}&dname={name}
+            const appScheme = `nmap://navigation?dlat=${lat}&dlng=${lng}&dname=${name}&appname=com.olbon.clinic`;
+
+            // 2. 모바일 웹 폴백 URL
+            const webUrl = `https://m.map.naver.com/route.nhn?menu=route&ename=${name}&ex=${lng}&ey=${lat}&pathType=0&showMap=true`;
+
+            // 앱 실행 시도
+            const start = new Date().valueOf();
+            window.location.href = appScheme;
+
+            // 앱이 설치되어 있지 않으면 일정 시간 후 웹으로 이동
+            setTimeout(function () {
+                if (new Date().valueOf() - start < 2000) {
+                    window.location.href = webUrl;
+                }
+            }, 1500);
+        }
+    </script>
 </body>
 
 </html>
