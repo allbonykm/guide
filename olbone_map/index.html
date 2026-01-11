@@ -305,11 +305,18 @@
             line-height: 1.5;
         }
 
+        /* [수정] 이미지 컨테이너: 상하 배치 시 간격 조절 */
+        .step-image-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
         .step-image {
             width: 100%;
             border-radius: var(--radius-md);
             overflow: hidden;
-            margin-top: 12px;
             box-shadow: var(--shadow-sm);
         }
 
@@ -588,14 +595,12 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="logo">
             <div class="logo-text">올본한의원</div>
         </div>
     </header>
 
-    <!-- Map Buttons -->
     <section class="map-buttons animate-in">
         <div class="map-buttons-title">지도 앱으로 바로 길찾기</div>
         <div class="map-buttons-row">
@@ -615,7 +620,6 @@
         </div>
     </section>
 
-    <!-- Subway Banner -->
     <section class="subway-banner animate-in delay-1">
         <div class="subway-icon">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -629,7 +633,6 @@
         </div>
     </section>
 
-    <!-- Step Guide -->
     <section class="section animate-in delay-2">
         <div class="section-title">
             <div class="section-title-icon">
@@ -650,7 +653,7 @@
                 </div>
             </div>
             <div class="step-image">
-                <img src="/images/map0.jpg" alt="8번 출구 이미지" loading="lazy">
+                <img src="images/map0.webp" alt="8번 출구 이미지" loading="lazy">
             </div>
         </div>
 
@@ -663,7 +666,7 @@
                 </div>
             </div>
             <div class="step-image">
-                <img src="/images/map1.jpg" alt="씨네파크 방향 이미지" loading="lazy">
+                <img src="images/map1.webp" alt="씨네파크 방향 이미지" loading="lazy">
             </div>
         </div>
 
@@ -675,8 +678,13 @@
                     <div class="step-desc">1층에 이디야커피/속초중앙어시장이 있는 조원빌딩에 도착합니다</div>
                 </div>
             </div>
-            <div class="step-image">
-                <img src="/images/map2.jpg" alt="조원빌딩 외관 이미지" loading="lazy">
+            <div class="step-image-container">
+                <div class="step-image">
+                    <img src="images/map2-1.webp" alt="조원빌딩 전경" loading="lazy">
+                </div>
+                <div class="step-image">
+                    <img src="images/map2-2.webp" alt="조원빌딩 입구" loading="lazy">
+                </div>
             </div>
         </div>
 
@@ -689,12 +697,11 @@
                 </div>
             </div>
             <div class="step-image">
-                <img src="/images/map3.jpg" alt="올본한의원 입구 이미지" loading="lazy">
+                <img src="images/map3.webp" alt="올본한의원 입구 이미지" loading="lazy">
             </div>
         </div>
     </section>
 
-    <!-- Parking Section -->
     <section class="parking-section animate-in delay-3">
         <div class="parking-header">
             <div class="parking-icon">
@@ -709,7 +716,7 @@
             <strong>조원빌딩 내 조원주차장</strong> 이용 가능<br>
             (한의원 건물과 버거킹 건물 사이 입구로 진입)<br>
             <div class="step-image" style="margin: 12px 0;">
-                <img src="/images/park.jpg" alt="주차장 입구" loading="lazy">
+                <img src="images/park.webp" alt="주차장 입구" loading="lazy">
             </div>
             ⚠️ 만차 시 건물 뒷편 주차장을 이용해주세요
         </div>
@@ -723,7 +730,6 @@
         </a>
     </section>
 
-    <!-- Footer Address -->
     <section class="footer-section animate-in delay-4">
         <div class="address-row">
             <div class="address-icon">
@@ -746,18 +752,16 @@
         </button>
     </section>
 
-    <!-- Floating Call Button -->
     <div class="floating-call">
         <a href="tel:031-304-9000" class="call-btn">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
             </svg>
-            전화 문의 031-304-9000
+            문의 031-304-9000
         </a>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast">주소가 복사되었습니다</div>
 
     <script>
@@ -772,16 +776,13 @@
                 navigator.clipboard.writeText(address).then(function () {
                     showCopySuccess();
                 }).catch(function (err) {
-                    // 폴백: execCommand 사용
                     fallbackCopy(address);
                 });
             } else {
-                // 폴백: execCommand 사용
                 fallbackCopy(address);
             }
         }
 
-        // 폴백 복사 방법
         function fallbackCopy(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
@@ -791,50 +792,41 @@
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-
             try {
                 document.execCommand('copy');
                 showCopySuccess();
             } catch (err) {
                 showToast('복사에 실패했습니다');
             }
-
             document.body.removeChild(textArea);
         }
 
-        // 복사 성공 UI 표시
         function showCopySuccess() {
             const copyBtn = document.getElementById('copyBtn');
             const copyBtnText = document.getElementById('copyBtnText');
-
             copyBtn.classList.add('copied');
             copyBtnText.textContent = '✓ 복사 완료!';
             showToast('주소가 복사되었습니다');
-
             setTimeout(function () {
                 copyBtn.classList.remove('copied');
                 copyBtnText.textContent = '주소 복사하기';
             }, 2000);
         }
 
-        // 토스트 메시지 표시
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
-
             setTimeout(function () {
                 toast.classList.remove('show');
             }, 2000);
         }
 
-        // 페이지 로드 시 애니메이션
         document.addEventListener('DOMContentLoaded', function () {
             const animatedElements = document.querySelectorAll('.animate-in');
             animatedElements.forEach(function (el) {
                 el.style.opacity = '0';
             });
-
             setTimeout(function () {
                 animatedElements.forEach(function (el) {
                     el.style.opacity = '';
