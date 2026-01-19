@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #FDFBF8;
             color: #38332E;
         }
+
         .chart-container {
             position: relative;
             width: 100%;
@@ -24,31 +27,38 @@
             height: 300px;
             max-height: 400px;
         }
+
         @media (min-width: 768px) {
             .chart-container {
                 height: 350px;
             }
         }
+
         .nav-button {
             transition: all 0.3s ease;
             border-bottom: 4px solid transparent;
         }
+
         .nav-button.active {
             border-bottom-color: #0d9488;
             color: #0d9488;
             font-weight: 700;
         }
+
         .content-section {
             display: none;
         }
+
         .content-section.active {
             display: block;
         }
+
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 4px;
         }
+
         .calendar-day {
             aspect-ratio: 1/1;
             display: flex;
@@ -56,22 +66,26 @@
             align-items: center;
             border-radius: 50%;
         }
+
         .calendar-day.header {
             font-weight: bold;
             font-size: 0.875rem;
             color: #6b7280;
         }
+
         .calendar-day.fertile {
             background-color: #a7f3d0;
             color: #065f46;
             font-weight: bold;
         }
+
         .calendar-day.ovulation {
             background-color: #0d9488;
             color: white;
             font-weight: bold;
             position: relative;
         }
+
         .calendar-day.ovulation::after {
             content: '❤️';
             font-size: 0.6rem;
@@ -79,46 +93,90 @@
             top: 4px;
             right: 4px;
         }
+
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body class="bg-amber-50">
+    <!-- 환자명 배너 (URL 파라미터로 전달 시 표시) -->
+    <div id="patient-banner"
+        class="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-3 text-center font-semibold text-lg shadow-md"
+        style="display: none;">
+        <span id="patient-name-text"></span>
+    </div>
+    <script>
+        // URL 파라미터에서 환자명 읽기 (배너용)
+        (function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientName = urlParams.get('name');
+            if (patientName) {
+                const banner = document.getElementById('patient-banner');
+                const nameText = document.getElementById('patient-name-text');
+                nameText.textContent = `🌸 ${decodeURIComponent(patientName)} 님을 위한 맞춤 안내입니다`;
+                banner.style.display = 'block';
+            }
+        })();
+    </script>
+
     <div class="min-h-screen container mx-auto px-4 py-8 md:py-12">
         <header class="text-center mb-10 md:mb-16">
             <h1 class="text-3xl md:text-5xl font-bold text-teal-800 mb-2">아기 천사를 만나는 여정</h1>
             <p class="text-md md:text-xl text-stone-600">올본한의원과 함께 알아보는 부부 함께 하는 날</p>
-            <p id="patient-greeting" class="text-lg md:text-2xl text-teal-600 font-semibold mt-4" style="display: none;"></p>
         </header>
-        <script>
-            // URL 파라미터에서 환자명 읽기
-            (function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const patientName = urlParams.get('name');
-                if (patientName) {
-                    const greetingEl = document.getElementById('patient-greeting');
-                    greetingEl.textContent = `${decodeURIComponent(patientName)} 님을 위한 안내`;
-                    greetingEl.style.display = 'block';
-                }
-            })();
-        </script>
 
         <main>
             <section id="intro" class="mb-12 bg-white/60 p-6 rounded-2xl shadow-sm">
                 <h2 class="text-2xl font-bold text-teal-700 mb-4 text-center">임신, 언제 가장 가능성이 높을까요?</h2>
                 <p class="text-stone-700 mb-6 leading-relaxed text-center max-w-3xl mx-auto">
-                    임신은 정자와 난자가 만나는 수정 과정을 통해 이루어집니다. 건강한 정자는 여성의 몸속에서 최대 5일까지 생존할 수 있고, 난자는 배란 후 약 24시간 동안 수정이 가능합니다. 이 기간을 고려한 '수태의 창(Fertile Window)'은 배란일 포함 약 5~6일간이며, 이 시기에 부부가 관계를 맺으면 임신 확률이 크게 높아집니다. 아래 차트는 배란일을 기준으로 각 날짜의 임신 가능성을 보여줍니다.
+                    임신은 정자와 난자가 만나는 수정 과정을 통해 이루어집니다. 건강한 정자는 여성의 몸속에서 최대 5일까지 생존할 수 있고, 난자는 배란 후 약 24시간 동안 수정이 가능합니다. 이
+                    기간을 고려한 '수태의 창(Fertile Window)'은 배란일 포함 약 5~6일간이며, 이 시기에 부부가 관계를 맺으면 임신 확률이 크게 높아집니다. 아래 차트는 배란일을
+                    기준으로 각 날짜의 임신 가능성을 보여줍니다.
                 </p>
                 <div class="chart-container">
                     <canvas id="conceptionChanceChart"></canvas>
                 </div>
             </section>
-            
+
+            <!-- 올본한의원 특화 섹션 -->
+            <section
+                class="mb-12 bg-gradient-to-br from-teal-50 to-green-50 p-6 rounded-2xl shadow-sm border border-teal-100">
+                <h2 class="text-2xl font-bold text-teal-700 mb-4 text-center">🏥 올본한의원의 임신 준비 프로그램</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white/80 p-5 rounded-xl">
+                        <h3 class="font-bold text-teal-800 mb-3">💊 한약 처방</h3>
+                        <ul class="text-stone-700 space-y-2 text-sm">
+                            <li>• <strong>기혈 보충</strong>: 자궁과 난소 기능 강화를 위한 맞춤 처방</li>
+                            <li>• <strong>신장 기능 강화</strong>: 생식 기능의 근본인 신장 보양</li>
+                            <li>• <strong>스트레스 관리</strong>: 간기울결 해소로 호르몬 균형 도움</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white/80 p-5 rounded-xl">
+                        <h3 class="font-bold text-teal-800 mb-3">🔬 정밀 검사</h3>
+                        <ul class="text-stone-700 space-y-2 text-sm">
+                            <li>• <strong>난소 초음파</strong>: 난포 성장 추적으로 정확한 배란일 예측</li>
+                            <li>• <strong>자궁 상태 확인</strong>: 착상에 적합한 환경인지 평가</li>
+                            <li>• <strong>맥진/체질 분석</strong>: 개인별 체질에 맞는 맞춤 조언</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-center text-stone-600 mt-4 text-sm">올본한의원에서는 한약 처방과 함께 최적의 임신 시기를 안내해드립니다.</p>
+            </section>
+
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg">
                 <nav class="flex justify-center border-b border-stone-200 mb-8 space-x-2 md:space-x-8">
                     <button data-target="opk" class="nav-button active text-sm md:text-lg p-4">배란 테스트기 활용</button>
@@ -129,7 +187,8 @@
                 <div id="opk" class="content-section active fade-in">
                     <h3 class="text-xl font-bold text-teal-700 mb-4">배란 테스트기(배테기)를 사용하는 경우</h3>
                     <p class="text-stone-700 mb-6 leading-relaxed">
-                        배란 테스트기는 소변에서 황체형성호르몬(LH)의 급증을 감지합니다. LH 농도가 최고점에 도달하면, 보통 24~36시간 이내에 배란이 일어납니다. 따라서 테스트 결과가 양성(T,C 두 줄)으로 나온 날이 임신 가능성이 매우 높은 시기입니다.
+                        배란 테스트기는 소변에서 황체형성호르몬(LH)의 급증을 감지합니다. LH 농도가 최고점에 도달하면, 보통 24~36시간 이내에 배란이 일어납니다. 따라서 테스트 결과가
+                        양성(T,C 두 줄)으로 나온 날이 임신 가능성이 매우 높은 시기입니다.
                     </p>
 
                     <div class="space-y-8 mb-8">
@@ -139,70 +198,90 @@
                                 <div>
                                     <h5 class="font-semibold mb-2 text-stone-800">사용 방법</h5>
                                     <ul class="list-disc list-inside text-stone-700 space-y-1">
-                                        <li><strong>테스트 시작 시점:</strong> 예상 배란일 2~3일 전부터 매일 테스트를 시작하세요. (예: 28일 주기라면 생리 시작 11~12일째)</li>
-                                        <li><strong>테스트 시간:</strong> 아침 첫 소변은 피하고, 매일 오전 10시 ~ 오후 8시 사이 비슷한 시간에 검사하는 것을 권장합니다.</li>
+                                        <li><strong>테스트 시작 시점:</strong> 예상 배란일 2~3일 전부터 매일 테스트를 시작하세요. (예: 28일 주기라면 생리
+                                            시작 11~12일째)</li>
+                                        <li><strong>테스트 시간:</strong> 아침 첫 소변은 피하고, 매일 오전 10시 ~ 오후 8시 사이 비슷한 시간에 검사하는 것을
+                                            권장합니다.</li>
                                         <li><strong>정확도 높이는 팁:</strong> 검사 몇 시간 전부터 수분 섭취를 줄여 소변이 묽어지지 않게 해주세요.</li>
-                                        <li><strong>결과 확인:</strong> 테스트선(T)이 대조선(C)과 같거나 더 진하면 '양성'으로, LH 급증을 의미합니다.</li>
+                                        <li><strong>결과 확인:</strong> 테스트선(T)이 대조선(C)과 같거나 더 진하면 '양성'으로, LH 급증을 의미합니다.
+                                        </li>
                                     </ul>
                                 </div>
                                 <div>
                                     <h5 class="font-semibold mb-2 text-stone-800">최적의 관계 시점</h5>
-                                     <p class="text-stone-700">
-                                        올본한의원이 가장 추천되는 시점은 <strong>첫 양성 반응이 나온 날부터 그 다음, 그리고 그 다음 날까지 총 3일간</strong> 1~2일 간격으로 관계를 갖는 것입니다. 이는 정자가 미리 도착해 배란을 기다리고(양성 당일), 실제 배란일에 맞추며(양성 다음 날), 늦어지는 배란까지 대비(양성 2일 후)하여 확률을 극대화하는 전략입니다.
-                                     </p>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <div>
-                            <h4 class="font-bold text-teal-800 mb-3 text-lg">🤝 확률을 높이는 조합: 배란 테스트기 + 자궁경부 점액 관찰</h4>
-                            <div class="bg-stone-50 p-6 rounded-lg">
-                                <p class="text-stone-700 mb-4">집에서 할 수 있는 임신 확률을 높이는 가장 효과적인 방법 중 하나는 두 가지 신호를 교차 확인하는 것입니다.</p>
-                                <ol class="list-decimal list-inside text-stone-700 space-y-2">
-                                    <li><strong>점액의 변화로 확인:</strong> 양이 많고, 맑고, 계란 흰자처럼 미끄럽고 잘 늘어나는 점액이 보이면 임신 가능한 시기가 열렸다는 첫 신호입니다. 이때부터 배란 테스트기 사용을 준비합니다.</li>
-                                    <li><strong>배테기로 '최고 가임기' 특정:</strong> 위와 같은 점액이 보일 때 배란 테스트기를 사용하여 <strong>양성(두 줄)</strong> 반응이 나오면, 24~36시간 내 배란될 최고 가임기라는 뜻입니다.</li>
-                                </ol>
-                                <div class="mt-4 p-3 bg-teal-50 border-l-4 border-teal-500 rounded">
-                                    <p class="text-teal-800 font-semibold">
-                                        <strong>[핵심 전략]</strong> 계란 흰자 같은 점액이 보이기 시작할 때부터 배란 테스트기 양성 반응 후 2일이 되는 날까지, 이 기간 동안 1~2일에 한 번씩 관계를 갖는 것이 성공률을 높입니다. 
+                                    <p class="text-stone-700">
+                                        올본한의원이 가장 추천되는 시점은 <strong>첫 양성 반응이 나온 날부터 그 다음, 그리고 그 다음 날까지 총 3일간</strong>
+                                        1~2일 간격으로 관계를 갖는 것입니다. 이는 정자가 미리 도착해 배란을 기다리고(양성 당일), 실제 배란일에 맞추며(양성 다음 날), 늦어지는
+                                        배란까지 대비(양성 2일 후)하여 확률을 극대화하는 전략입니다.
                                     </p>
                                 </div>
                             </div>
                         </div>
-                
-                         <div>
+
+                        <div>
+                            <h4 class="font-bold text-teal-800 mb-3 text-lg">🤝 확률을 높이는 조합: 배란 테스트기 + 자궁경부 점액 관찰</h4>
+                            <div class="bg-stone-50 p-6 rounded-lg">
+                                <p class="text-stone-700 mb-4">집에서 할 수 있는 임신 확률을 높이는 가장 효과적인 방법 중 하나는 두 가지 신호를 교차 확인하는
+                                    것입니다.</p>
+                                <ol class="list-decimal list-inside text-stone-700 space-y-2">
+                                    <li><strong>점액의 변화로 확인:</strong> 양이 많고, 맑고, 계란 흰자처럼 미끄럽고 잘 늘어나는 점액이 보이면 임신 가능한 시기가
+                                        열렸다는 첫 신호입니다. 이때부터 배란 테스트기 사용을 준비합니다.</li>
+                                    <li><strong>배테기로 '최고 가임기' 특정:</strong> 위와 같은 점액이 보일 때 배란 테스트기를 사용하여 <strong>양성(두
+                                            줄)</strong> 반응이 나오면, 24~36시간 내 배란될 최고 가임기라는 뜻입니다.</li>
+                                </ol>
+                                <div class="mt-4 p-3 bg-teal-50 border-l-4 border-teal-500 rounded">
+                                    <p class="text-teal-800 font-semibold">
+                                        <strong>[핵심 전략]</strong> 계란 흰자 같은 점액이 보이기 시작할 때부터 배란 테스트기 양성 반응 후 2일이 되는 날까지, 이
+                                        기간 동안 1~2일에 한 번씩 관계를 갖는 것이 성공률을 높입니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
                             <h4 class="font-bold text-teal-800 mb-3 text-lg">📊 배란일 기준 관계일별 임신 확률</h4>
-                             <div class="bg-stone-50 p-6 rounded-lg">
+                            <div class="bg-stone-50 p-6 rounded-lg">
                                 <p class="text-stone-700">
-                                    흔한 오해와 달리, 배란 당일보다 <strong>배란 1~2일 전</strong>에 관계를 가졌을 때 임신 확률이 가장 높습니다. 이는 정자가 여성의 몸 안에서 최대 5일까지 생존하며 난자를 기다릴 수 있지만, 난자의 생존 시간은 24시간 내외로 짧기 때문입니다. 따라서 난자가 배출되기 전에 정자가 미리 자궁에 도착해 기다리는 것이 임신에 훨씬 유리합니다. 
+                                    흔한 오해와 달리, 배란 당일보다 <strong>배란 1~2일 전</strong>에 관계를 가졌을 때 임신 확률이 가장 높습니다. 이는 정자가 여성의
+                                    몸 안에서 최대 5일까지 생존하며 난자를 기다릴 수 있지만, 난자의 생존 시간은 24시간 내외로 짧기 때문입니다. 따라서 난자가 배출되기 전에 정자가
+                                    미리 자궁에 도착해 기다리는 것이 임신에 훨씬 유리합니다.
                                 </p>
                             </div>
                         </div>
                     </div>
-                     <div class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-lg">
+                    <div class="bg-teal-50 border-l-4 border-teal-500 p-6 rounded-lg">
                         <h4 class="font-bold text-teal-800 mb-2">🕰️ 최적의 타이밍 (요약)</h4>
                         <ul class="list-disc list-inside text-stone-700 space-y-2">
-                            <li><strong>가장 중요한 날:</strong> 배란 테스트기 양성 반응이 나온 <span class="font-bold text-teal-600">당일과 그 다음날, 그 다다음날</span>입니다.</li>
-                            <li><strong>올보니의 시크릿:</strong> 양성 반응이 나온 날부터 2~3일간(양성 반응일, 다음날, 다다음날) 집중적으로 관계를 맺는 것이 좋습니다. 예를 들어, 월요일에 양성이 나왔다면 월, 화, 수요일에 관계를 갖는 것이 임신 확률을 높일 수 있습니다.</li>
+                            <li><strong>가장 중요한 날:</strong> 배란 테스트기 양성 반응이 나온 <span class="font-bold text-teal-600">당일과 그
+                                    다음날, 그 다다음날</span>입니다.</li>
+                            <li><strong>올보니의 시크릿:</strong> 양성 반응이 나온 날부터 2~3일간(양성 반응일, 다음날, 다다음날) 집중적으로 관계를 맺는 것이 좋습니다.
+                                예를 들어, 월요일에 양성이 나왔다면 월, 화, 수요일에 관계를 갖는 것이 임신 확률을 높일 수 있습니다.</li>
                         </ul>
                     </div>
                     <div class="mt-6 text-center">
-                        <div class="flex items-center justify-center space-x-2 md:space-x-4 p-4 rounded-lg bg-stone-100 max-w-2xl mx-auto">
+                        <div
+                            class="flex items-center justify-center space-x-2 md:space-x-4 p-4 rounded-lg bg-stone-100 max-w-2xl mx-auto">
                             <div class="text-center">
                                 <p class="font-bold text-sm md:text-base">LH 급증</p>
-                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-200 flex items-center justify-center font-bold text-orange-700">2줄! =</div>
+                                <div
+                                    class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-200 flex items-center justify-center font-bold text-orange-700">
+                                    2줄! =</div>
                                 <p class="text-xs text-stone-500">양성 반응</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">→</div>
-                             <div class="text-center">
+                            <div class="text-center">
                                 <p class="font-bold text-sm md:text-base">24h 후</p>
-                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-red-200 flex items-center justify-center font-bold text-red-700">배란</div>
+                                <div
+                                    class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-red-200 flex items-center justify-center font-bold text-red-700">
+                                    배란</div>
                                 <p class="text-xs text-stone-500">난자 배출</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">그래서!</div>
                             <div class="text-center">
                                 <p class="font-bold text-sm md:text-base">최적의 시기</p>
-                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-teal-200 flex items-center justify-center font-bold text-teal-700 mx-auto mt-1">👩‍❤️‍💋‍👨</div>
+                                <div
+                                    class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-teal-200 flex items-center justify-center font-bold text-teal-700 mx-auto mt-1">
+                                    👩‍❤️‍💋‍👨</div>
                                 <p class="text-xs text-stone-500">양성 반응일, 다음날, 다다음날</p>
                             </div>
                         </div>
@@ -212,32 +291,42 @@
                 <div id="ultrasound" class="content-section fade-in">
                     <h3 class="text-xl font-bold text-teal-700 mb-4">난소 초음파로 난포 크기를 측정하는 경우</h3>
                     <p class="text-stone-700 mb-6 leading-relaxed">
-                        올본한의원에서 초음파 검사를 통해 난포(난자를 감싸고 있는 주머니)의 크기를 측정하는 것은 가장 정확하게 배란일을 예측하는 방법입니다. 난포는 하루에 약 1~2mm씩 자라며, 보통 직경이 18~24mm에 도달했을 때 배란이 일어납니다. 올보니는 난포의 크기와 성장 속도를 보고 배란일을 예측해 줍니다.
+                        올본한의원에서 초음파 검사를 통해 난포(난자를 감싸고 있는 주머니)의 크기를 측정하는 것은 가장 정확하게 배란일을 예측하는 방법입니다. 난포는 하루에 약 1~2mm씩
+                        자라며, 보통 직경이 18~24mm에 도달했을 때 배란이 일어납니다. 올보니는 난포의 크기와 성장 속도를 보고 배란일을 예측해 줍니다.
                     </p>
                     <div class="bg-sky-50 border-l-4 border-sky-500 p-6 rounded-lg">
                         <h4 class="font-bold text-sky-800 mb-2">🕰️ 최적의 타이밍</h4>
                         <ul class="list-disc list-inside text-stone-700 space-y-2">
-                             <li><strong>올보니가 알려드려요!:</strong>검사 후 "오늘이나 내일쯤 배란될 것 같습니다"라고 알려주면, 그날부터 2-3일간 관계를 맺는 것이 가장 좋습니다.</li>
-                             <li><strong>예시:</strong> 월요일 검진 시 난포가 16mm였다면, 수요일~목요일쯤 배란될 가능성이 높으므로 화, 수, 목요일이 중요한 시기가 됩니다.</li>
+                            <li><strong>올보니가 알려드려요!:</strong>검사 후 "오늘이나 내일쯤 배란될 것 같습니다"라고 알려주면, 그날부터 2-3일간 관계를 맺는 것이 가장
+                                좋습니다.</li>
+                            <li><strong>예시:</strong> 월요일 검진 시 난포가 16mm였다면, 수요일~목요일쯤 배란될 가능성이 높으므로 화, 수, 목요일이 중요한 시기가
+                                됩니다.</li>
                         </ul>
                     </div>
-                     <div class="mt-6 text-center">
-                        <div class="flex items-center justify-center space-x-2 md:space-x-4 p-4 rounded-lg bg-stone-100 max-w-2xl mx-auto">
-                           <div class="text-center p-2 rounded-lg">
+                    <div class="mt-6 text-center">
+                        <div
+                            class="flex items-center justify-center space-x-2 md:space-x-4 p-4 rounded-lg bg-stone-100 max-w-2xl mx-auto">
+                            <div class="text-center p-2 rounded-lg">
                                 <p class="font-bold text-xs md:text-sm">성장기</p>
-                                <div class="w-8 h-8 md:w-10 md:h-10 border-2 border-stone-400 rounded-full mx-auto mt-1"></div>
+                                <div
+                                    class="w-8 h-8 md:w-10 md:h-10 border-2 border-stone-400 rounded-full mx-auto mt-1">
+                                </div>
                                 <p class="text-xs text-stone-500">~16mm</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">→</div>
-                           <div class="text-center p-2 rounded-lg">
+                            <div class="text-center p-2 rounded-lg">
                                 <p class="font-bold text-xs md:text-sm">성숙기</p>
-                                <div class="w-12 h-12 md:w-14 md:h-14 border-2 border-sky-500 rounded-full mx-auto mt-1"></div>
+                                <div
+                                    class="w-12 h-12 md:w-14 md:h-14 border-2 border-sky-500 rounded-full mx-auto mt-1">
+                                </div>
                                 <p class="text-xs text-stone-500">18-24mm</p>
                             </div>
                             <div class="text-stone-300 font-sans text-2xl">→</div>
-                           <div class="text-center p-2 bg-sky-100 rounded-lg">
+                            <div class="text-center p-2 bg-sky-100 rounded-lg">
                                 <p class="font-bold text-xs md:text-sm text-sky-700">배란 임박</p>
-                                <div class="w-12 h-12 md:w-14 md:h-14 border-2 border-sky-700 rounded-full mx-auto mt-1 animate-pulse"></div>
+                                <div
+                                    class="w-12 h-12 md:w-14 md:h-14 border-2 border-sky-700 rounded-full mx-auto mt-1 animate-pulse">
+                                </div>
                                 <p class="text-xs text-sky-600 font-semibold">관계 시도</p>
                             </div>
                         </div>
@@ -245,43 +334,115 @@
                 </div>
 
                 <div id="calendar" class="content-section fade-in">
-                     <h3 class="text-xl font-bold text-teal-700 mb-4">생리 주기법 (28일 기준, 부정확하니 참고만 하세요.)</h3>
+                    <h3 class="text-xl font-bold text-teal-700 mb-4">생리 주기법 (28일 기준, 부정확하니 참고만 하세요.)</h3>
                     <p class="text-stone-700 mb-6 leading-relaxed">
-                        배란 테스트기나 초음파 검사가 어려운 경우, 규칙적인 생리 주기를 바탕으로 배란일을 예측할 수 있습니다. 평균 28일 주기의 경우, 다음 생리 예정일로부터 14일 전(즉, 생리 시작 후 14일째)에 배란이 일어날 확률이 높습니다. 다만, 정확하지 않습니다. 
+                        배란 테스트기나 초음파 검사가 어려운 경우, 규칙적인 생리 주기를 바탕으로 배란일을 예측할 수 있습니다. 평균 28일 주기의 경우, 다음 생리 예정일로부터 14일 전(즉,
+                        생리 시작 후 14일째)에 배란이 일어날 확률이 높습니다. 다만, 정확하지 않습니다.
                     </p>
                     <div class="bg-rose-50 border-l-4 border-rose-500 p-6 rounded-lg mb-8">
                         <h4 class="font-bold text-rose-800 mb-2">🕰️ 최적의 타이밍</h4>
                         <ul class="list-disc list-inside text-stone-700 space-y-2">
-                            <li><strong>가임기:</strong> 생리 시작 후 <span class="font-bold text-rose-600">9일째부터 14일째</span>까지가 임신 가능성이 있는 시기입니다.</li>
-                            <li><strong>주의사항:</strong> 이 방법은 생리 주기가 매우 규칙적인 경우에도 부분적으로만 유용하며, 개인차가 크므로 정확도가 다른 방법에 비해 떨어질 수 있습니다. 스트레스나 건강 상태에 따라 배란일이 변동될 수 있습니다.</li>
+                            <li><strong>가임기:</strong> 생리 시작 후 <span class="font-bold text-rose-600">9일째부터 14일째</span>까지가
+                                임신 가능성이 있는 시기입니다.</li>
+                            <li><strong>주의사항:</strong> 이 방법은 생리 주기가 매우 규칙적인 경우에도 부분적으로만 유용하며, 개인차가 크므로 정확도가 다른 방법에 비해
+                                떨어질 수 있습니다. 스트레스나 건강 상태에 따라 배란일이 변동될 수 있습니다.</li>
                         </ul>
                     </div>
 
                     <div class="max-w-md mx-auto">
-                         <div class="mb-4">
-                            <label for="lmp-date" class="block text-sm font-medium text-stone-700 mb-2">마지막 생리 시작일을 선택하세요</label>
-                            <input type="date" id="lmp-date" class="w-full p-2 border border-stone-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                        <div class="mb-4">
+                            <label for="lmp-date" class="block text-sm font-medium text-stone-700 mb-2">마지막 생리 시작일을
+                                선택하세요</label>
+                            <input type="date" id="lmp-date"
+                                class="w-full p-2 border border-stone-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
                         </div>
                         <div id="calendar-container" class="bg-stone-50 p-4 rounded-lg">
-                           <div class="flex justify-between items-center mb-4">
-                               <button id="prev-month" class="p-2 rounded-full hover:bg-stone-200">
-                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            <div class="flex justify-between items-center mb-4">
+                                <button id="prev-month" class="p-2 rounded-full hover:bg-stone-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
                                 </button>
                                 <h4 id="calendar-title" class="text-lg font-bold"></h4>
                                 <button id="next-month" class="p-2 rounded-full hover:bg-stone-200">
-                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
                                 </button>
-                           </div>
-                           <div id="calendar-grid" class="calendar-grid"></div>
+                            </div>
+                            <div id="calendar-grid" class="calendar-grid"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <footer class="text-center mt-12 text-stone-500 text-sm">
-            <p>본 정보는 올본한의원에서 제공하는 일반적 정보입니다. 경과 및 환자의 상태에 따라 세세한 조정이 있을 수 있습니다. </p>
-            <p>&copy; 2026 Fertile Timing Guide. All Rights Reserved.</p>
+        <!-- FAQ 섹션 -->
+        <section class="mt-16 mb-12 bg-white p-6 rounded-2xl shadow-sm">
+            <h2 class="text-2xl font-bold text-teal-700 mb-6 text-center">❓ 자주 묻는 질문</h2>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <div class="border-b border-stone-200 pb-4">
+                    <h3 class="font-semibold text-stone-800 mb-2">Q. 관계 후 오래 눕고 있어야 하나요?</h3>
+                    <p class="text-stone-600 text-sm">A. 관계 후 10~15분 정도 편하게 누워 계시면 충분합니다. 정자는 수 분 이내에 자궁경부 쪽으로 빠르게 이동하기
+                        때문에, 너무 오래 누워 있다고 해서 임신 확률이 뚜렷이 올라간다는 근거는 없습니다.</p>
+                </div>
+                <div class="border-b border-stone-200 pb-4">
+                    <h3 class="font-semibold text-stone-800 mb-2">Q. 배란일이 지나면 임신이 안 되나요?</h3>
+                    <p class="text-stone-600 text-sm">A. 난자는 배란 후 약 12~24시간 동안 수정 가능합니다. 배란 당일까지는 임신 가능성이 있으나, 배란 후 1일이
+                        지나면 급격히 낮아지고, 2일 이후에는 임신 가능성이 거의 없습니다.</p>
+                </div>
+                <div class="border-b border-stone-200 pb-4">
+                    <h3 class="font-semibold text-stone-800 mb-2">Q. 매일 관계를 가지는 것이 좋은가요?</h3>
+                    <p class="text-stone-600 text-sm">A. 가장 많이 권장되는 것은 배란 전후 가임기 동안 1~2일 간격으로 규칙적으로 관계를 가지는 것입니다. 매일 관계를
+                        가져도 임신률이 떨어진다는 근거는 크지 않으므로, 억지로 '참기'보다는 부부가 부담 없는 빈도로 유지하는 것이 중요합니다.</p>
+                </div>
+                <div class="pb-4">
+                    <h3 class="font-semibold text-stone-800 mb-2">Q. 한약을 복용하면 임신에 도움이 되나요?</h3>
+                    <p class="text-stone-600 text-sm">A. 체질과 상태에 맞는 한약 처방은 한의학적으로 자궁과 난소 기능을 보강하고, 자궁내막 환경과 호르몬 균형을 조절해
+                        임신 준비에 도움이 될 수 있다는 보고들이 있습니다. 정확한 진단 후 개인별 상태에 맞춰 처방받으시는 것이 중요합니다. 올본한의원에서는 최적의 치료를 위해 최선을 다하고
+                        있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA 및 푸터 -->
+        <section class="mb-8 text-center">
+            <div class="bg-gradient-to-r from-teal-600 to-green-600 p-8 rounded-2xl shadow-lg">
+                <h2 class="text-2xl font-bold text-white mb-4">임신 준비, 올본한의원과 함께하세요</h2>
+                <p class="text-teal-100 mb-6">맞춤 한약 처방과 정밀 검사로 최적의 임신 시기를 안내해드립니다.</p>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                    <a href="tel:031-304-9000"
+                        class="bg-white text-teal-700 px-8 py-3 rounded-lg font-bold hover:bg-teal-50 transition shadow-md">
+                        📞 전화 상담: 031-304-9000
+                    </a>
+                    <a href="https://m.booking.naver.com/booking/13/bizes/535748" target="_blank"
+                        class="bg-teal-800 text-white px-8 py-3 rounded-lg font-bold hover:bg-teal-900 transition shadow-md">
+                        📅 네이버 예약하기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 pt-8 border-t border-stone-200">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-6">
+                <div class="text-center">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=http://pf.kakao.com/_wCikn/chat"
+                        alt="카카오톡 채널" class="mx-auto mb-2 rounded-lg shadow">
+                    <p class="text-sm text-stone-600 font-medium">카카오톡 상담</p>
+                </div>
+                <div class="text-stone-600 text-sm max-w-md">
+                    <p class="font-semibold text-teal-700 mb-2">올본한의원</p>
+                    <p>경기 수원시 팔달구 권광로 169 조원빌딩 2층</p>
+                </div>
+            </div>
+            <p class="text-stone-400 text-xs">본 정보는 올본한의원에서 제공하는 일반적 정보입니다. 개인별 상태에 따라 조정이 필요할 수 있습니다.</p>
+            <p class="text-stone-400 text-xs">&copy; 2026 올본한의원. All Rights Reserved.</p>
         </footer>
     </div>
 
@@ -299,7 +460,7 @@
                             '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309'
                         ].map(color => color.replace(')', ', 0.7)').replace('rgb', 'rgba')),
                         borderColor: [
-                           '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309'
+                            '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309'
                         ],
                         borderWidth: 1,
                         borderRadius: 5,
@@ -320,7 +481,7 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return ` ${context.raw}%`;
                                 }
                             }
@@ -365,13 +526,13 @@
                     });
                 });
             });
-            
+
             const lmpDateInput = document.getElementById('lmp-date');
             const calendarGrid = document.getElementById('calendar-grid');
             const calendarTitle = document.getElementById('calendar-title');
             const prevMonthBtn = document.getElementById('prev-month');
             const nextMonthBtn = document.getElementById('next-month');
-            
+
             let currentDate = new Date();
             let selectedLmp = null;
 
@@ -379,12 +540,12 @@
                 calendarGrid.innerHTML = '';
                 const year = currentDate.getFullYear();
                 const month = currentDate.getMonth();
-                
+
                 calendarTitle.textContent = `${year}년 ${month + 1}월`;
 
                 const firstDay = new Date(year, month, 1).getDay();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
-                
+
                 const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
                 daysOfWeek.forEach(day => {
                     const dayEl = document.createElement('div');
@@ -402,21 +563,21 @@
                 if (selectedLmp) {
                     const lmp = new Date(selectedLmp);
                     ovulationDay = new Date(lmp);
-                    ovulationDay.setDate(lmp.getDate() + 13); 
-                    
+                    ovulationDay.setDate(lmp.getDate() + 13);
+
                     fertileStart = new Date(lmp);
                     fertileStart.setDate(lmp.getDate() + 8);
-                    
+
                     fertileEnd = new Date(ovulationDay);
                 }
-                
+
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dayEl = document.createElement('div');
                     dayEl.className = 'calendar-day';
                     dayEl.textContent = day;
-                    
+
                     const currentDayDate = new Date(year, month, day);
-                    
+
                     if (fertileStart && fertileEnd && currentDayDate >= fertileStart && currentDayDate <= fertileEnd) {
                         dayEl.classList.add('fertile');
                     }
@@ -428,9 +589,9 @@
                     calendarGrid.appendChild(dayEl);
                 }
             }
-            
+
             lmpDateInput.addEventListener('change', (e) => {
-                if(e.target.value) {
+                if (e.target.value) {
                     selectedLmp = e.target.value;
                     currentDate = new Date(selectedLmp);
                     renderCalendar();
@@ -446,7 +607,7 @@
                 currentDate.setMonth(currentDate.getMonth() + 1);
                 renderCalendar();
             });
-            
+
             const today = new Date();
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -457,4 +618,5 @@
         });
     </script>
 </body>
+
 </html>
