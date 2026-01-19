@@ -93,7 +93,20 @@
         <header class="text-center mb-10 md:mb-16">
             <h1 class="text-3xl md:text-5xl font-bold text-teal-800 mb-2">아기 천사를 만나는 여정</h1>
             <p class="text-md md:text-xl text-stone-600">올본한의원과 함께 알아보는 부부 함께 하는 날</p>
+            <p id="patient-greeting" class="text-lg md:text-2xl text-teal-600 font-semibold mt-4" style="display: none;"></p>
         </header>
+        <script>
+            // URL 파라미터에서 환자명 읽기
+            (function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const patientName = urlParams.get('name');
+                if (patientName) {
+                    const greetingEl = document.getElementById('patient-greeting');
+                    greetingEl.textContent = `${decodeURIComponent(patientName)} 님을 위한 안내`;
+                    greetingEl.style.display = 'block';
+                }
+            })();
+        </script>
 
         <main>
             <section id="intro" class="mb-12 bg-white/60 p-6 rounded-2xl shadow-sm">
@@ -445,4 +458,3 @@
     </script>
 </body>
 </html>
-
